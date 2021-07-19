@@ -1,6 +1,6 @@
 ## Geodesic routines from GeographicLib
 
-This documentation applies to version 1.52.
+This documentation applies to version @PROJECT_VERSION@.
 
 The documentation for other versions is available
 at <tt>https://geographiclib.sourceforge.io/m.nn/js</tt> for versions
@@ -108,6 +108,8 @@ Two examples of this library in use are
     documentation}.
 
 ### Change log
+
+* Version @PROJECT_VERSION@ (released @RELEASE_DATE@)
 
 * Version 1.52 (released 2020-06-22)
   * Work around inaccuracy in Math.hypot (see the GeodSolve92 test).

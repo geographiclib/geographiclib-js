@@ -694,6 +694,7 @@ GeographicLib.PolygonArea = {};
       }
     }
     // Sanity check on starting guess.  Backwards check allows NaN through.
+    // jshint -W018
     if (!(vals.salp1 <= 0.0)) {
       // norm(vals.salp1, vals.calp1);
       t = m.hypot(vals.salp1, vals.calp1); vals.salp1 /= t; vals.calp1 /= t;
@@ -1027,6 +1028,7 @@ GeographicLib.PolygonArea = {};
           dv = nvals.dlam12;
 
           // Reversed test to allow escape with NaNs
+          // jshint -W018
           if (tripb || !(Math.abs(v) >= (tripn ? 8 : 1) * tol0_))
             break;
           // Update bracketing values
