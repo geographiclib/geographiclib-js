@@ -847,7 +847,7 @@ GeographicLib.PolygonArea = {};
 
     // Swap points so that point with higher (abs) latitude is point 1
     // If one latitude is a nan, then it becomes lat1.
-    swapp = Math.abs(lat1) < Math.abs(lat2) ? -1 : 1;
+    swapp = Math.abs(lat1) < Math.abs(lat2) || isNaN(lat2) ? -1 : 1;
     if (swapp < 0) {
       lonsign *= -1;
       t = lat1;
