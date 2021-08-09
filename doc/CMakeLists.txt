@@ -25,3 +25,14 @@ add_custom_command (OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
   -R ${CMAKE_CURRENT_BINARY_DIR}/GeographicLib.md
   ${SOURCES} > jsdoc.log
   COMMENT "Generating JavaScript documentation tree")
+
+find_program (RSYNC rsync)
+if (RSYNC)
+  set (USER karney)
+  set (DOCROOT $ENV{HOME}/web/geographiclib-web/htdocs)
+  add_custom_target (deploy-doc
+    COMMAND ${RSYNC} --delete -av
+    html/ ${DOCROOT}/JavaScript/${PROJECT_VERSION}/
+    COMMAND ${RSYNC} --delete -av -e ssh
+    ${DOCROOT}/JavaScript ${USER},geographiclib@web.sourceforge.net:./htdocs/)
+endif ()
