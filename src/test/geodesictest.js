@@ -636,6 +636,16 @@ describe("GeographicLib", function() {
       assert.approx(inv.s12,   0.264,      0.5e-3);
     });
 
+    it("GeodSolve94", function() {
+      // Check fix for lat2 = nan being treated as lat2 = 0 (bug found
+      // 2021-07-26)
+      var geod = g.WGS84,
+          inv = geod.Inverse(0, 0, NaN, 90);
+      assert(isNaN(inv.azi1));
+      assert(isNaN(inv.azi2));
+      assert(isNaN(inv.s12));
+    });
+
   });
 
   describe("Planimeter", function () {

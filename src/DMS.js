@@ -27,9 +27,9 @@ GeographicLib.DMS = {};
    *     - AZIMUTH = 3, format as azimuth;
    *   - the specification of the trailing component in
    *       {@link module:GeographicLib/DMS.Encode Encode}
-   *     - DEGREE;
-   *     - MINUTE;
-   *     - SECOND.
+   *     - DEGREE = 0;
+   *     - MINUTE = 1;
+   *     - SECOND = 2.
    */
   d) {
   "use strict";
