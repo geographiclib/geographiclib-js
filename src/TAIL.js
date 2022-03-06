@@ -1,4 +1,3 @@
-
 cb(GeographicLib);
 
 })(function(geo) {

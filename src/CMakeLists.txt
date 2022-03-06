@@ -58,4 +58,3 @@ if (LINT)
   add_custom_target (lint ${LINT} src WORKING_DIRECTORY ${DEST}
     COMMENT "Linting with ${LINT}")
 endif ()
-
