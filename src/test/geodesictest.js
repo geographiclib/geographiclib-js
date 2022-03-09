@@ -887,7 +887,7 @@ describe("GeographicLib", function() {
       polygon.Clear();
       polygon.AddPoint(33, 44);
       polygon.TestEdge(90, 10e3, false, true);
-      polygon.AddEdge(90, 10e3, false, true);
+      polygon.AddEdge(90, 10e3);
     });
 
   });

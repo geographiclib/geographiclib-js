@@ -1,0 +1,22 @@
+# -*- Makefile -*-
+
+# ssh -t karney,geographiclib@shell.sourceforge.net create
+# git: /home/git/p/geographiclib/code.git
+
+USER=karney
+STAGE=$(HOME)/web
+WEBSTAGE=$(STAGE)/geographiclib-web
+DATASTAGE=$(STAGE)/geographiclib-files
+SCRIPTSTAGE=$(WEBSTAGE)/htdocs/scripts
+BUILDDIR=BUILD-release
+all:
+	@echo use prep or distrib-files as targets
+
+prep:
+	rm -rf $(BUILDDIR)
+	cmake -D BUILD_DOCUMENTATION=ON -B $(BUILDDIR) -S .
+	( cd $(BUILDDIR) && make all test )
+	rsync --delete -a $(BUILDDIR)/doc/html $(WEBSTAGE)/htdocs/JavaScript/`grep -i '"version":' $(BUILDDIR)/geographiclib/package.json | cut -f2 -d: |cut -f2 -d\"`
+
+distrib-doc:
+	rsync --delete -av -e ssh $(WEBSTAGE)/htdocs/JavaScript $(USER),geographiclib@web.sourceforge.net:./htdocs/

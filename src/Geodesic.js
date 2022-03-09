@@ -47,7 +47,6 @@ GeographicLib.PolygonArea = {};
       xthresh_ = 1000 * tol2_,
       CAP_NONE = 0,
       CAP_ALL  = 0x1F,
-      CAP_MASK = CAP_ALL,
       OUT_ALL  = 0x7F80,
       astroid,
       A1m1f_coeff, C1f_coeff, C1pf_coeff,

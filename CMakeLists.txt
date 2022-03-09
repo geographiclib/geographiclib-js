@@ -4,10 +4,11 @@ project (GeographicLib-JavaScript NONE)
 set (PROJECT_VERSION_MAJOR 2)
 set (PROJECT_VERSION_MINOR 0)
 set (PROJECT_VERSION_PATCH 0)
-set (PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
-if (PROJECT_VERSION_PATCH GREATER 0)
-  set (PROJECT_VERSION "${PROJECT_VERSION}.${PROJECT_VERSION_PATCH}")
-endif ()
+# Always include patch number in version
+set (PROJECT_VERSION
+  "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+set (PROJECT_VERSION_SUFFIX "-alpha")
+set (PROJECT_VERSION "${PROJECT_VERSION}${PROJECT_VERSION_SUFFIX}")
 
 set (RELEASE_DATE "2021-mm-dd")
 
@@ -19,29 +20,30 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
   set (CMAKE_BUILD_TYPE Release)
 endif ()
 
-# For JavaScript documentation
-find_program (JSDOC jsdoc)
+set (MODDIR "lib/node_modules"
+  CACHE PATH "Installation directory for GeographicLib-JavaScript module")
+option (BUILD_DOCUMENTATION "Use doxygen to create the documentation" OFF)
 
 find_program (MINIFY minify REQUIRED)
-
-set (INSTALL_PATH "lib/node_modules"
-  CACHE PATH "Installation directory GeographicLib-JavaScript")
 
 enable_testing ()
 
 add_subdirectory (src)
 
-if (JSDOC)
+if (BUILD_DOCUMENTATION)
+  # For JavaScript documentation
+  find_program (JSDOC jsdoc REQUIRED)
   add_subdirectory (doc)
 endif ()
 
 if (EXISTS ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
   add_custom_target (checktrailingspace
-    COMMAND git ls-tree -r HEAD --name-only | xargs grep ' $$' || true
+    COMMAND git ls-tree -r HEAD --name-only | xargs grep '[ \t]$$' || true
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Looking for trailing spaces")
   add_custom_target (checktabs
-    COMMAND git ls-tree -r HEAD --name-only | xargs grep '\t' || true
+    COMMAND git ls-tree -r HEAD --name-only |  grep -v makefile-admin |
+    xargs grep '\t' || true
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Looking for tabs")
   add_custom_target (checkblanklines

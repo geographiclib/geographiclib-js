@@ -1,6 +1,6 @@
 {
   "name": "geographiclib",
-  "version": "@PACKAGE_VERSION@",
+  "version": "@PROJECT_VERSION@",
   "description":
   "JavaScript implementation of geodesic routines in GeographicLib",
   "main": "geographiclib.js",
@@ -24,7 +24,7 @@
     "geodesic calculator"
   ],
   "devDependencies": {
-    "mocha": "^9.0.2",
+    "mocha": "^9.1.5",
     "minify": "^7.0.2"
   },
   "author": "Charles Karney <charles@karney.com>",

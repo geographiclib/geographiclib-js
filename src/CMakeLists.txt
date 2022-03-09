@@ -41,7 +41,7 @@ add_custom_target (bundle ALL
   DEPENDS ${PACKAGEDJS} ${PACKAGEDMINJS})
 
 install (DIRECTORY ${DEST}
-  DESTINATION ${INSTALL_PATH}
+  DESTINATION ${MODDIR}
   FILES_MATCHING PATTERN "*.[jt]s" PATTERN "*.txt" PATTERN "*.json")
 
 find_program (MOCHA mocha)
@@ -52,7 +52,6 @@ if (MOCHA)
 endif ()
 
 # linting...
-
 find_program (LINT jshint)
 if (LINT)
   add_custom_target (lint ${LINT} src WORKING_DIRECTORY ${DEST}

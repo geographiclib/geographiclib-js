@@ -1,0 +1,76 @@
+Local install to ./node_modules
+npm install `pwd`/geographiclib
+
+In BUILD directory
+after 'make doc'
+VERSION=
+rsync -a doc/html/ ~/web/geographiclib-web/htdocs/JavaScript/2.0.0-alpha/
+
+Version update checks
+
+# JavaScript
+#   js/src/Math.js
+#   js/package.json
+#   js/README.md
+#   js/GeographicLib.md (date + update change log)
+# use: cd js; jshint src
+
+Used to look for **/ comment ends.  This may be just needed because of
+the lame way I compressed the js files.  In which case, this is no
+longer needed.
+
+    echo JS files with bad comment ends:
+    find js -type f -name '*.js' | xargs grep -l '\*\*/' || true
+
+# javascript release
+# authenticate via .npmrc; _auth value is
+#   echo -n cffk:PASSWORD | openssl base64
+# decode with
+#   echo AUTHSTRING | openssl base64 -d
+cd $TEMP/gita/geographiclib/BUILD/js && npm publish geographiclib
+make -C $DEVELSOURCE -f makefile-admin distrib-js
+make -C $DEVELSOURCE -f makefile-admin install-js
+# also update devel branch of node-geographiclib from ??
+# git@github.com:yurijmikhalevich/node-geographiclib.git
+$TEMP/gita/geographiclib/BUILD/js/geographiclib
+
+============= nodejs-GeographicLib ===============
+/usr/lib/node_modules/geographiclib
+/usr/lib/node_modules/geographiclib/LICENSE.txt
+/usr/lib/node_modules/geographiclib/README.md
+/usr/lib/node_modules/geographiclib/geographiclib.js
+/usr/lib/node_modules/geographiclib/geographiclib.min.js
+/usr/lib/node_modules/geographiclib/package.json
+/usr/lib/node_modules/geographiclib/src
+/usr/lib/node_modules/geographiclib/src/DMS.js
+/usr/lib/node_modules/geographiclib/src/Geodesic.js
+/usr/lib/node_modules/geographiclib/src/GeodesicLine.js
+/usr/lib/node_modules/geographiclib/src/Math.js
+/usr/lib/node_modules/geographiclib/src/PolygonArea.js
+/usr/lib/node_modules/geographiclib/test
+/usr/lib/node_modules/geographiclib/test/geodesictest.js
+/usr/share/licenses/nodejs-GeographicLib
+/usr/share/licenses/nodejs-GeographicLib/LICENSE.txt
+============= node-geographiclib ==============
+/.
+/usr
+/usr/lib
+/usr/lib/nodejs
+/usr/lib/nodejs/geographiclib
+/usr/lib/nodejs/geographiclib/geographiclib.js
+/usr/lib/nodejs/geographiclib/geographiclib.min.js
+/usr/lib/nodejs/geographiclib/package.json
+/usr/lib/nodejs/geographiclib/src
+/usr/lib/nodejs/geographiclib/src/DMS.js
+/usr/lib/nodejs/geographiclib/src/Geodesic.js
+/usr/lib/nodejs/geographiclib/src/GeodesicLine.js
+/usr/lib/nodejs/geographiclib/src/Math.js
+/usr/lib/nodejs/geographiclib/src/PolygonArea.js
+/usr/lib/nodejs/geographiclib/test
+/usr/lib/nodejs/geographiclib/test/geodesictest.js
+/usr/share
+/usr/share/doc
+/usr/share/doc/node-geographiclib
+/usr/share/doc/node-geographiclib/README.md
+/usr/share/doc/node-geographiclib/changelog.Debian.gz
+/usr/share/doc/node-geographiclib/copyright

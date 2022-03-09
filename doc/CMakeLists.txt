@@ -15,7 +15,7 @@ set (DOCSOURCES GeographicLib.md
   tutorials/tutorials.json
   ${SOURCES})
 
-add_custom_target (doc
+add_custom_target (doc ALL
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html)
 add_custom_command (OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
   DEPENDS ${DOCSOURCES}
