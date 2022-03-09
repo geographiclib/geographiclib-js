@@ -3,7 +3,6 @@
 var assert = require("assert"),
     G = require("../geographiclib"),
     g = G.Geodesic,
-    d = G.DMS,
     m = G.Math,
     testcases = [
       [35.60777, -139.44815, 111.098748429560326,
@@ -164,12 +163,6 @@ describe("GeographicLib", function() {
       }
     });
 
-  });
-
-  describe("DMSTest", function () {
-    it("check decode", function () {
-      assert.deepEqual(d.Decode("E7:33:36"), d.Decode("-7.56W"));
-    });
   });
 
   describe("GeodesicSolve", function () {

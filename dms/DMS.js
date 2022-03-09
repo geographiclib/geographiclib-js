@@ -10,23 +10,23 @@
  * https://geographiclib.sourceforge.io/
  */
 
-GeographicLib.DMS = {};
+var GeographicLibDMS = {};
 
 (function(
   /**
-   * @exports GeographicLib/DMS
+   * @exports GeographicLibDMS
    * @description Decode/Encode angles expressed as degrees, minutes, and
    *   seconds.  This module defines several constants:
    *   - hemisphere indicator (returned by
-   *       {@link module:GeographicLib/DMS.Decode Decode}) and a formatting
+   *       {@link module:GeographicLibDMS.Decode Decode}) and a formatting
    *       indicator (used by
-   *       {@link module:GeographicLib/DMS.Encode Encode})
+   *       {@link module:GeographicLibDMS.Encode Encode})
    *     - NONE = 0, no designator and format as plain angle;
    *     - LATITUDE = 1, a N/S designator and format as latitude;
    *     - LONGITUDE = 2, an E/W designator and format as longitude;
    *     - AZIMUTH = 3, format as azimuth;
    *   - the specification of the trailing component in
-   *       {@link module:GeographicLib/DMS.Encode Encode}
+   *       {@link module:GeographicLibDMS.Encode Encode}
    *     - DEGREE = 0;
    *     - MINUTE = 1;
    *     - SECOND = 2.
@@ -41,6 +41,8 @@ GeographicLib.DMS = {};
       dmsindicators_ = "D'\":",
       // dmsindicatorsu_ = "\u00b0\u2032\u2033"; // Unicode variants
       dmsindicatorsu_ = "\u00b0'\"", // Use degree symbol
+      // Minified js messes up degree symbol, but manually fix this
+      // dmsindicatorsu_ = "d'\"", // Use d for degrees
       components_ = ["degrees", "minutes", "seconds"];
   lookup = function(s, c) {
     return s.indexOf(c.toUpperCase());
@@ -59,15 +61,66 @@ GeographicLib.DMS = {};
 
   /**
    * @summary Decode a DMS string.
-   * @description The interpretation of the string is given in the
-   *   documentation of the corresponding function, Decode(string&, flag&)
-   *   in the {@link
-   *   https://geographiclib.sourceforge.io/html/classGeographicLib_1_1DMS.html
-   *   C++ DMS class}
    * @param {string} dms the string.
    * @returns {object} r where r.val is the decoded value (degrees) and r.ind
    *   is a hemisphere designator, one of NONE, LATITUDE, LONGITUDE.
    * @throws an error if the string is illegal.
+   *
+   * @description Convert a DMS string into an angle.
+   *   Degrees, minutes, and seconds are indicated by the characters d, '
+   *   (single quote), &quot; (double quote), and these components may only be
+   *   given in this order.  Any (but not all) components may be omitted and
+   *   other symbols (e.g., the &deg; symbol for degrees and the unicode prime
+   *   and double prime symbols for minutes and seconds) may be substituted;
+   *   two single quotes can be used instead of &quot;.  The last component
+   *   indicator may be omitted and is assumed to be the next smallest unit
+   *   (thus 33d10 is interpreted as 33d10').  The final component may be a
+   *   decimal fraction but the non-final components must be integers.  Instead
+   *   of using d, ', and &quot; to indicate degrees, minutes, and seconds, :
+   *   (colon) may be used to <i>separate</i> these components (numbers must
+   *   appear before and after each colon); thus 50d30'10.3&quot; may be
+   *   written as 50:30:10.3, 5.5' may be written 0:5.5, and so on.  The
+   *   integer parts of the minutes and seconds components must be less
+   *   than 60.  A single leading sign is permitted.  A hemisphere designator
+   *   (N, E, W, S) may be added to the beginning or end of the string.  The
+   *   result is multiplied by the implied sign of the hemisphere designator
+   *   (negative for S and W).  In addition \e ind is set to DMS::LATITUDE if N
+   *   or S is present, to DMS::LONGITUDE if E or W is present, and to
+   *   DMS::NONE otherwise.  Throws an error on a malformed string.  No check
+   *   is performed on the range of the result.  Examples of legal and illegal
+   *   strings are
+   *   - <i>LEGAL</i> (all the entries on each line are equivalent)
+   *     - -20.51125, 20d30'40.5&quot;S, -20&deg;30'40.5, -20d30.675,
+   *       N-20d30'40.5&quot;, -20:30:40.5
+   *     - 4d0'9, 4d9&quot;, 4d9'', 4:0:9, 004:00:09, 4.0025, 4.0025d, 4d0.15,
+   *       04:.15
+   *     - 4:59.99999999999999, 4:60.0, 4:59:59.9999999999999, 4:59:60.0, 5
+   *   - <i>ILLEGAL</i> (the exception thrown explains the problem)
+   *     - 4d5&quot;4', 4::5, 4:5:, :4:5, 4d4.5'4&quot;, -N20.5, 1.8e2d, 4:60,
+   *       4:59:60
+   *
+   *   The decoding operation can also perform addition and subtraction
+   *   operations.  If the string includes <i>internal</i> signs (i.e., not at
+   *   the beginning nor immediately after an initial hemisphere designator),
+   *   then the string is split immediately before such signs and each piece is
+   *   decoded according to the above rules and the results added; thus
+   *   <code>S3-2.5+4.1N</code> is parsed as the sum of <code>S3</code>,
+   *   <code>-2.5</code>, <code>+4.1N</code>.  Any piece can include a
+   *   hemisphere designator; however, if multiple designators are given, they
+   *   must compatible; e.g., you cannot mix N and E.  In addition, the
+   *   designator can appear at the beginning or end of the first piece, but
+   *   must be at the end of all subsequent pieces (a hemisphere designator is
+   *   not allowed after the initial sign).  Examples of legal and illegal
+   *   combinations are
+   *   - <i>LEGAL</i> (these are all equivalent)
+   *     - 070:00:45, 70:01:15W+0:0.5, 70:01:15W-0:0:30W, W70:01:15+0:0:30E
+   *   - <i>ILLEGAL</i> (the exception thrown explains the problem)
+   *     - 70:01:15W+0:0:15N, W70:01:15+W0:0:15
+   *
+   *   <b>warning</b> The "exponential" notation is not recognized.  Thus
+   *   <code>7.0E1</code> is illegal, while <code>7.0E+1</code> is parsed as
+   *   <code>(7.0E) + (+1)</code>, yielding the same result as
+   *   <code>8.0E</code>.
    */
   d.Decode = function(dms) {
     var dmsa = dms, end,
@@ -510,6 +563,6 @@ GeographicLib.DMS = {};
     if (ind !== d.NONE && ind !== d.AZIMUTH)
       s += hemispheres_.charAt((ind === d.LATITUDE ? 0 : 2) +
                                (sign < 0 ? 0 : 1));
-    return s;
+    return s /* .replace(/d/g, '\u00b0') */;
   };
-})(GeographicLib.DMS);
+})(GeographicLibDMS);

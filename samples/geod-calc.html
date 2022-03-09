@@ -29,50 +29,45 @@
         URL for a specific version is, for example,
         https://geographiclib.sourceforge.io/scripts/geographiclib-1.45.min.js
       -->
-    <script type="text/javascript" src="geographiclib.min.js">
-    </script>
+    <script type="text/javascript" src="geographiclib.min.js"></script>
+    <script type="text/javascript" src="geographiclib-dms.min.js"></script>
     <script type="text/javascript">
 "use strict";
+var g = GeographicLib.Geodesic,
+    geod = g.WGS84,
+    dms = GeographicLibDMS;
 
-var geod = GeographicLib.Geodesic.WGS84,
-    dms = GeographicLib.DMS;
+/*
+ * Compute the area of a polygon
+ */
+g.Geodesic.prototype.Area = function(points, polyline) {
+  var poly = this.Polygon(polyline), i;
+  for (i = 0; i < points.length; ++i)
+    poly.AddPoint(points[i].lat, points[i].lon);
+  return poly.Compute(false, true);
+};
 
-(function(g) {
-  "use strict";
-
-  /*
-   * Compute the area of a polygon
-   */
-  g.Geodesic.prototype.Area = function(points, polyline) {
-    var poly = this.Polygon(polyline), i;
-    for (i = 0; i < points.length; ++i)
-      poly.AddPoint(points[i].lat, points[i].lon);
-    return poly.Compute(false, true);
+/*
+ * split a geodesic line into k approximately equal pieces which are no
+ * longer than about ds12 (but k cannot exceed maxk, default 20), and returns
+ * an array of length k + 1 of objects with fields lat, lon, azi.
+ */
+g.Geodesic.prototype.InversePath =
+  function(lat1, lon1, lat2, lon2, ds12, maxk) {
+    var line = this.InverseLine(lat1, lon1, lat2, lon2, g.STANDARD),
+        k, points, da12, vals, i;
+    if (!maxk) maxk = 20;
+    if (!(ds12 > 0))
+      throw new Error("ds12 must be a positive number");
+    k = Math.max(1, Math.min(maxk, Math.ceil(line.s13 / ds12)));
+    points = new Array(k + 1);
+    da12 = line.a13 / k;
+    for (i = 0; i <= k; ++i) {
+      vals = line.ArcPosition(i * da12);
+      points[i] = {lat: vals.lat2, lon: vals.lon2, azi: vals.azi2};
+    }
+    return points;
   };
-
-  /*
-   * split a geodesic line into k approximately equal pieces which are no
-   * longer than about ds12 (but k cannot exceed maxk, default 20), and returns
-   * an array of length k + 1 of objects with fields lat, lon, azi.
-   */
-  g.Geodesic.prototype.InversePath =
-    function(lat1, lon1, lat2, lon2, ds12, maxk) {
-      var line = this.InverseLine(lat1, lon1, lat2, lon2, g.STANDARD),
-          k, points, da12, vals, i;
-      if (!maxk) maxk = 20;
-      if (!(ds12 > 0))
-        throw new Error("ds12 must be a positive number");
-      k = Math.max(1, Math.min(maxk, Math.ceil(line.s13 / ds12)));
-      points = new Array(k + 1);
-      da12 = line.a13 / k;
-      for (i = 0; i <= k; ++i) {
-        vals = line.ArcPosition(i * da12);
-        points[i] = {lat: vals.lat2, lon: vals.lon2, azi: vals.azi2};
-      }
-      return points;
-    };
-
-})(GeographicLib.Geodesic);
 
 function formatpoint(lat, lon, azi, dmsformat, prec) {
   "use strict";
@@ -102,11 +97,11 @@ function GeodesicInverse(input, dmsformat, prec) {
     t = t.replace(/^\s+/,"").replace(/\s+$/,"").split(/[\s,]+/,6);
     if (t.length != 4)
       throw new Error("Need 4 input items");
-    p1 = GeographicLib.DMS.DecodeLatLon(t[0], t[1]);
-    p2 = GeographicLib.DMS.DecodeLatLon(t[2], t[3]);
+    p1 = dms.DecodeLatLon(t[0], t[1]);
+    p2 = dms.DecodeLatLon(t[2], t[3]);
     t = geod.Inverse(p1.lat, p1.lon, p2.lat, p2.lon,
-                     GeographicLib.Geodesic.ALL |
-                     GeographicLib.Geodesic.LONG_UNROLL);
+                     g.ALL |
+                     g.LONG_UNROLL);
     result.status = "OK";
     result.p1 = formatpoint(t.lat1, t.lon1, t.azi1, dmsformat, prec);
     result.p2 = formatpoint(t.lat2, t.lon2, t.azi2, dmsformat, prec);
@@ -139,12 +134,12 @@ function GeodesicDirect(input, dmsformat, prec) {
     t = t.replace(/^\s+/,"").replace(/\s+$/,"").split(/[\s,]+/,6);
     if (t.length != 4)
       throw new Error("Need 4 input items");
-    p1 = GeographicLib.DMS.DecodeLatLon(t[0], t[1]);
-    azi1 = GeographicLib.DMS.DecodeAzimuth(t[2]);
+    p1 = dms.DecodeLatLon(t[0], t[1]);
+    azi1 = dms.DecodeAzimuth(t[2]);
     s12 = parseFloat(t[3]);
     t = geod.Direct(p1.lat, p1.lon, azi1, s12,
-                    GeographicLib.Geodesic.ALL |
-                    GeographicLib.Geodesic.LONG_UNROLL);
+                    g.ALL |
+                    g.LONG_UNROLL);
     result.status = "OK";
     result.p1 = formatpoint(t.lat1, t.lon1, t.azi1, dmsformat, prec);
     result.p2 = formatpoint(t.lat2, t.lon2, t.azi2, dmsformat, prec);
@@ -177,8 +172,8 @@ function GeodesicInversePath(input, dmsformat, prec) {
     t = t.replace(/^\s+/,"").replace(/\s+$/,"").split(/[\s,]+/,8);
     if (t.length != 6)
       throw new Error("Need 6 input items");
-    p1 = GeographicLib.DMS.DecodeLatLon(t[0], t[1]);
-    p2 = GeographicLib.DMS.DecodeLatLon(t[2], t[3]);
+    p1 = dms.DecodeLatLon(t[0], t[1]);
+    p2 = dms.DecodeLatLon(t[2], t[3]);
     ds12 = parseFloat(t[4]);
     maxnum = parseInt(t[5]);
     t = geod.InversePath(p1.lat, p1.lon, p2.lat, p2.lon, ds12, maxnum);

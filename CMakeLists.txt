@@ -25,16 +25,32 @@ set (MODDIR "lib/node_modules"
 option (BUILD_DOCUMENTATION "Use doxygen to create the documentation" OFF)
 
 find_program (MINIFY minify REQUIRED)
+find_program (LINT jshint)
+find_program (MOCHA mocha)
+find_program (RSYNC rsync)
+
+set (DEST ${PROJECT_BINARY_DIR}/geographiclib)
+set (PACKAGEDJS ${DEST}/geographiclib.js)
+set (PACKAGEDMINJS ${DEST}/geographiclib.min.js)
+
+set (DMSDEST ${PROJECT_BINARY_DIR}/geographiclib-dms)
+set (PACKAGEDDMSJS ${DMSDEST}/geographiclib-dms.js)
+set (PACKAGEDDMSMINJS ${DMSDEST}/geographiclib-dms.min.js)
 
 enable_testing ()
 
-add_subdirectory (src)
+add_subdirectory (geodesic)
+add_subdirectory (dms)
+add_subdirectory (samples)
 
 if (BUILD_DOCUMENTATION)
   # For JavaScript documentation
   find_program (JSDOC jsdoc REQUIRED)
   add_subdirectory (doc)
 endif ()
+
+add_custom_target (lint)
+add_dependencies (lint lintgeodesic lintdms)
 
 if (EXISTS ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
   add_custom_target (checktrailingspace

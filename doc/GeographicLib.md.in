@@ -3,8 +3,8 @@
 This documentation applies to version @PROJECT_VERSION@.
 
 The documentation for other versions is available
-at <tt>https://geographiclib.sourceforge.io/m.nn/js</tt> for versions
-numbers <tt>m.nn</tt> &ge; 1.45.
+at <tt>https://geographiclib.sourceforge.io/JavaScript/m.n</tt> for versions
+numbers <tt>m.n</tt> &ge; 1.45.
 
 Licensed under the MIT/X11 License; see
 [LICENSE.txt](https://geographiclib.sourceforge.io/html/LICENSE.txt).

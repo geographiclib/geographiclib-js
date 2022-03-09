@@ -12,11 +12,18 @@ BUILDDIR=BUILD-release
 all:
 	@echo use prep or distrib-files as targets
 
+### NOT NEEDED, use cmake target deploy-doc
+
 prep:
 	rm -rf $(BUILDDIR)
 	cmake -D BUILD_DOCUMENTATION=ON -B $(BUILDDIR) -S .
 	( cd $(BUILDDIR) && make all test )
 	rsync --delete -a $(BUILDDIR)/doc/html $(WEBSTAGE)/htdocs/JavaScript/`grep -i '"version":' $(BUILDDIR)/geographiclib/package.json | cut -f2 -d: |cut -f2 -d\"`
 
+### NOT NEEDED, use cmake target deploy-doc
+
 distrib-doc:
 	rsync --delete -av -e ssh $(WEBSTAGE)/htdocs/JavaScript $(USER),geographiclib@web.sourceforge.net:./htdocs/
+
+distrib-scripts:
+	rsync -av -e ssh samples/ $(USER),geographiclib@web.sourceforge.net:htdocs/scripts/samples/

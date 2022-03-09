@@ -1,19 +1,20 @@
 configure_file (GeographicLib.md.in GeographicLib.md @ONLY)
-set (DEST ${CMAKE_CURRENT_BINARY_DIR}/../geographiclib)
 
 set (SOURCES
   ${DEST}/src/Math.js
   ${DEST}/src/Geodesic.js
   ${DEST}/src/GeodesicLine.js
-  ${DEST}/src/PolygonArea.js
-  ${DEST}/src/DMS.js)
+  ${DEST}/src/PolygonArea.js)
+
+set (DMSSOURCES
+  ${DMSDEST}/src/DMS.js)
 
 set (DOCSOURCES GeographicLib.md
   tutorials/1-geodesics.md
   tutorials/2-interface.md
   tutorials/3-examples.md
   tutorials/tutorials.json
-  ${SOURCES})
+  ${SOURCES} ${DMSSOURCES})
 
 add_custom_target (doc ALL
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html)
@@ -23,10 +24,9 @@ add_custom_command (OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
   -u ${CMAKE_CURRENT_SOURCE_DIR}/tutorials
   -c ${CMAKE_CURRENT_SOURCE_DIR}/conf.json
   -R ${CMAKE_CURRENT_BINARY_DIR}/GeographicLib.md
-  ${SOURCES} > jsdoc.log
+  ${SOURCES} ${DMSSOURCES} > jsdoc.log
   COMMENT "Generating JavaScript documentation tree")
 
-find_program (RSYNC rsync)
 if (RSYNC)
   set (USER karney)
   set (DOCROOT $ENV{HOME}/web/geographiclib-web/htdocs)
@@ -35,4 +35,5 @@ if (RSYNC)
     html/ ${DOCROOT}/JavaScript/${PROJECT_VERSION}/
     COMMAND ${RSYNC} --delete -av -e ssh
     ${DOCROOT}/JavaScript ${USER},geographiclib@web.sourceforge.net:./htdocs/)
+  add_dependencies(deploy-doc doc)
 endif ()
