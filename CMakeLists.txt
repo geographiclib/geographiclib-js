@@ -28,14 +28,17 @@ find_program (MINIFY minify REQUIRED)
 find_program (LINT jshint)
 find_program (MOCHA mocha)
 find_program (RSYNC rsync)
+find_program (NPM npm)
 
-set (DEST ${PROJECT_BINARY_DIR}/geographiclib)
+set (DEST ${PROJECT_BINARY_DIR}/node_modules/geographiclib)
 set (PACKAGEDJS ${DEST}/geographiclib.js)
 set (PACKAGEDMINJS ${DEST}/geographiclib.min.js)
+set (PACK "${DEST}-${PROJECT_VERSION}.tgz")
 
-set (DMSDEST ${PROJECT_BINARY_DIR}/geographiclib-dms)
-set (PACKAGEDDMSJS ${DMSDEST}/geographiclib-dms.js)
-set (PACKAGEDDMSMINJS ${DMSDEST}/geographiclib-dms.min.js)
+set (DESTDMS ${PROJECT_BINARY_DIR}/node_modules/geographiclib-dms)
+set (PACKAGEDDMSJS ${DESTDMS}/geographiclib-dms.js)
+set (PACKAGEDDMSMINJS ${DESTDMS}/geographiclib-dms.min.js)
+set (PACKDMS "${DESTDMS}-${PROJECT_VERSION}.tgz")
 
 enable_testing ()
 
@@ -49,8 +52,18 @@ if (BUILD_DOCUMENTATION)
   add_subdirectory (doc)
 endif ()
 
-add_custom_target (lint)
-add_dependencies (lint lintgeodesic lintdms)
+if (LINT)
+  add_custom_target (lint)
+  add_dependencies (lint lintgeodesic lintdms)
+endif ()
+
+if (NPM)
+  add_custom_command (OUTPUT ${PACK} ${PACKDMS}
+    COMMAND ${NPM} pack ${DEST} ${DESTDMS}
+    DEPENDS bundle bundledms)
+  add_custom_target (pack ALL
+    DEPENDS ${PACK} ${PACKDMS})
+endif ()
 
 if (EXISTS ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
   add_custom_target (checktrailingspace

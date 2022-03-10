@@ -1,10 +1,10 @@
  {
-  "name": "geographiclibdms",
+  "name": "geographiclib-dms",
   "version": "@PROJECT_VERSION@",
   "description":
   "JavaScript implementation of DMS routines in GeographicLib",
-  "main": "geographiclibdms.min.js",
-  "types": "types/geographiclibdms.d.ts",
+  "main": "geographiclib-dms.min.js",
+  "types": "types/geographiclib-dms.d.ts",
   "scripts": {
     "test": "mocha"
   },

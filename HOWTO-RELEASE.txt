@@ -1,10 +1,44 @@
-Local install to ./node_modules
-npm install `pwd`/geographiclib
+Build with
 
-In BUILD directory
-after 'make doc'
-VERSION=
-rsync -a doc/html/ ~/web/geographiclib-web/htdocs/JavaScript/2.0.0-alpha/
+  cmake -D BUILD_DOCUMENTATION=ON -B BUILD -S .
+  cd BUILD
+  make
+  make test
+  make install
+
+This creates local modules geographiclib + geographiclib-dms in
+  BUILD/node_modules
+
+and packages
+  BUILD/geographiclib-${PROJECT_VERSION}.tgz
+  BUILD/geographiclib-dms-${PROJECT_VERSION}.tgz
+
+installed modules in
+  ${CMAKE_INSTALL_PREFIX}/${MODDIR}
+
+Options for make
+  CMAKE_INSTALL_PREFIX head of install tree (default /usr/local)
+  MODDIR where to install modules (default lib/node_modules)
+  BUILD_DOCUMENTATION build documentation (default OFF)
+
+Other cmake targets
+  lint (check JavaScript)
+  sanitize (hygiene on source files)
+  deploy-scripts (move sample scripts to sourceforge)
+  deploy-doc (move documentation to sourceforse)
+
+Deployment to npmjs.org
+  npm publish BUILD/geographiclib-${PROJECT_VERSION}.tgz
+  npm publish BUILD/geographiclib-dms-${PROJECT_VERSION}.tgz
+
+N.B. node doesn't look in /usr/local/lib/node_modules by default, so
+if using globally installed package, invoke node with
+
+  NODE_PATH=/usr/local/lib/node_modules node
+
+To debug path for node
+NODE_DEBUG=module node
+To set path for node
 
 Version update checks
 

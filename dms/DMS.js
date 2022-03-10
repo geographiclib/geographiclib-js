@@ -478,6 +478,8 @@ var GeographicLibDMS = {};
    *   the trailing component.
    * @param {number} [ind = NONE] a formatting indicator, one of NONE,
    *   LATITUDE, LONGITUDE, AZIMUTH.
+   * @param {char} [dmssep = NULL] if non-null, use as the DMS separator
+   *   character.
    * @returns {string} the resulting string formatted as follows:
    *   * NONE, signed result no leading zeros on degrees except in the units
    *     place, e.g., -8&deg;03'.
@@ -488,12 +490,14 @@ var GeographicLibDMS = {};
    *   * AZIMUTH, convert to the range [0, 360&deg;), no sign, pad degrees to
    *     3 digits, e.g., 351&deg;57'.
    */
-  d.Encode = function(angle, trailing, prec, ind) {
+  d.Encode = function(angle, trailing, prec, ind, dmssep) {
     // Assume check on range of input angle has been made by calling
     // routine (which might be able to offer a better diagnostic).
     var scale = 1, i, sign,
-        idegree, fdegree, f, pieces, ip, fp, s;
+        idegree, fdegree, f, pieces, ip, fp, s, usesep;
     if (!ind) ind = d.NONE;
+    if (!dmssep) dmssep = '\0';
+    usesep = dmssep != '\0';
     if (!isFinite(angle))
       return angle < 0 ? String("-inf") :
       (angle > 0 ? String("inf") : String("nan"));
@@ -540,21 +544,22 @@ var GeographicLibDMS = {};
       s += zerofill(pieces[0].toFixed(prec),
                     ind === d.NONE ? 0 :
                     1 + Math.min(ind, 2) + prec + (prec ? 1 : 0)) +
-        dmsindicatorsu_.charAt(0);
+        (usesep ? '' : dmsindicatorsu_.charAt(0));
       break;
     default:
       s += zerofill(pieces[0].toFixed(0),
                     ind === d.NONE ? 0 : 1 + Math.min(ind, 2)) +
-        dmsindicatorsu_.charAt(0);
+        (usesep ? dmssep : dmsindicatorsu_.charAt(0));
       switch (trailing) {
       case d.MINUTE:
         s += zerofill(pieces[1].toFixed(prec), 2 + prec + (prec ? 1 : 0)) +
-          dmsindicatorsu_.charAt(1);
+          (usesep ? '' : dmsindicatorsu_.charAt(1));
         break;
       case d.SECOND:
-        s += zerofill(pieces[1].toFixed(0), 2) + dmsindicatorsu_.charAt(1);
+        s += zerofill(pieces[1].toFixed(0), 2) +
+          (usesep ? dmssep : dmsindicatorsu_.charAt(1));
         s += zerofill(pieces[2].toFixed(prec), 2 + prec + (prec ? 1 : 0)) +
-          dmsindicatorsu_.charAt(2);
+          (usesep ? '' : dmsindicatorsu_.charAt(2));
         break;
       default:
         break;

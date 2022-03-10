@@ -7,7 +7,7 @@ set (SOURCES
   ${DEST}/src/PolygonArea.js)
 
 set (DMSSOURCES
-  ${DMSDEST}/src/DMS.js)
+  ${DESTDMS}/src/DMS.js)
 
 set (DOCSOURCES GeographicLib.md
   tutorials/1-geodesics.md

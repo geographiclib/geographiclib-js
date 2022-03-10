@@ -815,7 +815,7 @@ describe("GeographicLib", function() {
     });
 
     it("Planimeter21", function() {
-      // Some test to add code coverage: multiple circlings of pole (includes
+      // Some tests to add code coverage: multiple circlings of pole (includes
       // Planimeter21 - Planimeter28) + invocations via testpoint and testedge.
       var a, lat, azi, s, r, a0, i;
       lat = 45;
