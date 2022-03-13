@@ -37,7 +37,7 @@
     // Compute lon12 the same way as Geodesic::Inverse.
     lon1 = m.AngNormalize(lon1);
     lon2 = m.AngNormalize(lon2);
-    lon12 = m.AngDiff(lon1, lon2).s;
+    lon12 = m.AngDiff(lon1, lon2).d;
     cross = lon1 <= 0 && lon2 > 0 && lon12 > 0 ? 1 :
       (lon2 <= 0 && lon1 > 0 && lon12 < 0 ? -1 : 0);
     return cross;
@@ -145,7 +145,7 @@
     if (!this.polyline)
       this._areasum.Set(0);
     this._perimetersum.Set(0);
-    this._lat0 = this._lon0 = this.lat = this.lon = Number.NaN;
+    this._lat0 = this._lon0 = this.lat = this.lon = NaN;
   };
 
   /**

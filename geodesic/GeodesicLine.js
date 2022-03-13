@@ -153,7 +153,7 @@
       this._B41 = g.SinCosSeries(false, this._ssig1, this._csig1, this._C4a);
     }
 
-    this.a13 = this.s13 = Number.NaN;
+    this.a13 = this.s13 = NaN;
   };
 
   /**
@@ -187,7 +187,7 @@
       vals.s12 = s12_a12;
     if (!( arcmode || (this.caps & g.DISTANCE_IN & g.OUT_MASK) )) {
       // Uninitialized or impossible distance calculation requested
-      vals.a12 = Number.NaN;
+      vals.a12 = NaN;
       return vals;
     }
 

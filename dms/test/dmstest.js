@@ -11,6 +11,7 @@ describe("GeographicLibDMS", function() {
     });
 
     it("check encode", function () {
+      var t;
       assert.strictEqual(d.Encode(-7.56, d.DEGREE, 2), "-7.56°");
       assert.strictEqual(d.Encode(-7.56, d.MINUTE, 1), "-7°33.6'");
       assert.strictEqual(d.Encode(-7.56, d.SECOND, 0), "-7°33'36\"");
@@ -30,11 +31,37 @@ describe("GeographicLibDMS", function() {
                          "07:33.6S");
       assert.strictEqual(d.Encode(-7.56, d.SECOND, 0, d.LATITUDE, ':'),
                          "07:33:36S");
+
+      // zero fill checks
+      t = -(1 + 2/60 + 2.99/3600);
+      assert.strictEqual(d.Encode( t,d.DEGREE,0,d.NONE     ), "-1°"          );
+      assert.strictEqual(d.Encode( t,d.DEGREE,0,d.LATITUDE ), "01°S"         );
+      assert.strictEqual(d.Encode( t,d.DEGREE,0,d.LONGITUDE),"001°W"         );
+      assert.strictEqual(d.Encode(-t,d.DEGREE,0,d.AZIMUTH  ),"001°"          );
+      assert.strictEqual(d.Encode( t,d.DEGREE,1,d.NONE     ), "-1.0°"        );
+      assert.strictEqual(d.Encode( t,d.DEGREE,1,d.LATITUDE ), "01.0°S"       );
+      assert.strictEqual(d.Encode( t,d.DEGREE,1,d.LONGITUDE),"001.0°W"       );
+      assert.strictEqual(d.Encode(-t,d.DEGREE,1,d.AZIMUTH  ),"001.0°"        );
+      assert.strictEqual(d.Encode( t,d.MINUTE,0,d.NONE     ), "-1°02'"       );
+      assert.strictEqual(d.Encode( t,d.MINUTE,0,d.LATITUDE ), "01°02'S"      );
+      assert.strictEqual(d.Encode( t,d.MINUTE,0,d.LONGITUDE),"001°02'W"      );
+      assert.strictEqual(d.Encode(-t,d.MINUTE,0,d.AZIMUTH  ),"001°02'"       );
+      assert.strictEqual(d.Encode( t,d.MINUTE,1,d.NONE     ), "-1°02.0'"     );
+      assert.strictEqual(d.Encode( t,d.MINUTE,1,d.LATITUDE ), "01°02.0'S"    );
+      assert.strictEqual(d.Encode( t,d.MINUTE,1,d.LONGITUDE),"001°02.0'W"    );
+      assert.strictEqual(d.Encode(-t,d.MINUTE,1,d.AZIMUTH  ),"001°02.0'"     );
+      assert.strictEqual(d.Encode( t,d.SECOND,0,d.NONE     ), "-1°02'03\""   );
+      assert.strictEqual(d.Encode( t,d.SECOND,0,d.LATITUDE ), "01°02'03\"S"  );
+      assert.strictEqual(d.Encode( t,d.SECOND,0,d.LONGITUDE),"001°02'03\"W"  );
+      assert.strictEqual(d.Encode(-t,d.SECOND,0,d.AZIMUTH  ),"001°02'03\""   );
+      assert.strictEqual(d.Encode( t,d.SECOND,1,d.NONE     ), "-1°02'03.0\"" );
+      assert.strictEqual(d.Encode( t,d.SECOND,1,d.LATITUDE ), "01°02'03.0\"S");
+      assert.strictEqual(d.Encode( t,d.SECOND,1,d.LONGITUDE),"001°02'03.0\"W");
+      assert.strictEqual(d.Encode(-t,d.SECOND,1,d.AZIMUTH  ),"001°02'03.0\"" );
     });
 
     it("check decode special", function () {
       var nan = NaN, inf = Infinity;
-
       assert.strictEqual(d.Decode(" +0 ").val, +0.0);
       assert.strictEqual(d.Decode("-0  ").val, -0.0);
       assert.strictEqual(d.Decode(" nan").val,  nan);
@@ -78,5 +105,6 @@ describe("GeographicLibDMS", function() {
                          "100000000000000000000°");
       assert.strictEqual(d.Encode( 1e21, d.DEGREE, 0),  "1e21");
     });
+
   });
 });

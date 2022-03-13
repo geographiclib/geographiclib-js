@@ -19,6 +19,9 @@
 
 // Load AFTER Math.js
 
+// To allow swap via [y, x] = [x, y]
+/* jshint esversion: 6 */
+
 GeographicLib.Geodesic = {};
 GeographicLib.GeodesicLine = {};
 GeographicLib.PolygonArea = {};
@@ -53,7 +56,9 @@ GeographicLib.PolygonArea = {};
       A2m1f_coeff, C2f_coeff,
       A3_coeff, C3_coeff, C4_coeff;
 
-  g.tiny_ = Math.sqrt(Number.MIN_VALUE);
+  // N.B. Number.MIN_VALUE is denormalized; divide by Number.EPSILON to get min
+  // normalized positive number.
+  g.tiny_ = Math.sqrt(Number.MIN_VALUE/Number.EPSILON);
   g.nC1_ = GEOGRAPHICLIB_GEODESIC_ORDER;
   g.nC1p_ = GEOGRAPHICLIB_GEODESIC_ORDER;
   g.nC2_ = GEOGRAPHICLIB_GEODESIC_ORDER;
@@ -829,7 +834,7 @@ GeographicLib.PolygonArea = {};
     // If really close to the equator, treat as on equator.
     lat1 = m.AngRound(lat1);
     lat2 = m.AngRound(lat2);
-    lon12 = m.AngDiff(lon1, lon2); lon12s = lon12.t; lon12 = lon12.s;
+    lon12 = m.AngDiff(lon1, lon2); lon12s = lon12.e; lon12 = lon12.d;
     if (outmask & g.LONG_UNROLL) {
       vals.lon1 = lon1; vals.lon2 = (lon1 + lon12) + lon12s;
     } else {
@@ -849,10 +854,7 @@ GeographicLib.PolygonArea = {};
     swapp = Math.abs(lat1) < Math.abs(lat2) || isNaN(lat2) ? -1 : 1;
     if (swapp < 0) {
       lonsign *= -1;
-      t = lat1;
-      lat1 = lat2;
-      lat2 = t;
-      // swap(lat1, lat2);
+      [lat2, lat1] = [lat1, lat2]; // swap(lat1, lat2);
     }
     // Make lat1 <= 0
     latsign = lat1 < 0 ? 1 : -1;
@@ -1159,19 +1161,10 @@ GeographicLib.PolygonArea = {};
 
     // Convert calp, salp to azimuth accounting for lonsign, swapp, latsign.
     if (swapp < 0) {
-      t = salp1;
-      salp1 = salp2;
-      salp2 = t;
-      // swap(salp1, salp2);
-      t = calp1;
-      calp1 = calp2;
-      calp2 = t;
-      // swap(calp1, calp2);
+      [salp2, salp1] = [salp1, salp2]; // swap(salp1, salp2);
+      [calp2, calp1] = [calp1, calp2]; // swap(calp1, calp2);
       if (outmask & g.GEODESICSCALE) {
-        t = vals.M12;
-        vals.M12 = vals.M21;
-        vals.M21 = t;
-        // swap(vals.M12, vals.M21);
+        [vals.M21, vals.M12] = [vals.M12, vals.M21]; // swap(vals.M12, vals.M21);
       }
     }
 

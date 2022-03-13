@@ -19,20 +19,25 @@ endforeach ()
 configure_file (TAIL.js . COPYONLY)
 list (APPEND BUNDLEFILES ${CMAKE_CURRENT_BINARY_DIR}/TAIL.js)
 
-configure_file (test/geodesictest.js ${DEST}/test/geodesictest.js
-  COPYONLY)
+set (TESTS geodesictest.js signtest.js)
+foreach (_f ${TESTS})
+  configure_file (test/${_f} ${DEST}/test/${_f} COPYONLY)
+endforeach ()
+
 configure_file (types/geographiclib.d.ts ${DEST}/types/geographiclib.d.ts
   COPYONLY)
 
 add_custom_command (OUTPUT ${PACKAGEDJS}
   COMMAND ${CMAKE_COMMAND} -E cat ${BUNDLEFILES} > ${PACKAGEDJS}
   DEPENDS ${BUNDLEFILES}
-  COMMENT "Making JS bundle for geodesic")
+  COMMENT "Making JS bundle for geodesic"
+  VERBATIM)
 
 add_custom_command (OUTPUT ${PACKAGEDMINJS}
   COMMAND ${MINIFY} ${PACKAGEDJS} > ${PACKAGEDMINJS}
   DEPENDS ${PACKAGEDJS}
-  COMMENT "Making minified JS bundle for geodesic")
+  COMMENT "Making minified JS bundle for geodesic"
+  VERBATIM)
 
 add_custom_target (bundle ALL
   DEPENDS ${PACKAGEDJS} ${PACKAGEDMINJS})
