@@ -30,8 +30,53 @@ describe("GeographicLibDMS", function() {
                          "07:33.6S");
       assert.strictEqual(d.Encode(-7.56, d.SECOND, 0, d.LATITUDE, ':'),
                          "07:33:36S");
-
     });
 
+    it("check decode special", function () {
+      var nan = NaN, inf = Infinity;
+
+      assert.strictEqual(d.Decode(" +0 ").val, +0.0);
+      assert.strictEqual(d.Decode("-0  ").val, -0.0);
+      assert.strictEqual(d.Decode(" nan").val,  nan);
+      assert.strictEqual(d.Decode("+inf").val, +inf);
+      assert.strictEqual(d.Decode(" inf").val, +inf);
+      assert.strictEqual(d.Decode("-inf").val, -inf);
+      assert.strictEqual(d.Decode(" +0N").val, +0.0);
+      assert.strictEqual(d.Decode("-0N ").val, -0.0);
+      assert.strictEqual(d.Decode("+0S ").val, -0.0);
+      assert.strictEqual(d.Decode(" -0S").val, +0.0);
+    });
+
+    it("check encode rounding", function () {
+      var nan = NaN, inf = Infinity;
+      // JavaScript rounds ties away from zero...
+      // Round to even results given in trailing comments
+      assert.strictEqual(d.Encode( nan , d.DEGREE, 0),  "nan" );
+      assert.strictEqual(d.Encode(-inf , d.DEGREE, 0), "-inf" );
+      assert.strictEqual(d.Encode(-3.5 , d.DEGREE, 0),   "-4°" );
+      assert.strictEqual(d.Encode(-2.5 , d.DEGREE, 0),   "-3°" ); // -2
+      assert.strictEqual(d.Encode(-1.5 , d.DEGREE, 0),   "-2°" );
+      assert.strictEqual(d.Encode(-0.5 , d.DEGREE, 0),   "-1°" ); // -0
+      assert.strictEqual(d.Encode(-0.0 , d.DEGREE, 0),   "-0°" );
+      assert.strictEqual(d.Encode(+0.0 , d.DEGREE, 0),    "0°" );
+      assert.strictEqual(d.Encode(+0.5 , d.DEGREE, 0),    "1°" ); // 0
+      assert.strictEqual(d.Encode(+1.5 , d.DEGREE, 0),    "2°" );
+      assert.strictEqual(d.Encode(+2.5 , d.DEGREE, 0),    "3°" ); // 2
+      assert.strictEqual(d.Encode(+3.5 , d.DEGREE, 0),    "4°" );
+      assert.strictEqual(d.Encode(+inf , d.DEGREE, 0),  "inf" );
+      assert.strictEqual(d.Encode(-1.75, d.DEGREE, 1), "-1.8°");
+      assert.strictEqual(d.Encode(-1.25, d.DEGREE, 1), "-1.3°"); // -1.2
+      assert.strictEqual(d.Encode(-0.75, d.DEGREE, 1), "-0.8°");
+      assert.strictEqual(d.Encode(-0.25, d.DEGREE, 1), "-0.3°"); // 0.2
+      assert.strictEqual(d.Encode(-0.0 , d.DEGREE, 1), "-0.0°");
+      assert.strictEqual(d.Encode(+0.0 , d.DEGREE, 1),  "0.0°");
+      assert.strictEqual(d.Encode(+0.25, d.DEGREE, 1),  "0.3°"); // 0.2
+      assert.strictEqual(d.Encode(+0.75, d.DEGREE, 1),  "0.8°");
+      assert.strictEqual(d.Encode(+1.25, d.DEGREE, 1),  "1.3°"); // 1.2
+      assert.strictEqual(d.Encode(+1.75, d.DEGREE, 1),  "1.8°");
+      assert.strictEqual(d.Encode( 1e20, d.DEGREE, 0),
+                         "100000000000000000000°");
+      assert.strictEqual(d.Encode( 1e21, d.DEGREE, 0),  "1e21");
+    });
   });
 });

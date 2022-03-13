@@ -86,9 +86,10 @@ var GeographicLibDMS = {};
    *   result is multiplied by the implied sign of the hemisphere designator
    *   (negative for S and W).  In addition \e ind is set to DMS::LATITUDE if N
    *   or S is present, to DMS::LONGITUDE if E or W is present, and to
-   *   DMS::NONE otherwise.  Throws an error on a malformed string.  No check
-   *   is performed on the range of the result.  Examples of legal and illegal
-   *   strings are
+   *   DMS::NONE otherwise.  Leading and trailing whitespace is removed from
+   *   the string before processing.  This routine throws an error on a
+   *   malformed string.  No check is performed on the range of the result.
+   *   Examples of legal and illegal strings are
    *   - <i>LEGAL</i> (all the entries on each line are equivalent)
    *     - -20.51125, 20d30'40.5&quot;S, -20&deg;30'40.5, -20d30.675,
    *       N-20d30'40.5&quot;, -20:30:40.5
@@ -117,14 +118,15 @@ var GeographicLibDMS = {};
    *   - <i>ILLEGAL</i> (the exception thrown explains the problem)
    *     - 70:01:15W+0:0:15N, W70:01:15+W0:0:15
    *
-   *   <b>warning</b> The "exponential" notation is not recognized.  Thus
+   *   <b>Warning</b> The "exponential" notation is not recognized.  Thus
    *   <code>7.0E1</code> is illegal, while <code>7.0E+1</code> is parsed as
    *   <code>(7.0E) + (+1)</code>, yielding the same result as
    *   <code>8.0E</code>.
    */
   d.Decode = function(dms) {
     var dmsa = dms, end,
-        v = 0, i = 0, mi, pi, vals,
+        // v = -0.0, so "-0" returns -0.0
+        v = -0.0, i = 0, mi, pi, vals,
         ind1 = d.NONE, ind2, p, pa, pb;
     dmsa = dmsa
       .replace(/\u00b0/g, 'd' ) // U+00b0 degree symbol
@@ -392,7 +394,7 @@ var GeographicLibDMS = {};
     if (t === "NAN" || t === "1.#QNAN" || t === "1.#SNAN" || t === "1.#IND" ||
         t === "1.#R")
       return Number.NaN;
-    else if (t === "INF" || t === "1.#INF")
+    else if (t === "INF" || t === "1.#INF" || t === "INFINITY")
       return sign * Number.POSITIVE_INFINITY;
     return 0;
   };
@@ -489,85 +491,108 @@ var GeographicLibDMS = {};
    *     degrees to 3 digits, e.g., 008&deg;03'W.
    *   * AZIMUTH, convert to the range [0, 360&deg;), no sign, pad degrees to
    *     3 digits, e.g., 351&deg;57'.
+   *
+   * <b>Warning</b> Because of limitations of JavaScripts toFixed function,
+   * this routine does not implement the "round ties to even" rule.  Ties are
+   * rounded away from zero.
+   *
+   * <b>Warning</b> Angles whose magnitude is equal to or greater that
+   * 10<sup>21</sup> are printed as a plain number in exponential notation,
+   * e.g., "1e21".
    */
   d.Encode = function(angle, trailing, prec, ind, dmssep) {
     // Assume check on range of input angle has been made by calling
     // routine (which might be able to offer a better diagnostic).
     var scale = 1, i, sign,
-        idegree, fdegree, f, pieces, ip, fp, s, usesep;
+        idegree, fdegree, degree, minute, second, s, usesep, p;
     if (!ind) ind = d.NONE;
     if (!dmssep) dmssep = '\0';
     usesep = dmssep != '\0';
     if (!isFinite(angle))
       return angle < 0 ? String("-inf") :
       (angle > 0 ? String("inf") : String("nan"));
+    if (Math.abs(angle) >= 1e21)
+      // toFixed only works for numbers less that 1e21.
+      return angle.toString().replace(/e\+/, 'e'); // remove "+" from exponent
 
     // 15 - 2 * trailing = ceiling(log10(2^53/90/60^trailing)).
     // This suffices to give full real precision for numbers in [-90,90]
     prec = Math.min(15 - 2 * trailing, prec);
     for (i = 0; i < trailing; ++i)
       scale *= 60;
-    for (i = 0; i < prec; ++i)
-      scale *= 10;
-    if (ind === d.AZIMUTH)
-      angle -= Math.floor(angle/360) * 360;
-    sign = angle < 0 ? -1 : 1;
+    if (ind === d.AZIMUTH) {
+      angle %= 360;
+      if (angle < 0)
+        angle += 360;
+      else
+        angle = 0.0 + angle;
+    }
+    sign = (angle < 0 || angle === 0 && 1/angle < 0) ? -1 : 1;
     angle *= sign;
 
-    // Break off integer part to preserve precision in manipulation of
-    // fractional part.
-    idegree = Math.floor(angle);
-    fdegree = (angle - idegree) * scale + 0.5;
-    f = Math.floor(fdegree);
-    // Implement the "round ties to even" rule
-    fdegree = (f === fdegree && (f & 1) === 1) ? f - 1 : f;
-    fdegree /= scale;
-
-    fdegree = Math.floor((angle - idegree) * scale + 0.5) / scale;
-    if (fdegree >= 1) {
-      idegree += 1;
-      fdegree -= 1;
+    // Break off integer part to preserve precision and avoid overflow in
+    // manipulation of fractional part for MINUTE and SECOND
+    idegree = trailing === d.DEGREE ? 0 : Math.floor(angle);
+    fdegree = (angle - idegree) * scale;
+    s = fdegree.toFixed(prec);
+    switch (trailing) {
+    case d.DEGREE:
+      degree = s;
+      break;
+    default:                    // case MINUTE: case SECOND:
+      p = s.indexOf('.');
+      if (p < 0) {
+        i = parseInt(s);
+        s = "";
+      } else if (p === 0) {
+        i = 0;
+      } else {
+        i = parseInt(s.substr(0, p));
+        s = s.substr(p);
+      }
+      // Now i in [0,60] or [0,3600] for MINUTE/DEGREE
+      switch (trailing) {
+      case d.MINUTE:
+        minute = (i % 60).toString() + s; i = Math.trunc(i / 60);
+        degree = (i + idegree).toFixed(0); // no overflow since i in [0,1]
+        break;
+      default:                  // case SECOND:
+        second = (i % 60).toString() + s; i = Math.trunc(i / 60);
+        minute = (i % 60).toString()    ; i = Math.trunc(i / 60);
+        degree = (i + idegree).toFixed(0); // no overflow since i in [0,1]
+        break;
+      }
+      break;
     }
-    pieces = [fdegree, 0, 0];
-    for (i = 1; i <= trailing; ++i) {
-      ip = Math.floor(pieces[i - 1]);
-      fp = pieces[i - 1] - ip;
-      pieces[i] = fp * 60;
-      pieces[i - 1] = ip;
-    }
-    pieces[0] += idegree;
+    // No glue together degree+minute+second with
+    // sign + zero-fill + delimiters + hemisphere
     s = "";
     if (ind === d.NONE && sign < 0)
       s += '-';
+    if (prec) ++prec;           // Extra width for decimal point
     switch (trailing) {
     case d.DEGREE:
-      s += zerofill(pieces[0].toFixed(prec),
-                    ind === d.NONE ? 0 :
-                    1 + Math.min(ind, 2) + prec + (prec ? 1 : 0)) +
+      s += zerofill(degree, ind === d.NONE ? 0 : 1 + Math.min(ind, 2) + prec) +
         (usesep ? '' : dmsindicatorsu_.charAt(0));
       break;
-    default:
-      s += zerofill(pieces[0].toFixed(0),
-                    ind === d.NONE ? 0 : 1 + Math.min(ind, 2)) +
-        (usesep ? dmssep : dmsindicatorsu_.charAt(0));
-      switch (trailing) {
-      case d.MINUTE:
-        s += zerofill(pieces[1].toFixed(prec), 2 + prec + (prec ? 1 : 0)) +
-          (usesep ? '' : dmsindicatorsu_.charAt(1));
-        break;
-      case d.SECOND:
-        s += zerofill(pieces[1].toFixed(0), 2) +
-          (usesep ? dmssep : dmsindicatorsu_.charAt(1));
-        s += zerofill(pieces[2].toFixed(prec), 2 + prec + (prec ? 1 : 0)) +
-          (usesep ? '' : dmsindicatorsu_.charAt(2));
-        break;
-      default:
-        break;
-      }
+    case d.MINUTE:
+      s += zerofill(degree, ind === d.NONE ? 0 : 1 + Math.min(ind, 2)) +
+        (usesep ? dmssep : dmsindicatorsu_.charAt(0)) +
+        zerofill(minute, 2 + prec) +
+        (usesep ? '' : dmsindicatorsu_.charAt(1));
+      break;
+    default:                    // case SECOND:
+      s += zerofill(degree, ind === d.NONE ? 0 : 1 + Math.min(ind, 2)) +
+        (usesep ? dmssep : dmsindicatorsu_.charAt(0)) +
+        zerofill(minute, 2) +
+        (usesep ? dmssep : dmsindicatorsu_.charAt(1)) +
+        zerofill(second, 2 + prec) +
+        (usesep ? '' : dmsindicatorsu_.charAt(2));
+      break;
     }
-    if (ind !== d.NONE && ind !== d.AZIMUTH)
+    if (ind != d.NONE && ind != d.AZIMUTH)
       s += hemispheres_.charAt((ind === d.LATITUDE ? 0 : 2) +
                                (sign < 0 ? 0 : 1));
-    return s /* .replace(/d/g, '\u00b0') */;
+    return s;
   };
 })(GeographicLibDMS);

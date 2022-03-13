@@ -33,12 +33,12 @@ find_program (NPM npm)
 set (DEST ${PROJECT_BINARY_DIR}/node_modules/geographiclib)
 set (PACKAGEDJS ${DEST}/geographiclib.js)
 set (PACKAGEDMINJS ${DEST}/geographiclib.min.js)
-set (PACK "${DEST}-${PROJECT_VERSION}.tgz")
+set (PACK "${PROJECT_BINARY_DIR}/geographiclib-${PROJECT_VERSION}.tgz")
 
 set (DESTDMS ${PROJECT_BINARY_DIR}/node_modules/geographiclib-dms)
 set (PACKAGEDDMSJS ${DESTDMS}/geographiclib-dms.js)
 set (PACKAGEDDMSMINJS ${DESTDMS}/geographiclib-dms.min.js)
-set (PACKDMS "${DESTDMS}-${PROJECT_VERSION}.tgz")
+set (PACKDMS "${PROJECT_BINARY_DIR}/geographiclib-dms-${PROJECT_VERSION}.tgz")
 
 enable_testing ()
 
@@ -60,9 +60,10 @@ endif ()
 if (NPM)
   add_custom_command (OUTPUT ${PACK} ${PACKDMS}
     COMMAND ${NPM} pack ${DEST} ${DESTDMS}
-    DEPENDS bundle bundledms)
+    DEPENDS ${PACKAGEDJS} ${PACKAGEDDMSJS}
+    VERBATIM)
   add_custom_target (pack ALL
-    DEPENDS ${PACK} ${PACKDMS})
+    DEPENDS ${PACK} ${PACKDMS} bundle bundledms)
 endif ()
 
 if (EXISTS ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
