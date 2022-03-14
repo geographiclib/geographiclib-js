@@ -184,7 +184,7 @@ describe("GeographicLib", function() {
 
     it("GeodSolve2", function() {
       // Check fix for antipodal prolate bug found 2010-09-04
-      var geod = new g.Geodesic(6.4e6, -1/150.0),
+      var geod = new g.Geodesic(6.4e6, -1/150),
           inv = geod.Inverse(0.07476, 0, -0.07476, 180);
       assert.approx(inv.azi1, 90.00078, 0.5e-5);
       assert.approx(inv.azi2, 90.00078, 0.5e-5);
@@ -280,7 +280,7 @@ describe("GeographicLib", function() {
     it("GeodSolve15", function() {
       // Initial implementation of Math::eatanhe was wrong for e^2 < 0.  This
       // checks that this is fixed.
-      var geod = new g.Geodesic(6.4e6, -1/150.0),
+      var geod = new g.Geodesic(6.4e6, -1/150),
           dir = geod.Direct(1, 2, 3, 4, g.AREA);
       assert.approx(dir.S12, 23700, 0.5);
     });
@@ -312,7 +312,7 @@ describe("GeographicLib", function() {
       // Check 0/0 problem with area calculation on sphere 2015-09-08
       var geod = new g.Geodesic(6.4e6, 0),
           inv = geod.Inverse(1, 2, 3, 4, g.AREA);
-      assert.approx(inv.S12, 49911046115.0, 0.5);
+      assert.approx(inv.S12, 49911046115, 0.5);
     });
 
     it("GeodSolve28", function() {
@@ -370,7 +370,7 @@ describe("GeographicLib", function() {
       assert.approx(inv.azi1, 0.00000, 0.5e-5);
       assert.approx(Math.abs(inv.azi2), 180.00000, 0.5e-5);
       assert.approx(inv.s12, 19994492, 0.5);
-      geod = new g.Geodesic(6.4e6, -1/300.0);
+      geod = new g.Geodesic(6.4e6, -1/300);
       inv = geod.Inverse(0, 0, 0, 179);
       assert.approx(inv.azi1, 90.00000, 0.5e-5);
       assert.approx(inv.azi2, 90.00000, 0.5e-5);
@@ -460,7 +460,7 @@ describe("GeographicLib", function() {
       assert.approx(dir.m12 , 54342     , 0.5);
       assert.approx(dir.M12 , -1.0045592, 0.5e7);
       assert.approx(dir.M21 , -0.9954339, 0.5e-7);
-      assert.approx(dir.S12 , 127516405431022.0, 0.5);
+      assert.approx(dir.S12 , 127516405431022, 0.5);
     });
 
     it("GeodSolve69", function() {
@@ -521,8 +521,8 @@ describe("GeographicLib", function() {
       // The distance from Wellington and Salamanca (a classic failure of
       // Vincenty)
       var geod = g.WGS84,
-          inv = geod.Inverse(-(41+19/60.0), 174+49/60.0,
-                             40+58/60.0, -(5+30/60.0));
+          inv = geod.Inverse(-(41+19/60), 174+49/60,
+                             40+58/60, -(5+30/60));
       assert.approx(inv.azi1, 160.39137649664, 0.5e-11);
       assert.approx(inv.azi2,  19.50042925176, 0.5e-11);
       assert.approx(inv.s12,  19960543.857179, 0.5e-6);
@@ -531,7 +531,7 @@ describe("GeographicLib", function() {
     it("GeodSolve78", function() {
       // An example where the NGS calculator fails to converge
       var geod = g.WGS84,
-          inv = geod.Inverse(27.2, 0.0, -27.1, 179.5);
+          inv = geod.Inverse(27.2, 0, -27.1, 179.5);
       assert.approx(inv.azi1,  45.82468716758, 0.5e-11);
       assert.approx(inv.azi2, 134.22776532670, 0.5e-11);
       assert.approx(inv.s12,  19974354.765767, 0.5e-6);
@@ -571,7 +571,7 @@ describe("GeographicLib", function() {
       assert.approx(inv.m12, 0, 1e-8);
       assert.approx(inv.M12, 1, 1e-15);
       assert.approx(inv.M21, 1, 1e-15);
-      assert.approx(inv.S12, 127516405431022.0, 0.5);
+      assert.approx(inv.S12, 127516405431022, 0.5);
 
       // An incapable line which can't take distance as input
       line = geod.Line(1, 2, 90, g.LATITUDE);
@@ -600,13 +600,13 @@ describe("GeographicLib", function() {
       assert(isNaN(dir.lon2));
       assert(isNaN(dir.azi2));
       dir = geod.Direct(0, Infinity, 90, 1000);
-      assert(dir.lat2 == 0);
+      assert(dir.lat2 === 0);
       assert(isNaN(dir.lon2));
-      assert(dir.azi2 == 90);
+      assert(dir.azi2 === 90);
       dir = geod.Direct(0, NaN, 90, 1000);
-      assert(dir.lat2 == 0);
+      assert(dir.lat2 === 0);
       assert(isNaN(dir.lon2));
-      assert(dir.azi2 == 90);
+      assert(dir.azi2 === 90);
       dir = geod.Direct(Infinity, 0, 90, 1000);
       assert(isNaN(dir.lat2));
       assert(isNaN(dir.lon2));
@@ -672,22 +672,22 @@ describe("GeographicLib", function() {
       points = [[89, 0], [89, 90], [89, 180], [89, 270]];
       a = Planimeter(points);
       assert.approx(a.perimeter, 631819.8745, 1e-4);
-      assert.approx(a.area, 24952305678.0, 1);
+      assert.approx(a.area, 24952305678, 1);
 
       points = [[-89, 0], [-89, 90], [-89, 180], [-89, 270]];
       a = Planimeter(points);
       assert.approx(a.perimeter, 631819.8745, 1e-4);
-      assert.approx(a.area, -24952305678.0, 1);
+      assert.approx(a.area, -24952305678, 1);
 
       points = [[0, -1], [-1, 0], [0, 1], [1, 0]];
       a = Planimeter(points);
       assert.approx(a.perimeter, 627598.2731, 1e-4);
-      assert.approx(a.area, 24619419146.0, 1);
+      assert.approx(a.area, 24619419146, 1);
 
       points = [[90, 0], [0, 0], [0, 90]];
       a = Planimeter(points);
       assert.approx(a.perimeter, 30022685, 1);
-      assert.approx(a.area, 63758202715511.0, 1);
+      assert.approx(a.area, 63758202715511, 1);
       a = PolyLength(points);
       assert.approx(a.perimeter, 20020719, 1);
       assert(isNaN(a.area));
@@ -726,7 +726,16 @@ describe("GeographicLib", function() {
     it("Planimeter12", function() {
       // Area of arctic circle (not really -- adjunct to rhumb-area test)
       var points, a;
-      points = [[66.562222222, 0], [66.562222222, 180]];
+      points = [[66.562222222, 0], [66.562222222, 180], [66.562222222, 360]];
+      a = Planimeter(points);
+      assert.approx(a.perimeter, 10465729, 1);
+      assert.approx(a.area, 0, 1);
+    });
+
+    it("Planimeter12r", function() {
+      // Reverse area of arctic circle
+      var points, a;
+      points = [[66.562222222, -0], [66.562222222, -180], [66.562222222, -360]];
       a = Planimeter(points);
       assert.approx(a.perimeter, 10465729, 1);
       assert.approx(a.area, 0, 1);
@@ -738,7 +747,7 @@ describe("GeographicLib", function() {
       points = [[89,-360], [89,-240], [89,-120], [89,0], [89,120], [89,240]];
       a =  Planimeter(points);
       assert.approx(a.perimeter, 1160741, 1);
-      assert.approx(a.area, 32415230256.0, 1);
+      assert.approx(a.area, 32415230256, 1);
     });
 
     it("Planimeter15", function() {
@@ -785,28 +794,28 @@ describe("GeographicLib", function() {
       var a;
       polygon.Clear();
       a = polygon.Compute(false, true);
-      assert(a.area == 0);
-      assert(a.perimeter == 0);
+      assert(a.area === 0);
+      assert(a.perimeter === 0);
       a = polygon.TestPoint(1, 1, false, true);
-      assert(a.area == 0);
-      assert(a.perimeter == 0);
+      assert(a.area === 0);
+      assert(a.perimeter === 0);
       a = polygon.TestEdge(90, 1000, false, true);
       assert(isNaN(a.area));
       assert(isNaN(a.perimeter));
       polygon.AddPoint(1, 1);
       a = polygon.Compute(false, true);
-      assert(a.area == 0);
-      assert(a.perimeter == 0);
+      assert(a.area === 0);
+      assert(a.perimeter === 0);
       polyline.Clear();
       a = polyline.Compute(false, true);
-      assert(a.perimeter == 0);
+      assert(a.perimeter === 0);
       a = polyline.TestPoint(1, 1, false, true);
-      assert(a.perimeter == 0);
+      assert(a.perimeter === 0);
       a = polyline.TestEdge(90, 1000, false, true);
       assert(isNaN(a.perimeter));
       polyline.AddPoint(1, 1);
       a = polyline.Compute(false, true);
-      assert(a.perimeter == 0);
+      assert(a.perimeter === 0);
       polygon.AddPoint(1, 1);
       a = polyline.TestEdge(90, 1000, false, true);
       assert.approx(a.perimeter, 1000, 1e-10);
@@ -872,7 +881,7 @@ describe("GeographicLib", function() {
       a = polygon.Compute(false, true);
       // The area should be 1e6.  Prior to the fix it was 1e6 - A/2, where
       // A = ellipsoid area.
-      assert.approx(a.area, 1000000.0, 0.01);
+      assert.approx(a.area, 1000000, 0.01);
     });
 
     it("check TestEdge", function() {

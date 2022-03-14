@@ -280,7 +280,7 @@ GeographicLib.PolygonArea = {};
    *   The routines for solving the direct and inverse problems return an
    *   object with some of the following fields set: lat1, lon1, azi1, lat2,
    *   lon2, azi2, s12, a12, m12, M12, M21, S12.  See {@tutorial 2-interface},
-   *   "The results".
+   *   section "The results".
    * @example
    * var GeographicLib = require("geographiclib"),
    *     geod = GeographicLib.Geodesic.WGS84;
@@ -320,7 +320,7 @@ GeographicLib.PolygonArea = {};
     // abs(f)) stops etol2 getting too large in the nearly spherical case.
     this._etol2 = 0.1 * tol2_ /
       Math.sqrt( Math.max(0.001, Math.abs(this.f)) *
-                 Math.min(1.0, 1 - this.f/2) / 2 );
+                 Math.min(1, 1 - this.f/2) / 2 );
     if (!(isFinite(this.a) && this.a > 0))
       throw new Error("Equatorial radius is not positive");
     if (!(isFinite(this._b) && this._b > 0))
@@ -699,7 +699,7 @@ GeographicLib.PolygonArea = {};
     }
     // Sanity check on starting guess.  Backwards check allows NaN through.
     // jshint -W018
-    if (!(vals.salp1 <= 0.0)) {
+    if (!(vals.salp1 <= 0)) {
       // norm(vals.salp1, vals.calp1);
       t = m.hypot(vals.salp1, vals.calp1); vals.salp1 /= t; vals.calp1 /= t;
     } else {
@@ -841,13 +841,12 @@ GeographicLib.PolygonArea = {};
       vals.lon1 = m.AngNormalize(lon1); vals.lon2 = m.AngNormalize(lon2);
     }
     // Make longitude difference positive.
-    lonsign = lon12 >= 0 ? 1 : -1;
-    // If very close to being on the same half-meridian, then make it so.
-    lon12 = lonsign * m.AngRound(lon12);
-    lon12s = m.AngRound((180 - lon12) - lonsign * lon12s);
+    lonsign = m.copysign(1, lon12);
+    lon12 *= lonsign; lon12s *= lonsign;
     lam12 = lon12 * m.degree;
-    t = m.sincosd(lon12 > 90 ? lon12s : lon12);
-    slam12 = t.s; clam12 = (lon12 > 90 ? -1 : 1) * t.c;
+    // Calculate sincos of lon12 + error (this applies AngRound internally).
+    t = m.sincosde(lon12, lon12s); slam12 = t.s; clam12 = t.c;
+    lon12s = (180 - lon12) - lon12s; // the supplementary longitude difference
 
     // Swap points so that point with higher (abs) latitude is point 1
     // If one latitude is a nan, then it becomes lat1.
@@ -857,7 +856,7 @@ GeographicLib.PolygonArea = {};
       [lat2, lat1] = [lat1, lat2]; // swap(lat1, lat2);
     }
     // Make lat1 <= 0
-    latsign = lat1 < 0 ? 1 : -1;
+    latsign = m.copysign(1, -lat1);
     lat1 *= latsign;
     lat2 *= latsign;
     // Now we have
@@ -894,7 +893,7 @@ GeographicLib.PolygonArea = {};
 
     if (cbet1 < -sbet1) {
       if (cbet2 === cbet1)
-        sbet2 = sbet2 < 0 ? sbet1 : -sbet1;
+        sbet2 = m.copysign(sbet1, sbet2);
     } else {
       if (Math.abs(sbet2) === -sbet1)
         cbet2 = cbet1;

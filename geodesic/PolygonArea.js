@@ -32,27 +32,29 @@
   var transit, transitdirect, AreaReduceA, AreaReduceB;
   transit = function(lon1, lon2) {
     // Return 1 or -1 if crossing prime meridian in east or west direction.
-    // Otherwise return zero.
-    var lon12, cross;
-    // Compute lon12 the same way as Geodesic::Inverse.
+    // Otherwise return zero.  longitude = +/-0 considered to be positive.
+    // This is (should be?) compatible with transitdirect which computes
+    // exactly the parity of
+    //   int(floor((lon1 + lon12) / 360)) - int(floor(lon1 / 360)))
+    var lon12 = m.AngDiff(lon1, lon2).d;
     lon1 = m.AngNormalize(lon1);
     lon2 = m.AngNormalize(lon2);
-    lon12 = m.AngDiff(lon1, lon2).d;
-    cross = lon1 <= 0 && lon2 > 0 && lon12 > 0 ? 1 :
-      (lon2 <= 0 && lon1 > 0 && lon12 < 0 ? -1 : 0);
-    return cross;
+    // edge case lon1 = 180, lon2 = 360->0, lon12 = 180 to give 1
+    return lon12 > 0 &&
+      // lon12 > 0 && lon1 > 0 && lon2 == 0 implies lon1 == 180
+      ((lon1 < 0 && lon2 >= 0) || (lon1 > 0 && lon2 === 0)) ? 1 :
+      // non edge case lon1 = -180, lon2 = -360->-0, lon12 = -180
+    (lon12 < 0 && lon1 >= 0 && lon2 < 0 ? -1 : 0);
   };
 
   // an alternate version of transit to deal with longitudes in the direct
   // problem.
   transitdirect = function(lon1, lon2) {
     // We want to compute exactly
-    //   int(ceil(lon2 / 360)) - int(ceil(lon1 / 360))
-    // Since we only need the parity of the result we can use std::remquo but
-    // this is buggy with g++ 4.8.3 and requires C++11.  So instead we do
-    lon1 = lon1 % 720.0; lon2 = lon2 % 720.0;
-    return ( ((lon2 <= 0 && lon2 > -360) || lon2 > 360 ? 1 : 0) -
-             ((lon1 <= 0 && lon1 > -360) || lon1 > 360 ? 1 : 0) );
+    //   int(floor(lon2 / 360)) - int(floor(lon1 / 360))
+    lon1 = lon1 % 720; lon2 = lon2 % 720;
+    return ((0 <= lon2 && lon2 < 360) || lon2 < -360 ? 0 : 1) -
+      ((0 <= lon1 && lon1  < 360) || lon1 < -360 ? 0 : 1 );
   };
 
   // Reduce Accumulator area
@@ -270,7 +272,7 @@
       if (!this.polyline) {
         tempsum += t.S12;
         crossings += transit(i === 0 ? this.lon : lon,
-                               i !== 0 ? this._lon0 : lon);
+                             i !== 0 ? this._lon0 : lon);
       }
     }
 

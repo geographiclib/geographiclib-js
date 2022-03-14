@@ -126,7 +126,7 @@ var GeographicLibDMS = {};
   d.Decode = function(dms) {
     var dmsa = dms, end,
         // v = -0.0, so "-0" returns -0.0
-        v = -0.0, i = 0, mi, pi, vals,
+        v = -0, i = 0, mi, pi, vals,
         ind1 = d.NONE, ind2, p, pa, pb;
     dmsa = dmsa
       .replace(/\u00b0/g, 'd' ) // U+00b0 degree symbol
@@ -492,9 +492,9 @@ var GeographicLibDMS = {};
    *   * AZIMUTH, convert to the range [0, 360&deg;), no sign, pad degrees to
    *     3 digits, e.g., 351&deg;57'.
    *
-   * <b>Warning</b> Because of limitations of JavaScripts toFixed function,
-   * this routine does not implement the "round ties to even" rule.  Ties are
-   * rounded away from zero.
+   * <b>Warning</b> Because of implementation of JavaScript's toFixed function,
+   * this routine rounds ties away from zero.  This is different from the C++
+   * version of Geographic which implements the "round ties to even" rule.
    *
    * <b>Warning</b> Angles whose magnitude is equal to or greater that
    * 10<sup>21</sup> are printed as a plain number in exponential notation,
@@ -507,7 +507,7 @@ var GeographicLibDMS = {};
         idegree, fdegree, degree, minute, second, s, usesep, p;
     if (!ind) ind = d.NONE;
     if (!dmssep) dmssep = '\0';
-    usesep = dmssep != '\0';
+    usesep = dmssep !== '\0';
     if (!isFinite(angle))
       return angle < 0 ? String("-inf") :
       (angle > 0 ? String("inf") : String("nan"));
@@ -525,7 +525,7 @@ var GeographicLibDMS = {};
       if (angle < 0)
         angle += 360;
       else
-        angle = 0.0 + angle;
+        angle = 0 + angle;
     }
     sign = (angle < 0 || angle === 0 && 1/angle < 0) ? -1 : 1;
     angle *= sign;
@@ -590,7 +590,7 @@ var GeographicLibDMS = {};
         (usesep ? '' : dmsindicatorsu_.charAt(2));
       break;
     }
-    if (ind != d.NONE && ind != d.AZIMUTH)
+    if (ind !== d.NONE && ind !== d.AZIMUTH)
       s += hemispheres_.charAt((ind === d.LATITUDE ? 0 : 2) +
                                (sign < 0 ? 0 : 1));
     return s;
