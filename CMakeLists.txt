@@ -1,4 +1,6 @@
 project (GeographicLib-JavaScript NONE)
+set (GEOD_PROJECT geographiclib-geodesic)
+set (DMS_PROJECT geographiclib-dms)
 
 # Version information
 set (PROJECT_VERSION_MAJOR 2)
@@ -8,7 +10,7 @@ set (PROJECT_VERSION_PATCH 0)
 set (PROJECT_VERSION
   "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 set (PROJECT_VERSION_SUFFIX "-alpha")
-set (PROJECT_VERSION "${PROJECT_VERSION}${PROJECT_VERSION_SUFFIX}")
+set (PROJECT_FULLVERSION "${PROJECT_VERSION}${PROJECT_VERSION_SUFFIX}")
 
 set (RELEASE_DATE "2021-mm-dd")
 
@@ -21,7 +23,7 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 endif ()
 
 set (MODDIR "lib/node_modules"
-  CACHE PATH "Installation directory for GeographicLib-JavaScript module")
+  CACHE STRING "Installation directory for GeographicLib-JavaScript module")
 option (BUILD_DOCUMENTATION "Use doxygen to create the documentation" OFF)
 
 find_program (MINIFY minify REQUIRED)
@@ -30,15 +32,15 @@ find_program (MOCHA mocha)
 find_program (RSYNC rsync)
 find_program (NPM npm)
 
-set (DEST ${PROJECT_BINARY_DIR}/node_modules/geographiclib)
-set (PACKAGEDJS ${DEST}/geographiclib.js)
-set (PACKAGEDMINJS ${DEST}/geographiclib.min.js)
-set (PACK "${PROJECT_BINARY_DIR}/geographiclib-${PROJECT_VERSION}.tgz")
+set (DESTGEOD ${PROJECT_BINARY_DIR}/node_modules/${GEOD_PROJECT})
+set (PACKAGEDGEODJS ${DESTGEOD}/${GEOD_PROJECT}.js)
+set (PACKAGEDGEODMINJS ${DESTGEOD}/${GEOD_PROJECT}.min.js)
+set (PACKGEOD "${PROJECT_BINARY_DIR}/${GEOD_PROJECT}-${PROJECT_FULLVERSION}.tgz")
 
-set (DESTDMS ${PROJECT_BINARY_DIR}/node_modules/geographiclib-dms)
-set (PACKAGEDDMSJS ${DESTDMS}/geographiclib-dms.js)
-set (PACKAGEDDMSMINJS ${DESTDMS}/geographiclib-dms.min.js)
-set (PACKDMS "${PROJECT_BINARY_DIR}/geographiclib-dms-${PROJECT_VERSION}.tgz")
+set (DESTDMS ${PROJECT_BINARY_DIR}/node_modules/${DMS_PROJECT})
+set (PACKAGEDDMSJS ${DESTDMS}/${DMS_PROJECT}.js)
+set (PACKAGEDDMSMINJS ${DESTDMS}/${DMS_PROJECT}.min.js)
+set (PACKDMS "${PROJECT_BINARY_DIR}/${DMS_PROJECT}-${PROJECT_FULLVERSION}.tgz")
 
 enable_testing ()
 
@@ -58,31 +60,31 @@ if (LINT)
 endif ()
 
 if (NPM)
-  add_custom_command (OUTPUT ${PACK} ${PACKDMS}
-    COMMAND ${NPM} pack ${DEST} ${DESTDMS}
-    DEPENDS ${PACKAGEDJS} ${PACKAGEDDMSJS}
+  add_custom_command (OUTPUT ${PACKGEOD} ${PACKDMS}
+    COMMAND ${NPM} pack ${DESTGEOD} ${DESTDMS}
+    DEPENDS ${PACKAGEDGEODJS} ${PACKAGEDDMSJS}
     VERBATIM)
   add_custom_target (pack ALL
-    DEPENDS ${PACK} ${PACKDMS} bundle bundledms)
+    DEPENDS ${PACKGEOD} ${PACKDMS} bundle bundledms)
 endif ()
 
-if (EXISTS ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
+if (IS_DIRECTORY ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
   add_custom_target (checktrailingspace
-    COMMAND git ls-tree -r HEAD --name-only | xargs grep '[ \t]$$' || true
+    COMMAND git ls-files | xargs grep '[ \t]$$' || true
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Looking for trailing spaces")
   add_custom_target (checktabs
-    COMMAND git ls-tree -r HEAD --name-only |  grep -v makefile-admin |
+    COMMAND git ls-files |  grep -v makefile-admin |
     xargs grep '\t' || true
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Looking for tabs")
   add_custom_target (checkblanklines
-    COMMAND git ls-tree -r HEAD --name-only |
+    COMMAND git ls-files |
     while read f\; do tr 'X\\n' 'YX' < $$f |
     egrep '\(^X|XXX|XX$$|[^X]$$\)' > /dev/null && echo $$f\; done || true
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Looking for extra blank lines")
 
-  add_custom_target(sanitize)
-  add_dependencies(sanitize checktrailingspace checktabs checkblanklines)
+  add_custom_target (sanitize)
+  add_dependencies (sanitize checktrailingspace checktabs checkblanklines)
 endif ()

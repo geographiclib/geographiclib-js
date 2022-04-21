@@ -1,6 +1,6 @@
  {
   "name": "geographiclib-dms",
-  "version": "@PROJECT_VERSION@",
+  "version": "@PROJECT_FULLVERSION@",
   "description":
   "JavaScript implementation of DMS routines in GeographicLib",
   "main": "geographiclib-dms.min.js",

@@ -1,16 +1,16 @@
 {
-  "name": "geographiclib",
-  "version": "@PROJECT_VERSION@",
+  "name": "geographiclib-geodesic",
+  "version": "@PROJECT_FULLVERSION@",
   "description":
   "JavaScript implementation of geodesic routines in GeographicLib",
-  "main": "geographiclib.js",
-  "types": "types/geographiclib.d.ts",
+  "main": "geographiclib-geodesic.js",
+  "types": "types/geographiclib-geodesic.d.ts",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git://git.code.sourceforge.net/p/geographiclib/code"
+    "url": "https://github.com/geographiclib/geographiclib-js"
   },
   "url": "https://geographiclib.sourceforge.net",
   "keywords": [

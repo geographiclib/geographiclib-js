@@ -76,7 +76,7 @@ GeographicLib.Accumulator = {};
    * @constant
    * @summary version string
    */
-  c.version_string = "@PROJECT_VERSION@";
+  c.version_string = "@PROJECT_FULLVERSION@";
 })(GeographicLib.Constants);
 
 (function(

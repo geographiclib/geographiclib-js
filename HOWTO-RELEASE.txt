@@ -10,8 +10,8 @@ This creates local modules geographiclib + geographiclib-dms in
   BUILD/node_modules
 
 and packages
-  BUILD/geographiclib-${PROJECT_VERSION}.tgz
-  BUILD/geographiclib-dms-${PROJECT_VERSION}.tgz
+  BUILD/geographiclib-${PROJECT_FULLVERSION}.tgz
+  BUILD/geographiclib-dms-${PROJECT_FULLVERSION}.tgz
 
 installed modules in
   ${CMAKE_INSTALL_PREFIX}/${MODDIR}
@@ -28,8 +28,8 @@ Other cmake targets
   deploy-doc (move documentation to sourceforse)
 
 Deployment to npmjs.org
-  npm publish BUILD/geographiclib-${PROJECT_VERSION}.tgz
-  npm publish BUILD/geographiclib-dms-${PROJECT_VERSION}.tgz
+  npm publish BUILD/geographiclib-${PROJECT_FULLVERSION}.tgz
+  npm publish BUILD/geographiclib-dms-${PROJECT_FULLVERSION}.tgz
 
 N.B. node doesn't look in /usr/local/lib/node_modules by default, so
 if using globally installed package, invoke node with
@@ -65,8 +65,27 @@ cd $TEMP/gita/geographiclib/BUILD/js && npm publish geographiclib
 make -C $DEVELSOURCE -f makefile-admin distrib-js
 make -C $DEVELSOURCE -f makefile-admin install-js
 # also update devel branch of node-geographiclib from ??
-# git@github.com:yurijmikhalevich/node-geographiclib.git
+# git@github.com:yurijmikhalevich/node-geographiclib
 $TEMP/gita/geographiclib/BUILD/js/geographiclib
+
+From makefile-admin
+
+distrib-js:
+	rsync --exclude '*~' --exclude '.#*' --exclude '#*' --delete --delete-excluded -av -e ssh $(SCRIPTSTAGE)/test/ $(USER),geographiclib@web.sourceforge.net:./htdocs/scripts/test/
+
+install-js:
+	find $(SCRIPTSTAGE)/test -type f -printf '%P\n' | \
+	while read f; do \
+	  install -C -m 644 $(SCRIPTSTAGE)/test/$$f $(SCRIPTSTAGE)/$$f; \
+	done
+	t=`find $(SCRIPTSTAGE)/test/geographiclib.js -printf '%l'`; \
+	rm -f $(SCRIPTSTAGE)/geographiclib.js; \
+	ln -s $$t $(SCRIPTSTAGE)/geographiclib.js
+	t=`find $(SCRIPTSTAGE)/test/geographiclib.min.js -printf '%l'`; \
+	rm -f $(SCRIPTSTAGE)/geographiclib.min.js; \
+	ln -s $$t $(SCRIPTSTAGE)/geographiclib.min.js
+	rsync --exclude '*~' --exclude '.#*' --exclude '#*' --delete --delete-excluded -av -e ssh $(SCRIPTSTAGE)/ $(USER),geographiclib@web.sourceforge.net:./htdocs/scripts/
+
 
 ============= nodejs-GeographicLib ===============
 /usr/lib/node_modules/geographiclib

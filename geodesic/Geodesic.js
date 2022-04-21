@@ -12,7 +12,7 @@
  *    https://doi.org/10.1007/s00190-012-0578-z
  *    Addenda: https://geographiclib.sourceforge.io/geod-addenda.html
  *
- * Copyright (c) Charles Karney (2011-2021) <charles@karney.com> and licensed
+ * Copyright (c) Charles Karney (2011-2022) <charles@karney.com> and licensed
  * under the MIT/X11 License.  For more information, see
  * https://geographiclib.sourceforge.io/
  */
@@ -1126,7 +1126,7 @@ GeographicLib.PolygonArea = {};
       } else
         // Avoid problems with indeterminate sig1, sig2 on equator
         vals.S12 = 0;
-      if (!meridian && somg12 > 1) {
+      if (!meridian && somg12 == 2) {
         somg12 = Math.sin(omg12); comg12 = Math.cos(omg12);
       }
       if (!meridian &&

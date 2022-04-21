@@ -522,6 +522,8 @@ var GeographicLibDMS = {};
       scale *= 60;
     if (ind === d.AZIMUTH) {
       angle %= 360;
+      // Only angles strictly less than 0 can become 360; since +/-180 are
+      // folded together, we convert -0 to +0 (instead of 360).
       if (angle < 0)
         angle += 360;
       else

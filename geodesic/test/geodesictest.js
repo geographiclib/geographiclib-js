@@ -1,7 +1,7 @@
 "use strict";
 
 var assert = require("assert"),
-    G = require("../geographiclib"),
+    G = require("../geographiclib-geodesic"),
     g = G.Geodesic,
     m = G.Math,
     testcases = [
@@ -637,6 +637,16 @@ describe("GeographicLib", function() {
       assert(isNaN(inv.azi1));
       assert(isNaN(inv.azi2));
       assert(isNaN(inv.s12));
+    });
+
+    it("GeodSolve96", function() {
+      // Failure with long doubles found with test case from Nowak + Nowak Da
+      // Costa (2022).  Problem was using somg12 > 1 as a test that it needed
+      // to be set when roundoff could result in somg12 slightly bigger that 1.
+      // Found + fixed 2022-03-30.
+      var geod = new g.Geodesic(6378137, 1/298.257222101),
+          inv = geod.Inverse(0, 0, 60.0832522871723, 89.8492185074635, g.AREA);
+      assert.approx(inv.S12, 42426932221845, 0.5);
     });
 
   });

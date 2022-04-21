@@ -15,8 +15,7 @@ list (APPEND BUNDLEFILES ${CMAKE_CURRENT_BINARY_DIR}/TAIL.js)
 
 configure_file (test/dmstest.js ${DESTDMS}/test/dmstest.js
   COPYONLY)
-configure_file (types/geographiclib-dms.d.ts
-  ${DESTDMS}/types/geographiclib-dms.d.ts
+configure_file (types/${DMS_PROJECT}.d.ts ${DESTDMS}/types/${DMS_PROJECT}.d.ts
   COPYONLY)
 
 add_custom_command (OUTPUT ${PACKAGEDDMSJS}

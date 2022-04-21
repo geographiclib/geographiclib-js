@@ -1,4 +1,4 @@
-# Geodesic routines from GeographicLib
+# JavaScript implementation of the geodesic routines in GeographicLib
 
 This library is a JavaScript implementation of the geodesic routines
 from [GeographicLib](https://geographiclib.sourceforge.io).  This solves the

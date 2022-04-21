@@ -1,7 +1,7 @@
 "use strict";
 
 var assert = require("assert"),
-    G = require("../geographiclib"),
+    G = require("../geographiclib-geodesic"),
     g = G.Geodesic,
     m = G.Math;
 

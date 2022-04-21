@@ -13,5 +13,5 @@ if (RSYNC)
     ${DOCROOT}/scripts/test
     ${USER},geographiclib@web.sourceforge.net:htdocs/scripts/
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-  add_dependencies(deploy-scripts bundle bundledms)
+  add_dependencies (deploy-scripts bundle bundledms)
 endif ()
