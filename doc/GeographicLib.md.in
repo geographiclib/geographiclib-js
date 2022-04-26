@@ -1,13 +1,13 @@
 ## Geodesic routines from GeographicLib
 
-This documentation applies to version @PROJECT_FULLVERSION@.
+This documentation applies to version @PROJECT_VERSION@.
 
 The documentation for other versions is available
 at <tt>https://geographiclib.sourceforge.io/JavaScript/m.n</tt> for versions
 numbers <tt>m.n</tt> &ge; 1.45.
 
 Licensed under the MIT/X11 License; see
-[LICENSE.txt](https://geographiclib.sourceforge.io/html/LICENSE.txt).
+[LICENSE.txt](https://geographiclib.sourceforge.io/LICENSE.txt).
 
 ### Installation
 
@@ -110,6 +110,35 @@ Two examples of this library in use are
 ### Change log
 
 * Version @PROJECT_VERSION@ (released @RELEASE_DATE@)
+
+  * The geographiclib package is now split into two packages
+    geographiclib-geodesic and geographiclib-dms which,respectively,
+    perform geodesic calculations and decode and encode angles in
+    degrees-minutes-seconds format.
+  * The JavaScript package now has its own [git
+    repository](https://github.com/geographiclib/geographiclib-js).
+  * Fix bug where the solution of the inverse geodesic problem with
+    &phi;<sub>1</sub> = 0 and &phi;<sub>2</sub> = nan was treated as
+    equatorial.
+  * More careful treatment of &plusmn;0&deg; and &plusmn;180&deg;.
+    * These behave consistently with taking the limits
+      * &plusmn;0 means &plusmn;&epsilon; as &epsilon; &rarr; 0+
+      * &plusmn;180 means &plusmn;(180 &minus; &epsilon;) as &epsilon;
+	&rarr; 0+
+    * As a consequence, azimuths of +0&deg; and +180&deg; are reckoned to
+      be east-going, as far as tracking the longitude with
+      {@link net.sf.geographiclib.GeodesicMask#LONG_UNROLL} and the area
+      goes, while azimuths &minus;0&deg; and &minus;180&deg; are reckoned to
+      be west-going.
+    * When computing longitude differences, if &lambda;<sub>2</sub>
+      &minus; &lambda;<sub>1</sub> = &plusmn;180&deg; (mod 360&deg;),
+      then the sign is picked depending on the sign of the difference.
+    * The normal range for returned longitudes and azimuths is
+      [&minus;180&deg;, 180&deg;].
+    * A separate test suite signtest.js has been added to check this
+      treatment.
+  * The Encode function in the geographiclib-dms package now rounds
+    ties away from zero consistent the JavaScript's toFixed function.
 
 * Version 1.52 (released 2020-06-22)
   * Work around inaccuracy in Math.hypot (see the GeodSolve92 test).

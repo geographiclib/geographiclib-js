@@ -5,7 +5,7 @@ from [GeographicLib](https://geographiclib.sourceforge.io).  This solves the
 direct and inverse geodesic problems for an ellipsoid of revolution.
 
 Licensed under the MIT/X11 License; see
-[LICENSE.txt](https://geographiclib.sourceforge.io/html/LICENSE.txt).
+[LICENSE.txt](https://geographiclib.sourceforge.io/LICENSE.txt).
 
 ## Installation
 

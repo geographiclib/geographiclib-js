@@ -7,7 +7,7 @@ Jump to
 
 ### <a name="intro"></a>Introduction
 
-Consider a ellipsoid of revolution with equatorial radius *a*, polar
+Consider an ellipsoid of revolution with equatorial radius *a*, polar
 semi-axis *b*, and flattening *f* = (*a* &minus; *b*)/*a* .  Points on
 the surface of the ellipsoid are characterized by their latitude &phi;
 and longitude &lambda;.  (Note that latitude here means the

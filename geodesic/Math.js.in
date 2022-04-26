@@ -226,7 +226,7 @@ GeographicLib.Accumulator = {};
    * @summary The remainder function.
    * @param {number} x the numerator of the division
    * @param {number} y the denominator of the division
-   * @return {number} the remainder in the range [&minus;y/2, y/2].
+   * @returns {number} the remainder in the range [&minus;y/2, y/2].
    * <p>
    * The range of x is unrestricted; y must be positive.
    */
@@ -240,6 +240,9 @@ GeographicLib.Accumulator = {};
    * @param {number} x the angle in degrees.
    * @returns {number} the angle reduced to the range [&minus;180&deg;,
    *   180&deg;].
+   *
+   * The range of x is unrestricted.  If the result is &plusmn;0&deg; or
+   * &plusmn;180&deg; then the sign is the sign of \e x.
    */
   m.AngNormalize = function(x) {
     // Place angle in [-180, 180].
@@ -259,15 +262,19 @@ GeographicLib.Accumulator = {};
   };
 
   /**
-   * @summary The exact difference of two angles reduced to (&minus;180&deg;,
+   * @summary The exact difference of two angles reduced to [&minus;180&deg;,
    *   180&deg;]
    * @param {number} x the first angle in degrees.
    * @param {number} y the second angle in degrees.
-   * @return {object} diff the exact difference, y &minus; x.
+   * @returns {object} diff the exact difference, diff.d + diff.e = y &minus; x
+   *   mod 360&deg;.
    *
-   * This computes z = y &minus; x exactly, reduced to [&minus;180&deg;,
-   * 180&deg;]; and then sets diff.d = d = round(z) and diff.e = e = z &minus;
-   * round(z).  If d = &minus;180, then e &gt; 0; If d = 180, then e &le; 0.
+   * This computes z = y &minus; x exactly, reduced to
+   * [&minus;180&deg;, 180&deg;]; and then sets z = d + e where d
+   * is the nearest representable number to z and e is the truncation
+   * error.  If z = &plusmn;0&deg; or &plusmn;180&deg;, then the sign of
+   * d is given by the sign of y &minus; x.  The maximum absolute
+   * value of e is 2<sup>&minus;26</sup> (for doubles).
    */
   m.AngDiff = function(x, y) {
     // Compute y - x and reduce to [-180,180] accurately.
@@ -460,7 +467,7 @@ GeographicLib.Accumulator = {};
    * @summary Return the result of adding a number to sum (but
    *   don't change sum).
    * @param {number} [y = 0] the number to be added to the sum.
-   * @return sum + y.
+   * @returns sum + y.
    */
   a.Accumulator.prototype.Sum = function(y) {
     var b;
@@ -484,7 +491,7 @@ GeographicLib.Accumulator = {};
   /**
    * @summary Take the remainder
    * @param {number} y the divisor of the remainder operation.
-   * @return sum in range [&minus;y/2, y/2].
+   * @returns sum in range [&minus;y/2, y/2].
    */
   a.Accumulator.prototype.Remainder = function(y) {
     this._s = m.remainder(this._s, y);

@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://git.code.sourceforge.net/p/geographiclib/code"
+    "url": "https://github.com/geographiclib/geographiclib-js"
   },
   "url": "https://geographiclib.sourceforge.net",
   "keywords": [
@@ -26,7 +26,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://sourceforge.net/p/geographiclib/discussion/",
+    "url": "https://github.com/geographiclib/geographiclib-js/issues",
     "email": "charles@karney.com"
   }
 }
