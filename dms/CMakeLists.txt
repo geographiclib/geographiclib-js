@@ -1,4 +1,5 @@
 configure_file (package.json.in ${DESTDMS}/package.json @ONLY)
+configure_file (README.md ${DESTGEOD} COPYONLY)
 configure_file (../LICENSE.txt ${DESTDMS} COPYONLY)
 
 configure_file (HEAD.js.in HEAD.js @ONLY)

@@ -1,4 +1,5 @@
 configure_file (package.json.in ${DESTGEOD}/package.json @ONLY)
+configure_file (README.md ${DESTGEOD} COPYONLY)
 configure_file (../LICENSE.txt ${DESTGEOD} COPYONLY)
 
 configure_file (HEAD.js.in HEAD.js @ONLY)
@@ -39,7 +40,7 @@ add_custom_command (OUTPUT ${PACKAGEDGEODMINJS}
   COMMENT "Making minified JS bundle for geodesic"
   VERBATIM)
 
-add_custom_target (bundle ALL
+add_custom_target (bundlegeod ALL
   DEPENDS ${PACKAGEDGEODJS} ${PACKAGEDGEODMINJS})
 
 install (DIRECTORY ${DESTGEOD}

@@ -65,7 +65,7 @@ if (NPM)
     DEPENDS ${PACKAGEDGEODJS} ${PACKAGEDDMSJS}
     VERBATIM)
   add_custom_target (pack ALL
-    DEPENDS ${PACKGEOD} ${PACKDMS} bundle bundledms)
+    DEPENDS ${PACKGEOD} ${PACKDMS} bundlegeod bundledms)
 endif ()
 
 if (IS_DIRECTORY ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
