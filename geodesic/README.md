@@ -4,9 +4,9 @@ This package is a JavaScript implementation of the geodesic routines
 from [GeographicLib](https://geographiclib.sourceforge.io).  This solves the
 direct and inverse geodesic problems for an ellipsoid of revolution.
 
-Prior to version 2.0, this was a component of the [node package
+Prior to version 2.0.0, this was a component of the [node package
 geographiclib](https://www.npmjs.com/package/geographiclib).  As of
-version 2.0, that package was split into the packages
+version 2.0.0, that package was split into the packages
 [geographiclib-geodesic](https://www.npmjs.com/package/geographiclib-geodesic)
 (this package) and
 [geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms).
@@ -32,7 +32,8 @@ var geodesic = require("geographiclib-geodesic");
 ## Documentation
 
 Full documentation is provided at
-[https://geographiclib.sourceforge.io/JavaScript/doc](https://geographiclib.sourceforge.io/JavaScript/doc).
+[https://geographiclib.sourceforge.io/JavaScript/doc](
+https://geographiclib.sourceforge.io/JavaScript/doc/index.html).
 
 ## Examples
 

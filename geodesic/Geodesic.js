@@ -1163,7 +1163,7 @@ geodesic.PolygonArea = {};
       [salp2, salp1] = [salp1, salp2]; // swap(salp1, salp2);
       [calp2, calp1] = [calp1, calp2]; // swap(calp1, calp2);
       if (outmask & g.GEODESICSCALE) {
-        [vals.M21, vals.M12] = [vals.M12, vals.M21]; // swap(vals.M12, vals.M21);
+        [vals.M21, vals.M12] = [vals.M12, vals.M21]; //swap(vals.M12, vals.M21);
       }
     }
 

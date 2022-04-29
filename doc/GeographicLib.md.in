@@ -3,7 +3,7 @@
 This documentation applies to version @PROJECT_VERSION@.
 
 The documentation for other versions is available at
-[`https://geographiclib.sourceforge.io/JavaScript`](..)
+[`https://geographiclib.sourceforge.io/JavaScript`](..).
 
 Licensed under the MIT/X11 License; see [LICENSE.txt](../../LICENSE.txt).
 
@@ -18,11 +18,14 @@ DMS routines from [GeographicLib](../../index.html).  The two packages are
   converts angles in decimal degrees to degrees-minutes-seconds and
   vice versa.
 
-Prior to version 2.0, these were combined in a single package
+Prior to version 2.0.0, these were combined in a single package
 [geographiclib](https://www.npmjs.com/package/geographiclib).  Because
-the geodesic and DMS components of this package were independent, it
-made sense to separate them into two packages.  The geographiclib
-package will be deprecated on 2023-05-01.
+the geodesic and DMS components of this package were independent and
+because most users will primarily be interested in the geodesic
+calculations, it made sense to separate them into two packages;
+removal of the DMS routines from geographiclib-geodesic reduced it
+size by about 20%. The geographiclib package will be deprecated on
+2023-05-01.
 
 ### Installation
 

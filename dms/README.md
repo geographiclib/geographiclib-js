@@ -4,12 +4,13 @@ This package is a JavaScript implementation of the DMS (degree,
 minute, second) handling routines from
 [GeographicLib](https://geographiclib.sourceforge.io).
 
-Prior to version 2.0, this was a component of the [node package
+Prior to version 2.0.0, this was a component of the [node package
 geographiclib](https://www.npmjs.com/package/geographiclib).  As of
-version 2.0, that package was split into the packages
+version 2.0.0, that package was split into the packages
 [geographiclib-geodesic](https://www.npmjs.com/package/geographiclib-geodesic)
 and
-[geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms).
+[geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms)
+(this package).
 [geographiclib](https://www.npmjs.com/package/geographiclib) will be
 deprecated on 2023-05-01.
 
@@ -26,13 +27,14 @@ $ npm install geographiclib-dms
 
 In [node](https://nodejs.org), do
 ```javascript
-var d = require("geographiclib-dms");
+var DMS = require("geographiclib-dms");
 ```
 
 ## Documentation
 
 Full documentation is provided at
-[https://geographiclib.sourceforge.io/JavaScript/doc](https://geographiclib.sourceforge.io/JavaScript/doc).
+[https://geographiclib.sourceforge.io/JavaScript/doc](
+https://geographiclib.sourceforge.io/JavaScript/doc/index.html).
 
 ## Examples
 

@@ -1,6 +1,6 @@
 Build with
 
-  cmake -D BUILD_DOCUMENTATION=ON -B BUILD -S .
+  cmake -D BUILD_DOCUMENTATION=ON -D CMAKE_INSTALL_PREFIX=/tmp/js -B BUILD -S .
   cd BUILD
   make all # packages up node packages
   make test
@@ -29,13 +29,9 @@ Other cmake targets
   stage-scripts, deploy-scripts (move sample scripts to staging, sourceforge)
 
 Deployment to npmjs.org
+  npm login
   npm publish BUILD/geographiclib-${PROJECT_FULLVERSION}.tgz
   npm publish BUILD/geographiclib-dms-${PROJECT_FULLVERSION}.tgz
-
-Need to do:
-  get access token?
-  npm login ?
-  npm publish *.tgz
 
 N.B. node doesn't look in /usr/local/lib/node_modules by default, so
 if using globally installed package, invoke node with
@@ -46,6 +42,9 @@ To debug path for node
 NODE_DEBUG=module node
 To set path for node
 
+To retrieve a tarball from npm use, e.g.,
+  wget `npm view geographiclib dist.tarball`
+
 Version update checks
 
 # JavaScript
@@ -55,80 +54,4 @@ Version update checks
 #   js/GeographicLib.md (date + update change log)
 # use: cd js; jshint src
 
-Used to look for **/ comment ends.  This may be just needed because of
-the lame way I compressed the js files.  In which case, this is no
-longer needed.
-
-    echo JS files with bad comment ends:
-    find js -type f -name '*.js' | xargs grep -l '\*\*/' || true
-
-# javascript release
-# authenticate via .npmrc; _auth value is
-#   echo -n cffk:PASSWORD | openssl base64
-# decode with
-#   echo AUTHSTRING | openssl base64 -d
-cd $TEMP/gita/geographiclib/BUILD/js && npm publish geographiclib
-make -C $DEVELSOURCE -f makefile-admin distrib-js
-make -C $DEVELSOURCE -f makefile-admin install-js
-# also update devel branch of node-geographiclib from ??
-# git@github.com:yurijmikhalevich/node-geographiclib
-$TEMP/gita/geographiclib/BUILD/js/geographiclib
-
-From makefile-admin
-
-distrib-js:
-        rsync --exclude '*~' --exclude '.#*' --exclude '#*' --delete --delete-excluded -av -e ssh $(SCRIPTSTAGE)/test/ $(USER),geographiclib@web.sourceforge.net:./htdocs/scripts/test/
-
-install-js:
-        find $(SCRIPTSTAGE)/test -type f -printf '%P\n' | \
-        while read f; do \
-          install -C -m 644 $(SCRIPTSTAGE)/test/$$f $(SCRIPTSTAGE)/$$f; \
-        done
-        t=`find $(SCRIPTSTAGE)/test/geographiclib.js -printf '%l'`; \
-        rm -f $(SCRIPTSTAGE)/geographiclib.js; \
-        ln -s $$t $(SCRIPTSTAGE)/geographiclib.js
-        t=`find $(SCRIPTSTAGE)/test/geographiclib.min.js -printf '%l'`; \
-        rm -f $(SCRIPTSTAGE)/geographiclib.min.js; \
-        ln -s $$t $(SCRIPTSTAGE)/geographiclib.min.js
-        rsync --exclude '*~' --exclude '.#*' --exclude '#*' --delete --delete-excluded -av -e ssh $(SCRIPTSTAGE)/ $(USER),geographiclib@web.sourceforge.net:./htdocs/scripts/
-
-============= nodejs-GeographicLib ===============
-/usr/lib/node_modules/geographiclib
-/usr/lib/node_modules/geographiclib/LICENSE.txt
-/usr/lib/node_modules/geographiclib/README.md
-/usr/lib/node_modules/geographiclib/geographiclib.js
-/usr/lib/node_modules/geographiclib/geographiclib.min.js
-/usr/lib/node_modules/geographiclib/package.json
-/usr/lib/node_modules/geographiclib/src
-/usr/lib/node_modules/geographiclib/src/DMS.js
-/usr/lib/node_modules/geographiclib/src/Geodesic.js
-/usr/lib/node_modules/geographiclib/src/GeodesicLine.js
-/usr/lib/node_modules/geographiclib/src/Math.js
-/usr/lib/node_modules/geographiclib/src/PolygonArea.js
-/usr/lib/node_modules/geographiclib/test
-/usr/lib/node_modules/geographiclib/test/geodesictest.js
-/usr/share/licenses/nodejs-GeographicLib
-/usr/share/licenses/nodejs-GeographicLib/LICENSE.txt
-============= node-geographiclib ==============
-/.
-/usr
-/usr/lib
-/usr/lib/nodejs
-/usr/lib/nodejs/geographiclib
-/usr/lib/nodejs/geographiclib/geographiclib.js
-/usr/lib/nodejs/geographiclib/geographiclib.min.js
-/usr/lib/nodejs/geographiclib/package.json
-/usr/lib/nodejs/geographiclib/src
-/usr/lib/nodejs/geographiclib/src/DMS.js
-/usr/lib/nodejs/geographiclib/src/Geodesic.js
-/usr/lib/nodejs/geographiclib/src/GeodesicLine.js
-/usr/lib/nodejs/geographiclib/src/Math.js
-/usr/lib/nodejs/geographiclib/src/PolygonArea.js
-/usr/lib/nodejs/geographiclib/test
-/usr/lib/nodejs/geographiclib/test/geodesictest.js
-/usr/share
-/usr/share/doc
-/usr/share/doc/node-geographiclib
-/usr/share/doc/node-geographiclib/README.md
-/usr/share/doc/node-geographiclib/changelog.Debian.gz
-/usr/share/doc/node-geographiclib/copyright
+Delete alpha/beta tgz files from distrib-JavaScript

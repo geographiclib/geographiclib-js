@@ -5,7 +5,7 @@ This repository hosts two JavaScript packages
 and
 [geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms).
 
-Prior to version 2.0, these were combined in [node package
+Prior to version 2.0.0, these were combined in [node package
 geographiclib](https://www.npmjs.com/package/geographiclib).  This
 package will be deprecated on 2023-05-01.
 
@@ -15,4 +15,5 @@ Licensed under the MIT/X11 License; see
 ## Documentation
 
 Full documentation is provided at
-[https://geographiclib.sourceforge.io/JavaScript/doc](https://geographiclib.sourceforge.io/JavaScript/doc).
+[https://geographiclib.sourceforge.io/JavaScript/doc](
+https://geographiclib.sourceforge.io/JavaScript/doc/index.html).
