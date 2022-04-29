@@ -14,7 +14,8 @@
   },
   "url": "https://geographiclib.sourceforge.net",
   "keywords": [
-    "DMS"
+    "DMS",
+    "degrees-minutes-seconds"
   ],
   "devDependencies": {
     "mocha": "^9.1.5",

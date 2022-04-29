@@ -2,7 +2,7 @@ Build with
 
   cmake -D BUILD_DOCUMENTATION=ON -B BUILD -S .
   cd BUILD
-  make
+  make all # packages up node packages
   make test
   make install
 

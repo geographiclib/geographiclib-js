@@ -10,26 +10,32 @@
  * https://geographiclib.sourceforge.io/
  */
 
-var GeographicLibDMS = {};
+var DMS = {};
 
 (function(
   /**
-   * @exports GeographicLibDMS
+   * @exports DMS
    * @description Decode/Encode angles expressed as degrees, minutes, and
    *   seconds.  This module defines several constants:
    *   - hemisphere indicator (returned by
-   *       {@link module:GeographicLibDMS.Decode Decode}) and a formatting
+   *       {@link module:DMS.Decode Decode}) and a formatting
    *       indicator (used by
-   *       {@link module:GeographicLibDMS.Encode Encode})
+   *       {@link module:DMS.Encode Encode})
    *     - NONE = 0, no designator and format as plain angle;
    *     - LATITUDE = 1, a N/S designator and format as latitude;
    *     - LONGITUDE = 2, an E/W designator and format as longitude;
    *     - AZIMUTH = 3, format as azimuth;
    *   - the specification of the trailing component in
-   *       {@link module:GeographicLibDMS.Encode Encode}
+   *       {@link module:DMS.Encode Encode}
    *     - DEGREE = 0;
    *     - MINUTE = 1;
    *     - SECOND = 2.
+   * @example
+   * var DMS = require("geographiclib-dms"),
+   *     ang = DMS.Decode("127:54:3.123123W");
+   * console.log("Azimuth " +
+   *     DMS.Encode(ang.val, DMS.MINUTE, 7, ang.ind) +
+   *     " = " + ang.val.toFixed(9));
    */
   d) {
   "use strict";
@@ -62,7 +68,7 @@ var GeographicLibDMS = {};
   /**
    * @summary Decode a DMS string.
    * @param {string} dms the string.
-   * @returns {object} r where r.val is the decoded value (degrees) and r.ind
+   * @return {object} r where r.val is the decoded value (degrees) and r.ind
    *   is a hemisphere designator, one of NONE, LATITUDE, LONGITUDE.
    * @throws an error if the string is illegal.
    *
@@ -84,9 +90,9 @@ var GeographicLibDMS = {};
    *   than 60.  A single leading sign is permitted.  A hemisphere designator
    *   (N, E, W, S) may be added to the beginning or end of the string.  The
    *   result is multiplied by the implied sign of the hemisphere designator
-   *   (negative for S and W).  In addition \e ind is set to DMS::LATITUDE if N
-   *   or S is present, to DMS::LONGITUDE if E or W is present, and to
-   *   DMS::NONE otherwise.  Leading and trailing whitespace is removed from
+   *   (negative for S and W).  In addition ind is set to DMS.LATITUDE if N
+   *   or S is present, to DMS.LONGITUDE if E or W is present, and to
+   *   DMS.NONE otherwise.  Leading and trailing whitespace is removed from
    *   the string before processing.  This routine throws an error on a
    *   malformed string.  No check is performed on the range of the result.
    *   Examples of legal and illegal strings are
@@ -114,11 +120,11 @@ var GeographicLibDMS = {};
    *   not allowed after the initial sign).  Examples of legal and illegal
    *   combinations are
    *   - <i>LEGAL</i> (these are all equivalent)
-   *     - 070:00:45, 70:01:15W+0:0.5, 70:01:15W-0:0:30W, W70:01:15+0:0:30E
+   *     - -070:00:45, 70:01:15W+0:0.5, 70:01:15W-0:0:30W, W70:01:15+0:0:30E
    *   - <i>ILLEGAL</i> (the exception thrown explains the problem)
    *     - 70:01:15W+0:0:15N, W70:01:15+W0:0:15
    *
-   *   <b>Warning</b> The "exponential" notation is not recognized.  Thus
+   *   <b>WARNING</b> The "exponential" notation is not recognized.  Thus
    *   <code>7.0E1</code> is illegal, while <code>7.0E+1</code> is parsed as
    *   <code>(7.0E) + (+1)</code>, yielding the same result as
    *   <code>8.0E</code>.
@@ -406,7 +412,7 @@ var GeographicLibDMS = {};
    * @param {string} strb the first string.
    * @param {bool} [longfirst = false] if true assume then longitude is given
    *   first (in the absence of any hemisphere indicators).
-   * @returns {object} r where r.lat is the decoded latitude and r.lon is the
+   * @return {object} r where r.lat is the decoded latitude and r.lon is the
    *   decoded longitude (both in degrees).
    * @throws an error if the strings are illegal.
    */
@@ -442,7 +448,7 @@ var GeographicLibDMS = {};
    * @summary Decode a DMS string interpreting it as an arc length.
    * @param {string} angstr the string (this must not include a hemisphere
    *   indicator).
-   * @returns {number} the arc length (degrees).
+   * @return {number} the arc length (degrees).
    * @throws an error if the string is illegal.
    */
   d.DecodeAngle = function(angstr) {
@@ -458,7 +464,7 @@ var GeographicLibDMS = {};
    * @summary Decode a DMS string interpreting it as an azimuth.
    * @param {string} azistr the string (this may include an E/W hemisphere
    *   indicator).
-   * @returns {number} the azimuth (degrees).
+   * @return {number} the azimuth (degrees).
    * @throws an error if the string is illegal.
    */
   d.DecodeAzimuth = function(azistr) {
@@ -482,7 +488,7 @@ var GeographicLibDMS = {};
    *   LATITUDE, LONGITUDE, AZIMUTH.
    * @param {char} [dmssep = NULL] if non-null, use as the DMS separator
    *   character.
-   * @returns {string} the resulting string formatted as follows:
+   * @return {string} the resulting string formatted as follows:
    *   * NONE, signed result no leading zeros on degrees except in the units
    *     place, e.g., -8&deg;03'.
    *   * LATITUDE, trailing N or S hemisphere designator, no sign, pad
@@ -492,11 +498,11 @@ var GeographicLibDMS = {};
    *   * AZIMUTH, convert to the range [0, 360&deg;), no sign, pad degrees to
    *     3 digits, e.g., 351&deg;57'.
    *
-   * <b>Warning</b> Because of implementation of JavaScript's toFixed function,
+   * <b>WARNING</b> Because of implementation of JavaScript's toFixed function,
    * this routine rounds ties away from zero.  This is different from the C++
-   * version of Geographic which implements the "round ties to even" rule.
+   * version of GeographicLib which implements the "round ties to even" rule.
    *
-   * <b>Warning</b> Angles whose magnitude is equal to or greater that
+   * <b>WARNING</b> Angles whose magnitude is equal to or greater than
    * 10<sup>21</sup> are printed as a plain number in exponential notation,
    * e.g., "1e21".
    */
@@ -597,4 +603,4 @@ var GeographicLibDMS = {};
                                (sign < 0 ? 0 : 1));
     return s;
   };
-})(GeographicLibDMS);
+})(DMS);

@@ -1,125 +1,116 @@
 Jump to
-* [GeographicLib namespace](#namespace)
+* [geodesic namespace](#namespace)
 * [Specifying the ellipsoid](#ellipsoid)
 * [Basic geodesic calculations](#basic)
 * [Computing waypoints](#waypoints)
 * [Measuring areas](#area)
 * [Degrees, minutes, seconds conversion](#dms)
 
-### <a name="namespace"></a>GeographicLib namespace
+### <a name="namespace"></a>geodesic namespace
 
-This capabilities of this package are all exposed through the
-{@link GeographicLib} namespace.  This is can brought into scope in
-various ways.
+This capabilities of these package are all exposed through the {@link
+geodesic} namespace and {@link module:DMS DMS} module.  These can
+brought into scope in various ways.
 
 #### Using node after installing the package with npm
 
-If [npm](https://www.npmjs.com) has been used to install geographiclib
-via one of
+If [npm](https://www.npmjs.com) has been used to install
+geographiclib-geodesic and geographiclib-dms via
 ```bash
-$ npm install geographiclib
-$ npm install --global geographiclib
+$ npm install geographiclib-geodesic
+$ npm install geographiclib-dms
 ```
 then in [node](https://nodejs.org), you can do
 ```javascript
-var GeographicLib = require("geographiclib");
+var geodesic = require("geographiclib-geodesic");
+var DMS = require("geographiclib-dms");
 ```
 
-#### Using node with a free-standing geographiclib.js
+The following descriptions mostly focus in the
+`geographiclib-geodesic` package.  Make the obvious substitutions are
+to load `geographiclib-dms`.
 
-If you have geographiclib.js (version 1.45 or later) in your current
+#### Using node with a free-standing geographiclib-geodesic.js
+
+If you have `geographiclib-geodesic.js` in your current
 directory, then [node](https://nodejs.org) can access it with
 ```javascript
-var GeographicLib = require("./geographiclib");
+var geodesic = require("./geographiclib-geodesic");
 ```
-A similar prescription works if geographiclib.js is installed elsewhere
-in your filesystem, replacing "./" above with the correct directory.
-Note that the directory must begin with "./", "../", or "/".
+A similar prescription works if `geographiclib-geodesic.js` is
+installed elsewhere in your filesystem, replacing "./" above with the
+correct directory.  Note that the directory must begin with "./",
+"../", or "/".
 
-#### HTML with your own version of geographiclib.min.js
+#### HTML with your own version of geographiclib-geodesic.min.js
 
-Load geographiclib.min.js with
+Load geographiclib-geodesic.min.js with
 ```html
-<script type="text/javascript" src="geographiclib.min.js">
+<script type="text/javascript" src="geographiclib-geodesic.min.js">
 </script>
 ```
 This ".min.js" version has been "minified" by removing comments and
 redundant white space; this is appropriate for web applications.
 
-#### HTML downloading geographiclib.min.js from SourceForge
+#### HTML downloading geographiclib-geodesic.min.js from SourceForge
 
-Load geographiclib.min.js with
+Load `geographiclib-geodesic.min.js` with
 ```html
-<script type="text/javascript"
-        src="https://geographiclib.sourceforge.io/scripts/geographiclib.min.js">
+<script
+  type="text/javascript"
+  src="https://geographiclib.sourceforge.io/scripts/geographiclib-geodesic.min.js">
 </script>
 ```
-This uses the latest version.  If you want use a specific version, load
-with, for example,
-```html
-<script type="text/javascript"
-        src="https://geographiclib.sourceforge.io/scripts/geographiclib-1.45.min.js">
-</script>
-```
-Browse
-[https://geographiclib.sourceforge.io/scripts](https://geographiclib.sourceforge.io/scripts)
-to see what versions are available.
 
-#### Loading geographiclib.min.js with AMD
+#### Loading scripts with AMD
 
 This uses [require.js](http://requirejs.org/) (which you can download
 [here](http://requirejs.org/docs/download.html)) to load geographiclib
-(version 1.45 or later) asynchronously.  Your web page includes
+asynchronously.  Your web page includes
 ```html
-<script type="text/javascript" src="require.js"></script>
-<script type="text/javascript" src="main.js"></script>
+<script data-main="main" src="require.js"></script>
 ```
-where main.js contains, for example,
+where `main.js` contains, for example,
 ```javascript
-require.config({
-  paths: {
-    geographiclib: "./geographiclib.min"
-    }
-});
-
-define(["geographiclib"], function(GeographicLib) {
-  // do something with GeographicLib here.
+requirejs(["geographiclib-geodesic", "geographiclib-dms"],
+          function(geodesic, DMS) {
+  // do something with geodesic  and DMS here.
 });
 ```
 
 ### <a name="ellipsoid"></a>Specifying the ellipsoid
 
-Once {@link GeographicLib} has been brought into scope, the ellipsoid is
-defined via the {@link module:GeographicLib/Geodesic.Geodesic Geodesic}
+Once {@link geodesic} has been brought into scope, the ellipsoid is
+defined via the {@link module:geodesic/Geodesic.Geodesic Geodesic}
 constructor using the equatorial radius *a* in meters and the flattening
 *f*, for example
 ```javascipt
-var geod = new GeographicLib.Geodesic.Geodesic(6378137, 1/298.257223563);
+var geod = new geodesic.Geodesic.Geodesic(6378137, 1/298.257223563);
 ```
 These are the parameters for the WGS84 ellipsoid and this comes predefined
 by the package as
 ```javascipt
-var geod = GeographicLib.Geodesic.WGS84;
+var geod = geodesic.Geodesic.WGS84;
 ```
 Note that you can set *f* = 0 to give a sphere (on which geodesics are
 great circles) and *f* &lt; 0 to give a prolate ellipsoid.
 
 The rest of the examples on this page assume the following assignments
 ```javascript
-var GeographicLib = require("geographiclib");
-var Geodesic = GeographicLib.Geodesic,
-    DMS = GeographicLib.DMS,
-    geod = Geodesic.WGS84;
+var geodesic = require("geographiclib-geodesic"),
+    DMS =  require("geographiclib-dms");
+    geod = geodesic.Geodesic.WGS84;
 ```
-with the understanding that the first line should be replaced with the
-appropriate construction needed to bring the
-[GeographicLib namespace](#namespace) into scope.
+with the understanding that the first two lines should be replaced
+with the appropriate construction needed to bring the {@link geodesic}
+and {@link module:DMS DMS} into scope.  Of course, if you aren't doing
+DMS conversions, there's no need to define `DMS`.
 
 ### <a name="basic"></a>Basic geodesic calculations
 
 The distance from Wellington, NZ (41.32S, 174.81E) to Salamanca, Spain
 (40.96N, 5.50W) using
-{@link module:GeographicLib/Geodesic.Geodesic#Inverse
+{@link module:geodesic/Geodesic.Geodesic#Inverse
 Geodesic.Inverse}:
 ```javascript
 var r = geod.Inverse(-41.32, 174.81, 40.96, -5.50);
@@ -128,7 +119,7 @@ console.log("The distance is " + r.s12.toFixed(3) + " m.");
 &rarr;`The distance is 19959679.267 m.`
 
 The point the point 20000 km SW of Perth, Australia (32.06S, 115.74E) using
-{@link module:GeographicLib/Geodesic.Geodesic#Direct
+{@link module:geodesic/Geodesic.Geodesic#Direct
 Geodesic.Direct}:
 ```javascript
 var r = geod.Direct(-32.06, 115.74, 225, 20000e3);
@@ -152,9 +143,9 @@ console.log("The area is " + r.S12.toFixed(1) + " m^2");
 Consider the geodesic between Beijing Airport (40.1N, 116.6E) and San
 Fransisco Airport (37.6N, 122.4W).  Compute waypoints and azimuths at
 intervals of 1000 km using
-{@link module:GeographicLib/Geodesic.Geodesic#InverseLine
+{@link module:geodesic/Geodesic.Geodesic#InverseLine
 Geodesic.InverseLine} and
-{@link module:GeographicLib/GeodesicLine.GeodesicLine#Position
+{@link module:geodesic/GeodesicLine.GeodesicLine#Position
 GeodesicLine.Position}:
 ```javascript
 var l = geod.InverseLine(40.1, 116.6, 37.6, -122.4),
@@ -184,7 +175,7 @@ distance latitude longitude azimuth
 9513998 37.60000 237.60000 138.89027
 ```
 The inclusion of Geodesic.LONG_UNROLL in the call to
-{@link module:GeographicLib/GeodesicLine.GeodesicLine#Position
+{@link module:geodesic/GeodesicLine.GeodesicLine#Position
 GeodesicLine.Position} ensures that the longitude does not jump on
 crossing the international dateline.
 
@@ -192,7 +183,7 @@ If the purpose of computing the waypoints is to plot a smooth geodesic,
 then it's not important that they be exactly equally spaced.  In this
 case, it's faster to parameterize the line in terms of the spherical arc
 length with
-{@link module:GeographicLib/GeodesicLine.GeodesicLine#ArcPosition
+{@link module:geodesic/GeodesicLine.GeodesicLine#ArcPosition
 GeodesicLine.ArcPosition} instead of the distance.  Here the spacing is
 about 1&deg; of arc which means that the distance between the waypoints
 will be about 60 NM.
@@ -232,9 +223,9 @@ The variation in the distance between these waypoints is on the order of
 ### <a name="area"></a>Measuring areas
 
 Measure the area of Antarctica using
-{@link module:GeographicLib/Geodesic.Geodesic#Polygon
+{@link module:geodesic/Geodesic.Geodesic#Polygon
 Geodesic.Polygon} and the
-{@link module:GeographicLib/PolygonArea.PolygonArea
+{@link module:geodesic/PolygonArea.PolygonArea
 PolygonArea} class:
 ```javascript
 var p = geod.Polygon(false), i,
@@ -254,14 +245,14 @@ console.log("Perimeter/area of Antarctica are " +
 &rarr;`Perimeter/area of Antarctica are 16831067.893 m / 13662703680020.1 m^2.`
 
 If the points of the polygon are being selected interactively, then
-{@link module:GeographicLib/PolygonArea.PolygonArea#TestPoint
+{@link module:geodesic/PolygonArea.PolygonArea#TestPoint
 PolygonArea.TestPoint} can be used to report the area and perimeter for
 a polygon with a tentative final vertex which tracks the mouse pointer.
 
 ### <a name="dms"></a>Degrees, minutes, seconds conversion
 
 Compute the azimuth for geodesic from JFK (73.8W, 40.6N) to Paris CDG
-(49°01'N, 2°33'E) using the {@link module:GeographicLib/DMS DMS} module:
+(49°01'N, 2°33'E) using the {@link module:DMS DMS} module:
 ```javascript
 var c = "73.8W 40.6N 49°01'N 2°33'E".split(" "),
     p1 = DMS.DecodeLatLon(c[0], c[1]),

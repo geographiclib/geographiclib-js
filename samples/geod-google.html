@@ -37,7 +37,7 @@
         URL for a specific version is, for example,
         https://geographiclib.sourceforge.io/scripts/geographiclib-1.45.min.js
       -->
-    <script type="text/javascript" src="geographiclib.min.js"></script>
+    <script type="text/javascript" src="geographiclib-geodesic.min.js"></script>
     <script type="text/javascript" src="geographiclib-dms.min.js"></script>
 
     <!--
@@ -52,10 +52,9 @@
     </script>
     <script type="text/javascript">
 "use strict";
-
-var g = GeographicLib.Geodesic,
+var g = geodesic.Geodesic,
     geod = g.WGS84,
-    dms = GeographicLibDMS,
+    dms = DMS,
     geodesic, circle, envelope, map;
 
 /*
@@ -330,7 +329,7 @@ function clearPaths() {
         &nbsp;&nbsp;
         <a href="geod-google-instructions.html"><b>INSTRUCTIONS</b></a>
         (v<script type="text/javascript">
-          document.write(GeographicLib.Constants.version_string);
+          document.write(geodesic.Constants.version_string);
         </script>)
       </p>
   </div>

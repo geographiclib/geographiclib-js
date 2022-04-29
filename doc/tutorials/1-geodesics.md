@@ -33,13 +33,13 @@ Traditionally two geodesic problems are considered:
   &lambda;<sub>1</sub>, &alpha;<sub>1</sub>, *s*<sub>12</sub>,
   determine &phi;<sub>2</sub>, &lambda;<sub>2</sub>, and
   &alpha;<sub>2</sub>; this is solved by
-  {@link module:GeographicLib/Geodesic.Geodesic#Direct Geodesic.Direct}.
+  {@link module:geodesic/Geodesic.Geodesic#Direct Geodesic.Direct}.
 
 * the inverse problem &mdash; given &phi;<sub>1</sub>,
   &lambda;<sub>1</sub>, &phi;<sub>2</sub>, &lambda;<sub>2</sub>,
   determine *s*<sub>12</sub>, &alpha;<sub>1</sub>, and
   &alpha;<sub>2</sub>; this is solved by
-  {@link module:GeographicLib/Geodesic.Geodesic#Inverse Geodesic.Inverse}.
+  {@link module:geodesic/Geodesic.Geodesic#Inverse Geodesic.Inverse}.
 
 ### <a name="additional"></a>Additional properties
 
@@ -120,6 +120,15 @@ catalog of those cases:
   [&alpha;<sub>1</sub>,&alpha;<sub>2</sub>] &larr;
   [&alpha;<sub>1</sub>,&alpha;<sub>2</sub>] + [&delta;,&delta;], for
   arbitrary &delta;.
+
+### <a name="multiple"></a>Area of a polygon
+
+The area of a geodesic polygon can be determined by summing &minus;*S12*
+for successive edges of the polygon (*S12* is negated so that
+clockwise traversal of a polygon gives a positive area).  However, if
+the polygon encircles a pole, the sum must be adjusted by
+&plusmn;*A*/2, where *A* is the area of the full ellipsoid, with
+the sign chosen to place the result in (&minus;*A*/2, *A*/2].
 
 ### <a name="background"></a>Background
 

@@ -38,11 +38,10 @@ Full documentation is provided at
 ## Examples
 
 ```javascript
-var  d = require("geographiclib-dms"), ang;
-
-ang = d.Decode("127:54:3.123123W");
+var DMS = require("geographiclib-dms"),
+    ang = DMS.Decode("127:54:3.123123W");
 console.log("Azimuth " +
-  d.Encode(ang.val, d.MINUTE, 7, ang.ind) +
+  DMS.Encode(ang.val, DMS.MINUTE, 7, ang.ind) +
   " = " + ang.val.toFixed(9));
 // This prints "Azimuth 127°54.0520521'W = -127.900867534"
 ```

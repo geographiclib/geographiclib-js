@@ -16,9 +16,9 @@ pole, the azimuth is defined by keeping the longitude fixed, writing
 ### <a name="results"></a>The results
 
 The results returned by
-{@link module:GeographicLib/Geodesic.Geodesic#Inverse Geodesic.Direct},
-{@link module:GeographicLib/Geodesic.Geodesic#Inverse Geodesic.Inverse},
-{@link module:GeographicLib/GeodesicLine.GeodesicLine#Position
+{@link module:geodesic/Geodesic.Geodesic#Inverse Geodesic.Direct},
+{@link module:geodesic/Geodesic.Geodesic#Inverse Geodesic.Inverse},
+{@link module:geodesic/GeodesicLine.GeodesicLine#Position
 GeodesicLine.Position}, etc., return an object with
 (some) of the following 12 fields set:
 * *lat1* = &phi;<sub>1</sub>, latitude of point 1 (degrees)
@@ -46,7 +46,7 @@ By default, the geodesic routines return the 7 basic quantities: *lat1*,
 *lon1*, *azi1*, *lat2*, *lon2*, *azi2*, *s12*, together with the arc
 length *a12*.  The optional output mask parameter, *outmask*, can be
 used to tailor which quantities to calculate.  In addition, when a
-{@link module:GeographicLib/GeodesicLine.GeodesicLine GeodesicLine} is
+{@link module:geodesic/GeodesicLine.GeodesicLine GeodesicLine} is
 constructed it can be provided with the optional capabilities parameter,
 *caps*, which specifies what quantities can be returned from the
 resulting object.
@@ -68,7 +68,7 @@ values
 * Geodesic.LONG_UNROLL, unroll longitudes.
 
 Geodesic.DISTANCE_IN is a capability provided to the
-{@link module:GeographicLib/GeodesicLine.GeodesicLine GeodesicLine}
+{@link module:geodesic/GeodesicLine.GeodesicLine GeodesicLine}
 constructor.  It allows the position on the line to specified in terms
 of distance.  (Without this, the position can only be specified in terms
 of the arc length.)  This only makes sense in the *caps* parameter.

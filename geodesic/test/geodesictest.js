@@ -90,7 +90,7 @@ assert.approx = function(x, y, d) {
   assert(Math.abs(x-y) <= d, x + " = " + y + " +/- " + d);
 };
 
-describe("GeographicLib", function() {
+describe("geodesic", function() {
   describe("GeodesicTest", function () {
     var geod = g.WGS84, i,
         check_geod_inverse, check_geod_direct, check_geod_arcdirect;

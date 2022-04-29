@@ -1,4 +1,4 @@
-cb(GeographicLibDMS);
+cb(DMS);
 
 })(function(dms) {
   if (typeof module === 'object' && module.exports) {
@@ -6,9 +6,9 @@ cb(GeographicLibDMS);
     module.exports = dms;
   } else if (typeof define === 'function' && define.amd) {
     /******** support loading with AMD ********/
-    define('geographiclibdms', [], function() { return dms; });
+    define('geographiclib-dms', [], function() { return dms; });
   } else {
     /******** otherwise just pollute our global namespace ********/
-    window.GeographicLibDMS = dms;
+    window.DMS = dms;
   }
 });

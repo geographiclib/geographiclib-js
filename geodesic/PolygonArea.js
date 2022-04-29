@@ -17,13 +17,13 @@
  * https://geographiclib.sourceforge.io/
  */
 
-// Load AFTER GeographicLib/Math.js and GeographicLib/Geodesic.js
+// Load AFTER geodesic/Math.js and geodesic/Geodesic.js
 
 (function(
   /**
-   * @exports GeographicLib/PolygonArea
+   * @exports geodesic/PolygonArea
    * @description Compute the area of geodesic polygons via the
-   *   {@link module:GeographicLib/PolygonArea.PolygonArea PolygonArea}
+   *   {@link module:geodesic/PolygonArea.PolygonArea PolygonArea}
    *   class.
    */
   p, g, m, a) {
@@ -117,8 +117,8 @@
    * @summary Initialize a PolygonArea object.
    * @classdesc Computes the area and perimeter of a geodesic polygon.
    *   This object is usually instantiated by
-   *   {@link module:GeographicLib/Geodesic.Geodesic#Polygon Geodesic.Polygon}.
-   * @param {object} geod a {@link module:GeographicLib/Geodesic.Geodesic
+   *   {@link module:geodesic/Geodesic.Geodesic#Polygon Geodesic.Polygon}.
+   * @param {object} geod a {@link module:geodesic/Geodesic.Geodesic
    *   Geodesic} object.
    * @param {bool} [polyline = false] if true the new PolygonArea object
    *   describes a polyline instead of a polygon.
@@ -203,7 +203,7 @@
    * @param {bool} sign if true then return a signed result for the area if the
    *   polygon is traversed in the "wrong" direction instead of returning the
    *   area for the rest of the earth.
-   * @returns {object} r where r.number is the number of vertices, r.perimeter
+   * @return {object} r where r.number is the number of vertices, r.perimeter
    *   is the perimeter (meters), and r.area (only returned if polyline is
    *   false) is the area (meters<sup>2</sup>).
    * @description Arbitrarily complex polygons are allowed.  In the case of
@@ -247,7 +247,7 @@
    * @param {bool} sign if true then return a signed result for the area if the
    *   polygon is traversed in the "wrong" direction instead of returning the
    *   area for the rest of the earth.
-   * @returns {object} r where r.number is the number of vertices, r.perimeter
+   * @return {object} r where r.number is the number of vertices, r.perimeter
    *   is the perimeter (meters), and r.area (only returned if polyline is
    *   false) is the area (meters<sup>2</sup>).
    * @description A new vertex is *not* added to the polygon.
@@ -293,7 +293,7 @@
    * @param {bool} sign if true then return a signed result for the area if the
    *   polygon is traversed in the "wrong" direction instead of returning the
    *   area for the rest of the earth.
-   * @returns {object} r where r.number is the number of vertices, r.perimeter
+   * @return {object} r where r.number is the number of vertices, r.perimeter
    *   is the perimeter (meters), and r.area (only returned if polyline is
    *   false) is the area (meters<sup>2</sup>).
    * @description A new vertex is *not* added to the polygon.
@@ -320,5 +320,5 @@
     return vals;
   };
 
-})(GeographicLib.PolygonArea, GeographicLib.Geodesic,
-   GeographicLib.Math, GeographicLib.Accumulator);
+})(geodesic.PolygonArea, geodesic.Geodesic,
+   geodesic.Math, geodesic.Accumulator);

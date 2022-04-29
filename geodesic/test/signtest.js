@@ -14,7 +14,7 @@ assert.sincosCheck = function(v, s, c) {
   assert.strictEqual(v.c, c);
 };
 
-describe("GeographicLib", function() {
+describe("geodesic", function() {
   describe("SignTest", function () {
 
     it("check AngRound", function () {

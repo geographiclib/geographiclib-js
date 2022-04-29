@@ -24,18 +24,17 @@
                    GeographicLib" />
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <!--
-        Full URL for latest version of geographiclib.min.js is
-        https://geographiclib.sourceforge.io/scripts/geographiclib.min.js
-        URL for a specific version is, for example,
-        https://geographiclib.sourceforge.io/scripts/geographiclib-1.45.min.js
+Full URLs for latest versions are
+https://geographiclib.sourceforge.io/scripts/geographiclib-geodesic.min.js
+https://geographiclib.sourceforge.io/scripts/geographiclib-dms.min.js
       -->
-    <script type="text/javascript" src="geographiclib.min.js"></script>
+    <script type="text/javascript" src="geographiclib-geodesic.min.js"></script>
     <script type="text/javascript" src="geographiclib-dms.min.js"></script>
     <script type="text/javascript">
 "use strict";
-var g = GeographicLib.Geodesic,
+var g = geodesic.Geodesic,
     geod = g.WGS84,
-    dms = GeographicLibDMS;
+    dms = DMS;
 
 /*
  * Compute the area of a polygon
@@ -231,8 +230,7 @@ function GeodesicArea(input, polyline) {
       JavaScript package
       <a href="https://www.npmjs.com/package/geographiclib">
         geographiclib, the geodesic routines in GeographicLib</a>
-      (<a href="https://geographiclib.sourceforge.io/html/js/">
-        documentation</a>).
+      (<a href="../JavaScript/doc/index.html"> documentation</a>).
       The algorithms are considerably more accurate than Vincenty's
       method, and offer more functionality (an inverse method which
       never fails to converge, differential properties of the geodesic,
@@ -247,8 +245,7 @@ function GeodesicArea(input, polyline) {
           10.1007/s00190-012-0578-z</a>
         (<a href="https://doi.org/10.1007/s00190-012-0578-z">pdf</a>);
         addenda:
-        <a href="https://geographiclib.sourceforge.io/geod-addenda.html">
-          geod-addenda.html</a>.
+        <a href="../geod-addenda.html"> geod-addenda.html</a>.
       </blockquote>
       This page just provides a basic interface.  Enter latitudes,
       longitudes, and azimuths as degrees and distances as meters using
@@ -267,7 +264,7 @@ function GeodesicArea(input, polyline) {
         Planimeter</a>;
       these call a C++ backend.  This page uses version
       <script type="text/javascript">
-        document.write(GeographicLib.Constants.version_string);
+        document.write(geodesic.Constants.version_string);
       </script>
       of the geodesic code.
     <p>

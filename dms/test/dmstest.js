@@ -3,7 +3,7 @@
 var assert = require("assert"),
     d = require("../geographiclib-dms");
 
-describe("GeographicLibDMS", function() {
+describe("DMS", function() {
   describe("DMSTest", function () {
 
     it("check decode", function () {

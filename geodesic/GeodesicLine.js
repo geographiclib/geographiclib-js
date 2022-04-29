@@ -17,14 +17,14 @@
  * https://geographiclib.sourceforge.io/
  */
 
-// Load AFTER GeographicLib/Math.js, GeographicLib/Geodesic.js
+// Load AFTER geodesic/Math.js, geodesic/Geodesic.js
 
 (function(
   g,
   /**
-   * @exports GeographicLib/GeodesicLine
+   * @exports geodesic/GeodesicLine
    * @description Solve geodesic problems on a single geodesic line via the
-   *   {@link module:GeographicLib/GeodesicLine.GeodesicLine GeodesicLine}
+   *   {@link module:geodesic/GeodesicLine.GeodesicLine GeodesicLine}
    *   class.
    */
   l, m) {
@@ -47,14 +47,14 @@
    *   parameters".
    * @classdesc Performs geodesic calculations along a given geodesic line.
    *   This object is usually instantiated by
-   *   {@link module:GeographicLib/Geodesic.Geodesic#Line Geodesic.Line}.
+   *   {@link module:geodesic/Geodesic.Geodesic#Line Geodesic.Line}.
    *   The methods
-   *   {@link module:GeographicLib/Geodesic.Geodesic#DirectLine
+   *   {@link module:geodesic/Geodesic.Geodesic#DirectLine
    *   Geodesic.DirectLine} and
-   *   {@link module:GeographicLib/Geodesic.Geodesic#InverseLine
+   *   {@link module:geodesic/Geodesic.Geodesic#InverseLine
    *   Geodesic.InverseLine} set in addition the position of a reference point
    *   3.
-   * @param {object} geod a {@link module:GeographicLib/Geodesic.Geodesic
+   * @param {object} geod a {@link module:geodesic/Geodesic.Geodesic
    *   Geodesic} object.
    * @param {number} lat1 the latitude of the first point in degrees.
    * @param {number} lon1 the longitude of the first point in degrees.
@@ -163,7 +163,7 @@
    *   first point to the second in (arcmode ? degrees : meters).
    * @param {bitmask} [outmask = STANDARD] which results to include; this is
    *   subject to the capabilities of the object.
-   * @returns {object} the requested results.
+   * @return {object} the requested results.
    * @description The lat1, lon1, azi1, and a12 fields of the result are
    *   always set; s12 is included if arcmode is false.  For details on the
    *   outmask parameter, see {@tutorial 2-interface}, "The outmask and caps
@@ -347,7 +347,7 @@
    *   meters.
    * @param {bitmask} [outmask = STANDARD] which results to include; this is
    *   subject to the capabilities of the object.
-   * @returns {object} the requested results.
+   * @return {object} the requested results.
    * @description The lat1, lon1, azi1, s12, and a12 fields of the result are
    *   always set; s12 is included if arcmode is false.  For details on the
    *   outmask parameter, see {@tutorial 2-interface}, "The outmask and caps
@@ -363,7 +363,7 @@
    *   degrees.
    * @param {bitmask} [outmask = STANDARD] which results to include; this is
    *   subject to the capabilities of the object.
-   * @returns {object} the requested results.
+   * @return {object} the requested results.
    * @description The lat1, lon1, azi1, and a12 fields of the result are
    *   always set.  For details on the outmask parameter, see {@tutorial
    *   2-interface}, "The outmask and caps parameters".
@@ -413,4 +413,4 @@
     this.s13 = 0 + r.s12;       // the 0+ converts undefined into NaN
   };
 
-})(GeographicLib.Geodesic, GeographicLib.GeodesicLine, GeographicLib.Math);
+})(geodesic.Geodesic, geodesic.GeodesicLine, geodesic.Math);

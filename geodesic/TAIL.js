@@ -1,4 +1,4 @@
-cb(GeographicLib);
+cb(geodesic);
 
 })(function(geo) {
   if (typeof module === 'object' && module.exports) {
@@ -6,9 +6,9 @@ cb(GeographicLib);
     module.exports = geo;
   } else if (typeof define === 'function' && define.amd) {
     /******** support loading with AMD ********/
-    define('geographiclib', [], function() { return geo; });
+    define('geographiclib-geodesic', [], function() { return geo; });
   } else {
     /******** otherwise just pollute our global namespace ********/
-    window.GeographicLib = geo;
+    window.geodesic = geo;
   }
 });

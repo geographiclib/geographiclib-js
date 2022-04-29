@@ -22,15 +22,15 @@
 // To allow swap via [y, x] = [x, y]
 /* jshint esversion: 6 */
 
-GeographicLib.Geodesic = {};
-GeographicLib.GeodesicLine = {};
-GeographicLib.PolygonArea = {};
+geodesic.Geodesic = {};
+geodesic.GeodesicLine = {};
+geodesic.PolygonArea = {};
 
 (function(
   /**
-   * @exports GeographicLib/Geodesic
+   * @exports geodesic/Geodesic
    * @description Solve geodesic problems via the
-   *   {@link module:GeographicLib/Geodesic.Geodesic Geodesic} class.
+   *   {@link module:geodesic/Geodesic.Geodesic Geodesic} class.
    */
   g, l, p, m, c) {
   "use strict";
@@ -282,8 +282,8 @@ GeographicLib.PolygonArea = {};
    *   lon2, azi2, s12, a12, m12, M12, M21, S12.  See {@tutorial 2-interface},
    *   section "The results".
    * @example
-   * var GeographicLib = require("geographiclib"),
-   *     geod = GeographicLib.Geodesic.WGS84;
+   * var geodesic = require("geographiclib-geodesic"),
+   *     geod = geodesic.Geodesic.WGS84;
    * var inv = geod.Inverse(1,2,3,4);
    * console.log("lat1 = " + inv.lat1 + ", lon1 = " + inv.lon1 +
    *             ", lat2 = " + inv.lat2 + ", lon2 = " + inv.lon2 +
@@ -797,7 +797,7 @@ GeographicLib.PolygonArea = {};
    * @param {number} lat2 the latitude of the second point in degrees.
    * @param {number} lon2 the longitude of the second point in degrees.
    * @param {bitmask} [outmask = STANDARD] which results to include.
-   * @returns {object} the requested results
+   * @return {object} the requested results
    * @description The lat1, lon1, lat2, lon2, and a12 fields of the result are
    *   always set.  For details on the outmask parameter, see {@tutorial
    *   2-interface}, "The outmask and caps parameters".
@@ -1184,7 +1184,7 @@ GeographicLib.PolygonArea = {};
    * @param {number} s12_a12 the (arcmode ? arc length : distance) from the
    *   first point to the second in (arcmode ? degrees : meters).
    * @param {bitmask} [outmask = STANDARD] which results to include.
-   * @returns {object} the requested results.
+   * @return {object} the requested results.
    * @description The lat1, lon1, azi1, and a12 fields of the result are always
    *   set; s12 is included if arcmode is false.  For details on the outmask
    *   parameter, see {@tutorial 2-interface}, "The outmask and caps
@@ -1209,7 +1209,7 @@ GeographicLib.PolygonArea = {};
    * @param {number} s12 the distance from the first point to the second in
    *   meters.
    * @param {bitmask} [outmask = STANDARD] which results to include.
-   * @returns {object} the requested results.
+   * @return {object} the requested results.
    * @description The lat1, lon1, azi1, s12, and a12 fields of the result are
    *   always set.  For details on the outmask parameter, see {@tutorial
    *   2-interface}, "The outmask and caps parameters".
@@ -1226,7 +1226,7 @@ GeographicLib.PolygonArea = {};
    * @param {number} a12 the arc length from the first point to the second in
    *   degrees.
    * @param {bitmask} [outmask = STANDARD] which results to include.
-   * @returns {object} the requested results.
+   * @return {object} the requested results.
    * @description The lat1, lon1, azi1, and a12 fields of the result are
    *   always set.  For details on the outmask parameter, see {@tutorial
    *   2-interface}, "The outmask and caps parameters".
@@ -1236,7 +1236,7 @@ GeographicLib.PolygonArea = {};
   };
 
   /**
-   * @summary Create a {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @summary Create a {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} object.
    * @param {number} lat1 the latitude of the first point in degrees.
    * @param {number} lon1 the longitude of the first point in degrees.
@@ -1244,8 +1244,8 @@ GeographicLib.PolygonArea = {};
    *   degrees.
    * @param {bitmask} [caps = STANDARD | DISTANCE_IN] which capabilities to
    *   include.
-   * @returns {object} the
-   *   {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @return {object} the
+   *   {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} object
    * @description For details on the caps parameter, see {@tutorial
    *   2-interface}, "The outmask and caps parameters".
@@ -1255,7 +1255,7 @@ GeographicLib.PolygonArea = {};
   };
 
   /**
-   * @summary Define a {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @summary Define a {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} in terms of the direct geodesic problem specified in terms
    *   of distance.
    * @param {number} lat1 the latitude of the first point in degrees.
@@ -1266,8 +1266,8 @@ GeographicLib.PolygonArea = {};
    *   can be negative.
    * @param {bitmask} [caps = STANDARD | DISTANCE_IN] which capabilities to
    *   include.
-   * @returns {object} the
-   *   {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @return {object} the
+   *   {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} object
    * @description This function sets point 3 of the GeodesicLine to correspond
    *   to point 2 of the direct geodesic problem.  For details on the caps
@@ -1279,7 +1279,7 @@ GeographicLib.PolygonArea = {};
   };
 
   /**
-   * @summary Define a {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @summary Define a {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} in terms of the direct geodesic problem specified in terms
    *   of arc length.
    * @param {number} lat1 the latitude of the first point in degrees.
@@ -1290,8 +1290,8 @@ GeographicLib.PolygonArea = {};
    *   it can be negative.
    * @param {bitmask} [caps = STANDARD | DISTANCE_IN] which capabilities to
    *   include.
-   * @returns {object} the
-   *   {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @return {object} the
+   *   {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} object
    * @description This function sets point 3 of the GeodesicLine to correspond
    *   to point 2 of the direct geodesic problem.  For details on the caps
@@ -1303,7 +1303,7 @@ GeographicLib.PolygonArea = {};
   };
 
   /**
-   * @summary Define a {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @summary Define a {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} in terms of the direct geodesic problem specified in terms
    *   of either distance or arc length.
    * @param {number} lat1 the latitude of the first point in degrees.
@@ -1317,8 +1317,8 @@ GeographicLib.PolygonArea = {};
    *   point 1 and point 2 (degrees); it can be negative.
    * @param {bitmask} [caps = STANDARD | DISTANCE_IN] which capabilities to
    *   include.
-   * @returns {object} the
-   *   {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @return {object} the
+   *   {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} object
    * @description This function sets point 3 of the GeodesicLine to correspond
    *   to point 2 of the direct geodesic problem.  For details on the caps
@@ -1337,7 +1337,7 @@ GeographicLib.PolygonArea = {};
   };
 
   /**
-   * @summary Define a {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @summary Define a {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} in terms of the inverse geodesic problem.
    * @param {number} lat1 the latitude of the first point in degrees.
    * @param {number} lon1 the longitude of the first point in degrees.
@@ -1345,8 +1345,8 @@ GeographicLib.PolygonArea = {};
    * @param {number} lon2 the longitude of the second point in degrees.
    * @param {bitmask} [caps = STANDARD | DISTANCE_IN] which capabilities to
    *   include.
-   * @returns {object} the
-   *   {@link module:GeographicLib/GeodesicLine.GeodesicLine
+   * @return {object} the
+   *   {@link module:geodesic/GeodesicLine.GeodesicLine
    *   GeodesicLine} object
    * @description This function sets point 3 of the GeodesicLine to correspond
    *   to point 2 of the inverse geodesic problem.  For details on the caps
@@ -1366,12 +1366,12 @@ GeographicLib.PolygonArea = {};
   };
 
   /**
-   * @summary Create a {@link module:GeographicLib/PolygonArea.PolygonArea
+   * @summary Create a {@link module:geodesic/PolygonArea.PolygonArea
    *   PolygonArea} object.
    * @param {bool} [polyline = false] if true the new PolygonArea object
    *   describes a polyline instead of a polygon.
-   * @returns {object} the
-   *   {@link module:GeographicLib/PolygonArea.PolygonArea
+   * @return {object} the
+   *   {@link module:geodesic/PolygonArea.PolygonArea
    *   PolygonArea} object
    */
   g.Geodesic.prototype.Polygon = function(polyline) {
@@ -1379,10 +1379,10 @@ GeographicLib.PolygonArea = {};
   };
 
   /**
-   * @summary a {@link module:GeographicLib/Geodesic.Geodesic Geodesic} object
+   * @summary a {@link module:geodesic/Geodesic.Geodesic Geodesic} object
    *   initialized for the WGS84 ellipsoid.
    * @constant {object}
    */
   g.WGS84 = new g.Geodesic(c.WGS84.a, c.WGS84.f);
-})(GeographicLib.Geodesic, GeographicLib.GeodesicLine,
-   GeographicLib.PolygonArea, GeographicLib.Math, GeographicLib.Constants);
+})(geodesic.Geodesic, geodesic.GeodesicLine,
+   geodesic.PolygonArea, geodesic.Math, geodesic.Constants);

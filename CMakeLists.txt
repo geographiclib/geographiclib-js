@@ -9,7 +9,7 @@ set (PROJECT_VERSION_PATCH 0)
 # Always include patch number in version
 set (PROJECT_VERSION
   "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-set (PROJECT_VERSION_SUFFIX "-alpha")
+set (PROJECT_VERSION_SUFFIX "-beta1")
 set (PROJECT_FULLVERSION "${PROJECT_VERSION}${PROJECT_VERSION_SUFFIX}")
 
 set (RELEASE_DATE "2021-mm-dd")
@@ -66,6 +66,19 @@ if (NPM)
     VERBATIM)
   add_custom_target (pack ALL
     DEPENDS ${PACKGEOD} ${PACKDMS} bundlegeod bundledms)
+  if (RSYNC)
+    set (USER karney)
+    set (DATAROOT $ENV{HOME}/web/geographiclib-files/distrib-JavaScript)
+    set (FRSDEPLOY ${USER}@frs.sourceforge.net:/home/frs/project/geographiclib)
+    add_custom_target (stage-dist
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+	 ${PACKGEOD} ${PACKDMS} ${PROJECT_SOURCE_DIR}/distrib-JavaScript/
+      COMMAND ${RSYNC} --delete -av --exclude '*~'
+	${PROJECT_SOURCE_DIR}/distrib-JavaScript/ ${DATAROOT}/)
+    add_dependencies (stage-dist pack)
+    add_custom_target (deploy-dist
+      COMMAND ${RSYNC} --delete -av ${DATAROOT} ${FRSDEPLOY}/)
+  endif ()
 endif ()
 
 if (IS_DIRECTORY ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)

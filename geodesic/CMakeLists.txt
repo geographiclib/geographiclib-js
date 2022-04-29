@@ -25,8 +25,8 @@ foreach (_f ${TESTS})
   configure_file (test/${_f} ${DESTGEOD}/test/${_f} COPYONLY)
 endforeach ()
 
-configure_file (types/${GEOD_PROJECT}.d.ts ${DESTGEOD}/types/${GEOD_PROJECT}.d.ts
-  COPYONLY)
+configure_file (types/${GEOD_PROJECT}.d.ts
+  ${DESTGEOD}/types/${GEOD_PROJECT}.d.ts COPYONLY)
 
 add_custom_command (OUTPUT ${PACKAGEDGEODJS}
   COMMAND ${CMAKE_COMMAND} -E cat ${BUNDLEFILES} > ${PACKAGEDGEODJS}

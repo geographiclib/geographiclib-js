@@ -26,7 +26,7 @@ $ npm install geographiclib-geodesic
 
 In [node](https://nodejs.org), do
 ```javascript
-var g = require("geographiclib-geodesic");
+var geodesic = require("geographiclib-geodesic");
 ```
 
 ## Documentation
@@ -37,8 +37,8 @@ Full documentation is provided at
 ## Examples
 
 ```javascript
-var g = require("geographiclib-geodesic"),
-    geod = g.Geodesic.WGS84, r;
+var geodesic = require("geographiclib-geodesic"),
+    geod = geodesic.Geodesic.WGS84, r;
 
 // Find the distance from Wellington, NZ (41.32S, 174.81E) to
 // Salamanca, Spain (40.96N, 5.50W)...
