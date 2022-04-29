@@ -130,6 +130,14 @@ Two examples of this library in use are
   * The {@link module:DMS.Encode DMS.Encode} function now rounds ties
     away from zero consistent the JavaScript's `toFixed` function.
 
+* Version 1.52.2 (released 2022-04-29)
+
+  * No code changes.  This release is merely an update to give notice
+    that, as of version 2.x, this package is now split into two
+    packages [geographiclib-geodesic](
+    https://www.npmjs.com/package/geographiclib-geodesic) and
+    [geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms).
+
 * Version 1.52 (released 2020-06-22)
   * Work around inaccuracy in Math.hypot (see the GeodSolve92 test).
   * Be more aggressive in preventing negative s12 and m12 for short lines.
