@@ -1,0 +1,37 @@
+This branch just support version 1.52.2, the last pre-2.0.0 release of
+geographiclib.  Minimal cmake support for the top-level and doc
+directories has been added.
+
+Screwed up with verion 1.52.1 (flakey cmake files didn't update
+README.md in BUILD directory -- not worth fixing).  So
+
+  npm deprecate -f geographiclib@1.52.1 "Documentation inconsistent"
+
+and release 1.52.2
+
+Version update
+
+# JavaScript
+#   js/src/Math.js
+#   js/package.json
+#   js/README.md
+#   js/GeographicLib.md (date + update change log)
+# use: cd js; jshint src
+
+cmake -B BUILD-old
+cd BUILD-old
+make
+
+( cd js/geographiclib && npm test )
+JS_VERSION=1.52.2
+WEBDIST=/home/ckarney/web/geographiclib-web/htdocs
+for s in js min.js; do
+  cp js/geographiclib.$s $WEBDIST/scripts/geographiclib-$JS_VERSION.$s
+  rm -f $WEBDIST/scripts/geographiclib.$s
+  ln -s geographiclib-$JS_VERSION.$s $WEBDIST/scripts/geographiclib.$s
+done
+rsync -delete -av doc/html/js/ $WEBDIST/JavaScript/$JS_VERSION/
+(cd js/geographiclib && npm pack --pack-destination=../..)
+npm login
+npm publish geographiclib-$JS_VERSION.tgz
+

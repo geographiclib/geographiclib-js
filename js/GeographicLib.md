@@ -1,19 +1,30 @@
 ## Geodesic routines from GeographicLib
 
-This documentation applies to version 1.52.
+This documentation applies to version 1.52.2.
 
 The documentation for other versions is available
-at <tt>https://geographiclib.sourceforge.io/m.nn/js</tt> for versions
-numbers <tt>m.nn</tt> &ge; 1.45.
+at [`https://geographiclib.sourceforge.io/JavaScript`](..).
 
-Licensed under the MIT/X11 License; see
-[LICENSE.txt](https://geographiclib.sourceforge.io/html/LICENSE.txt).
-
-### Installation
+Licensed under the MIT/X11 License; see [LICENSE.txt](../../LICENSE.txt).
 
 This library is a JavaScript implementation of the geodesic routines
-from [GeographicLib](https://geographiclib.sourceforge.io).  This solves the
-direct and inverse geodesic problems for an ellipsoid of revolution.
+from [GeographicLib](../../index.html).
+
+**WARNING:** As of version 2.x, this package has been split into
+
+* [geographiclib-geodesic](https://www.npmjs.com/package/geographiclib-geodesic)
+  solves the direct and inverse geodesic problems for an ellipsoid of
+  revolution.
+
+* [geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms)
+  converts angles in decimal degrees to degrees-minutes-seconds and
+  vice versa.
+
+Because the geodesic and DMS components of this package were
+independent, it made sense to separate them into two packages.  The
+geographiclib package will be deprecated on 2023-05-01.
+
+### Installation
 
 The library can be used in [node](https://nodejs.org) by first
 installing the
@@ -37,7 +48,44 @@ your HTML page
         src="https://geographiclib.sourceforge.io/scripts/geographiclib.js">
 </script>
 ```
+
 Both of these prescriptions define a {@link GeographicLib} namespace.
+The following defines `geodesic` and `DMS`
+```javacript
+var geodesic = GeographicLib, DMS = GeographicLib.DMS;
+```
+which are the two variables defined by the new version 2.x packages.
+
+### Getting ready for version 2.x
+
+As of version 2.x, the library is split into geographiclib-geodesic
+and geographiclib-dms.  These are documented in
+[https://geographiclib.sourceforge.io/JavaScript/doc/index.html](
+https://geographiclib.sourceforge.io/JavaScript/doc/)
+
+Load them with [npm](https://www.npmjs.com)
+```bash
+$ npm install geographiclib-geodesic geographiclib-dms
+$ node
+> var geodesic = require("geographiclib-geodesic"),
+      DMS = require("geographiclib-dms");
+```
+
+Alternatively, you can use it in client-side JavaScript, by including in
+your HTML page
+```html
+<script
+  type="text/javascript"
+ src="https://geographiclib.sourceforge.io/scripts/geographiclib-geodesic.js">
+</script>
+<script
+  type="text/javascript"
+ src="https://geographiclib.sourceforge.io/scripts/geographiclib-dms.js">
+</script>
+```
+Both of these prescriptions bring `geodesic` and `DMS` into scope.
+These are equivalent to `GeographicLib` and `GeographicLib.DMS` in
+the pre-2.x package.
 
 ### Examples
 
@@ -67,47 +115,24 @@ Two examples of this library in use are
 * {@tutorial 2-interface}
 * {@tutorial 3-examples}
 
-### Implementations in various languages
-* {@link https://sourceforge.net/p/geographiclib/code/ci/release/tree/
-    git repository}
-* C++ (complete library):
-  {@link https://geographiclib.sourceforge.io/html/index.html
-    documentation},
-  {@link https://sourceforge.net/projects/geographiclib/files/distrib
-    download};
-* C (geodesic routines):
-  {@link https://geographiclib.sourceforge.io/html/C/index.html
-    documentation}, also included with recent versions of
-  {@link https://github.com/OSGeo/proj.4/wiki
-    proj.4};
-* Fortran (geodesic routines):
-  {@link https://geographiclib.sourceforge.io/html/Fortran/index.html
-    documentation};
-* Java (geodesic routines):
-  {@link http://repo1.maven.org/maven2/net/sf/geographiclib/GeographicLib-Java/
-    Maven Central package},
-  {@link https://geographiclib.sourceforge.io/html/java/index.html
-    documentation};
-* JavaScript (geodesic routines):
-  {@link https://www.npmjs.com/package/geographiclib
-    npm package},
-  {@link https://geographiclib.sourceforge.io/html/js/index.html
-    documentation};
-* Python (geodesic routines):
-  {@link http://pypi.python.org/pypi/geographiclib
-    PyPI package},
-  {@link https://geographiclib.sourceforge.io/html/python/index.html
-    documentation};
-* Matlab/Octave (geodesic and some other routines):
-  {@link https://www.mathworks.com/matlabcentral/fileexchange/50605
-    Matlab Central package},
-  {@link https://viewer.mathworks.com/?viewer=plain_code&url=https%3A%2F%2Fwww.mathworks.com%2Fmatlabcentral%2Fmlc-downloads%2Fdownloads%2Fsubmissions%2F50605%2Fversions%2F15%2Fcontents%2FContents.m
-    documentation};
-* C# (.NET wrapper for complete C++ library):
-  {@link https://geographiclib.sourceforge.io/html/NET/index.html
-    documentation}.
+### Other links
+  * [GeographicLib](../../index.html).
+  * GIT repository: https://github.com/geographiclib/geographiclib-js
+    Releases are tagged in git as, e.g., v1.52, v2.0.0, etc.
+  * Implementations in [other languages](../../doc/library.html#languages).
+  * C. F. F. Karney,
+    [Algorithms for geodesics](https://doi.org/10.1007/s00190-012-0578-z),
+    J. Geodesy **87**(1), 43–55 (2013); [addenda](../../geod-addenda.html).
 
 ### Change log
+
+* Version 1.52.2 (released 2022-04-29)
+
+  * No code changes.  This release is merely an update to give notice
+    that, as of version 2.x, this package is now split into two
+    packages [geographiclib-geodesic](
+    https://www.npmjs.com/package/geographiclib-geodesic) and
+    [geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms).
 
 * Version 1.52 (released 2020-06-22)
   * Work around inaccuracy in Math.hypot (see the GeodSolve92 test).

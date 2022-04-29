@@ -5,7 +5,14 @@ from [GeographicLib](https://geographiclib.sourceforge.io).  This solves the
 direct and inverse geodesic problems for an ellipsoid of revolution.
 
 Licensed under the MIT/X11 License; see
-[LICENSE.txt](https://geographiclib.sourceforge.io/html/LICENSE.txt).
+[LICENSE.txt](https://geographiclib.sourceforge.io/LICENSE.txt).
+
+**WARNING:** Since version 2.x, this package has been separated into the
+[geographiclib-geodesic](https://www.npmjs.com/package/geographiclib-geodesic)
+and
+[geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms)
+packages.  [geographiclib](https://www.npmjs.com/package/geographiclib)
+will be deprecated on 2023-05-01.
 
 ## Installation
 
@@ -23,7 +30,7 @@ var GeographicLib = require("geographiclib");
 ## Documentation
 
 Full documentation is provided at
-[https://geographiclib.sourceforge.io/1.52/js/](https://geographiclib.sourceforge.io/1.52/js/).
+[https://geographiclib.sourceforge.io/JavaScript/1.52.2/index.html](https://geographiclib.sourceforge.io/JavaScript/1.52.2/).
 
 ## Examples
 

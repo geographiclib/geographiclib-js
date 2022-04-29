@@ -1,8 +1,7 @@
 {
   "name": "geographiclib",
-  "version": "1.52.0",
-  "description":
-  "JavaScript implementation of geodesic routines in GeographicLib",
+  "version": "1.52.2",
+  "description": "JavaScript implementation of geodesic routines in GeographicLib",
   "main": "geographiclib.js",
   "types": "types/geographiclib.d.ts",
   "scripts": {
@@ -10,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://git.code.sourceforge.net/p/geographiclib/code"
+    "url": "git+https://github.com/geographiclib/geographiclib-js.git"
   },
   "url": "https://geographiclib.sourceforge.net",
   "keywords": [
@@ -32,7 +31,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://sourceforge.net/p/geographiclib/discussion/",
+    "url": "https://github.com/geographiclib/geographiclib-js/issues",
     "email": "charles@karney.com"
   }
 }
