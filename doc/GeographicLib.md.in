@@ -29,8 +29,7 @@ package will be deprecated on 2023-05-01.
 The libraries can be used in [node](https://nodejs.org) by first
 installing the packages with [npm](https://www.npmjs.com)
 ```bash
-$ npm install geographiclib-geodesic
-$ npm install geographiclib-dms
+$ npm install geographiclib-geodesic geographiclib-dms
 $ node
 > var geodesic = require("geographiclib-geodesic");
 > var DMS = require("geographiclib-dms");
@@ -87,6 +86,8 @@ Two examples of this library in use are
 
 ### Other links
   * [GeographicLib](../../index.html).
+  * GIT repository: https://github.com/geographiclib/geographiclib-js
+    Releases are tagged in git as, e.g., v1.52, v2.0.0, etc.
   * Implementations in [other languages](../../doc/library.html#languages).
   * C. F. F. Karney,
     [Algorithms for geodesics](https://doi.org/10.1007/s00190-012-0578-z),
@@ -110,7 +111,7 @@ Two examples of this library in use are
     * These behave consistently with taking the limits
       * &plusmn;0 means &plusmn;&epsilon; as &epsilon; &rarr; 0+
       * &plusmn;180 means &plusmn;(180 &minus; &epsilon;) as &epsilon;
-	&rarr; 0+
+        &rarr; 0+
     * As a consequence, azimuths of +0&deg; and +180&deg; are reckoned to
       be east-going, as far as tracking the longitude with
       {@link net.sf.geographiclib.GeodesicMask#LONG_UNROLL} and the area

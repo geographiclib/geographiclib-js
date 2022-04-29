@@ -1,8 +1,7 @@
  {
   "name": "geographiclib-dms",
   "version": "@PROJECT_FULLVERSION@",
-  "description":
-  "JavaScript implementation of DMS routines in GeographicLib",
+  "description": "JavaScript implementation of DMS routines in GeographicLib",
   "main": "geographiclib-dms.min.js",
   "types": "types/geographiclib-dms.d.ts",
   "scripts": {
@@ -10,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/geographiclib/geographiclib-js"
+    "url": "git+https://github.com/geographiclib/geographiclib-js.git"
   },
   "url": "https://geographiclib.sourceforge.net",
   "keywords": [
@@ -29,5 +28,9 @@
   "bugs": {
     "url": "https://github.com/geographiclib/geographiclib-js/issues",
     "email": "charles@karney.com"
+  },
+  "homepage": "https://github.com/geographiclib/geographiclib-js#readme",
+  "directories": {
+    "test": "test"
   }
 }

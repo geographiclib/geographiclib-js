@@ -17,8 +17,7 @@ brought into scope in various ways.
 If [npm](https://www.npmjs.com) has been used to install
 geographiclib-geodesic and geographiclib-dms via
 ```bash
-$ npm install geographiclib-geodesic
-$ npm install geographiclib-dms
+$ npm install geographiclib-geodesic geographiclib-dms
 ```
 then in [node](https://nodejs.org), you can do
 ```javascript

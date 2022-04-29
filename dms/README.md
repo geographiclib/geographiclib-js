@@ -9,8 +9,7 @@ geographiclib](https://www.npmjs.com/package/geographiclib).  As of
 version 2.0, that package was split into the packages
 [geographiclib-geodesic](https://www.npmjs.com/package/geographiclib-geodesic)
 and
-[geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms)
-(this package).(this package) 
+[geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms).
 [geographiclib](https://www.npmjs.com/package/geographiclib) will be
 deprecated on 2023-05-01.
 
