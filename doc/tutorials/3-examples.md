@@ -1,10 +1,28 @@
 Jump to
+* [Using packages online](#online)
 * [geodesic namespace](#namespace)
 * [Specifying the ellipsoid](#ellipsoid)
 * [Basic geodesic calculations](#basic)
 * [Computing waypoints](#waypoints)
 * [Measuring areas](#area)
 * [Degrees, minutes, seconds conversion](#dms)
+
+### <a name="online"></a>Online examples
+
+JavaScript is most useful for deploying applications that run in the
+browser.  Two such examples that illustrate the use of these
+JavaScript packages are:
+
+* [geod-calc](../../scripts/geod-calc.html): an online
+  geodesic calculator.
+
+* [geod-google](../../scripts/geod-google.html): a tool for viewing
+  geodesic on Google Map; here are the [instructions for using this
+  tool](../../scripts/geod-google-instructions.html)
+
+These are available in the [samples
+](https://github.com/geographiclib/geographiclib-js/tree/main/samples)
+directory of the git repository.
 
 ### <a name="namespace"></a>geodesic namespace
 
