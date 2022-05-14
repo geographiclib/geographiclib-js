@@ -169,7 +169,7 @@ Vincenty (1975) in the following respects:
   Algorithms for geodesics}, J. Geodesy **87**(1) 43&ndash;55 (2013);
   {@link https://geographiclib.sourceforge.io/geod-addenda.html addenda}.
 * C. F. F. Karney,
-  {@https://arxiv.org/abs/1102.1215v1
+  {@link https://arxiv.org/abs/1102.1215v1
   Geodesics on an ellipsoid of revolution},
   Feb. 2011;
   {@link https://geographiclib.sourceforge.io/geod-addenda.html#geod-errata
