@@ -20,14 +20,14 @@
     "mocha": "^9.1.5",
     "minify": "^7.0.2"
   },
-  "author": "Charles Karney <charles@karney.com>",
+  "author": "Charles Karney <karney@alum.mit.edu>",
   "contributors": [
     "Yurij Mikhalevich <yurij@mikhalevi.ch>"
   ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/geographiclib/geographiclib-js/issues",
-    "email": "charles@karney.com"
+    "email": "karney@alum.mit.edu"
   },
   "homepage": "https://github.com/geographiclib/geographiclib-js#readme",
   "directories": {

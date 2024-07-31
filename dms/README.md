@@ -49,5 +49,5 @@ console.log("Azimuth " +
 
 ## Authors
 
-* algorithms + js code: Charles Karney (charles@karney.com)
+* algorithms + js code: Charles Karney (karney@alum.mit.edu)
 * node.js port: Yurij Mikhalevich (yurij@mikhalevi.ch)

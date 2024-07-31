@@ -22,4 +22,4 @@ Other links:
 * Library documentation: https://geographiclib.sourceforge.io/JavaScript/doc
 * Git repository: https://github.com/geographiclib/geographiclib-js
 * GeographicLib: https://geographiclib.sourceforge.io
-* Author: Charles Karney, <charles@karney.com>
+* Author: Charles Karney, <karney@alum.mit.edu>
