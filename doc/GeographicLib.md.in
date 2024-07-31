@@ -89,7 +89,7 @@ Two examples of this library in use are
 
 ### Other links
   * [GeographicLib](../../index.html).
-  * GIT repository: [https://github.com/geographiclib/geographiclib-js
+  * Git repository: [https://github.com/geographiclib/geographiclib-js
     ](https://github.com/geographiclib/geographiclib-js) Releases are
     tagged in git as, e.g., v1.52, v2.0.0, etc.
   * Implementations in [other languages](../../doc/library.html#languages).

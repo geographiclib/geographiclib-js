@@ -55,3 +55,28 @@ Version update checks
 # use: cd js; jshint src
 
 Delete alpha/beta tgz files from distrib-JavaScript
+
+TODO: add version number + links to files in scripts
+
+Better still use
+https://www.jsdelivr.com/
+
+<script src="https://cdn.jsdelivr.net/npm/geographiclib@1.52.2/geographiclib.min.js" integrity="sha256-kwUlNDM32di6zDDKkrUneWURd1H3b3tQjtlB/9otK7o=" crossorigin="anonymous"></script>
+
+From stackoverflow...
+// Using WGS84 ellipsoid model for computation
+var geod84 = geodesic.Geodesic.WGS84;
+// Input data
+lat1 = 52.2296756;
+lon1 = 21.0122287;
+lat2 = 52.406374;
+lon2 = 16.9251681;
+// Do the classic `geodetic inversion` computatioin
+geod84inv = geod84.Inverse(lat1, lon1, lat2, lon2);
+// Present the solution (only the geodetic distance)
+console.log("The distance is " + (geod84inv.s12/1000).toFixed(5) + " km.");
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/geographiclib-geodesic@2.0.0/geographiclib-geodesic.min.js">
+</script>
+https://unpkg.com/geographiclib-geodesic/
+www.jsdelivr.com

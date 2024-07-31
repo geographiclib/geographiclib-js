@@ -1,3 +1,4 @@
+cmake_minimum_required (VERSION 3.13.0)
 project (GeographicLib-JavaScript NONE)
 set (GEOD_PROJECT geographiclib-geodesic)
 set (DMS_PROJECT geographiclib-dms)
@@ -13,8 +14,6 @@ set (PROJECT_VERSION_SUFFIX "-dev1")
 set (PROJECT_FULLVERSION "${PROJECT_VERSION}${PROJECT_VERSION_SUFFIX}")
 
 set (RELEASE_DATE "20yy-mm-dd")
-
-cmake_minimum_required (VERSION 3.13.0)
 
 # Set a default build type for single-configuration cmake generators if
 # no build type is set.
@@ -88,8 +87,7 @@ if (IS_DIRECTORY ${PROJECT_SOURCE_DIR}/.git AND NOT WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Looking for trailing spaces")
   add_custom_target (checktabs
-    COMMAND git ls-files |  grep -v makefile-admin |
-    xargs grep '\t' || true
+    COMMAND git ls-files | xargs grep '\t' || true
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Looking for tabs")
   add_custom_target (checkblanklines

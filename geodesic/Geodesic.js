@@ -1040,18 +1040,20 @@ geodesic.PolygonArea = {};
           }
           if (numit < maxit1_ && dv > 0) {
             dalp1 = -v/dv;
-            sdalp1 = Math.sin(dalp1); cdalp1 = Math.cos(dalp1);
-            nsalp1 = salp1 * cdalp1 + calp1 * sdalp1;
-            if (nsalp1 > 0 && Math.abs(dalp1) < Math.PI) {
-              calp1 = calp1 * cdalp1 - salp1 * sdalp1;
-              salp1 = nsalp1;
-              // norm(salp1, calp1);
-              t = m.hypot(salp1, calp1); salp1 /= t; calp1 /= t;
-              // In some regimes we don't get quadratic convergence because
-              // slope -> 0.  So use convergence conditions based on epsilon
-              // instead of sqrt(epsilon).
-              tripn = Math.abs(v) <= 16 * tol0_;
-              continue;
+            if (Math.abs(dalp1) < Math.PI) {
+              sdalp1 = Math.sin(dalp1); cdalp1 = Math.cos(dalp1);
+              nsalp1 = salp1 * cdalp1 + calp1 * sdalp1;
+              if (nsalp1 > 0) {
+                calp1 = calp1 * cdalp1 - salp1 * sdalp1;
+                salp1 = nsalp1;
+                // norm(salp1, calp1);
+                t = m.hypot(salp1, calp1); salp1 /= t; calp1 /= t;
+                // In some regimes we don't get quadratic convergence because
+                // slope -> 0.  So use convergence conditions based on epsilon
+                // instead of sqrt(epsilon).
+                tripn = Math.abs(v) <= 16 * tol0_;
+                continue;
+              }
             }
           }
           // Either dv was not positive or updated value was outside legal

@@ -20,6 +20,6 @@ The algorithms are documented in
 Other links:
 
 * Library documentation: https://geographiclib.sourceforge.io/JavaScript/doc
-* GIT repository: https://github.com/geographiclib/geographiclib-js
+* Git repository: https://github.com/geographiclib/geographiclib-js
 * GeographicLib: https://geographiclib.sourceforge.io
 * Author: Charles Karney, <charles@karney.com>

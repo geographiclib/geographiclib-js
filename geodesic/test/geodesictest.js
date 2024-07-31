@@ -649,6 +649,19 @@ describe("geodesic", function() {
       assert.approx(inv.S12, 42426932221845, 0.5);
     });
 
+    it("GeodSolve99", function() {
+      // Test case https://github.com/geographiclib/geographiclib-js/issues/3
+      var geod = g.WGS84,
+          inv = geod.Inverse(45, 0, -45, 179.572719);
+//        inv = geod.Inverse(45, 0, -45, 179);
+      assert.approx(inv.azi1, 90.00000028, 1e-8  );
+      assert.approx(inv.azi2, 90.00000028, 1e-8  );
+      assert.approx(inv.s12, 19987083.007, 0.5e-3);
+//    assert.approx(inv.azi1, 90.20248882, 1e-8  );
+//    assert.approx(inv.azi2, 90.20248882, 1e-8  );
+//    assert.approx(inv.s12, 19941926.020, 0.5e-3);
+    });
+
   });
 
   describe("Planimeter", function () {
