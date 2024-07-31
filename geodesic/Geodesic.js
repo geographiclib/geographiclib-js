@@ -46,7 +46,7 @@ geodesic.PolygonArea = {};
       tol0_ = m.epsilon,
       tol1_ = 200 * tol0_,
       tol2_ = Math.sqrt(tol0_),
-      tolb_ = tol0_ * tol1_,
+      tolb_ = tol0_,
       xthresh_ = 1000 * tol2_,
       CAP_NONE = 0,
       CAP_ALL  = 0x1F,
@@ -1009,7 +1009,7 @@ geodesic.PolygonArea = {};
         numit = 0;
         // Bracketing range
         salp1a = g.tiny_; calp1a = 1; salp1b = g.tiny_; calp1b = -1;
-        for (tripn = false, tripb = false; numit < maxit2_; ++numit) {
+        for (tripn = false, tripb = false;; ++numit) {
           // the WGS84 test set: mean = 1.47, sd = 1.25, max = 16
           // WGS84 and random input: mean = 2.85, sd = 0.60
           nvals = this.Lambda12(sbet1, cbet1, dn1, sbet2, cbet2, dn2,
@@ -1029,7 +1029,8 @@ geodesic.PolygonArea = {};
 
           // Reversed test to allow escape with NaNs
           // jshint -W018
-          if (tripb || !(Math.abs(v) >= (tripn ? 8 : 1) * tol0_))
+          if (tripb || !(Math.abs(v) >= (tripn ? 8 : 1) * tol0_) ||
+             numit == maxit2_)
             break;
           // Update bracketing values
           if (v > 0 && (numit < maxit1_ || calp1/salp1 > calp1b/salp1b)) {
