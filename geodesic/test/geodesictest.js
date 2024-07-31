@@ -651,15 +651,14 @@ describe("geodesic", function() {
 
     it("GeodSolve99", function() {
       // Test case https://github.com/geographiclib/geographiclib-js/issues/3
+      // Problem was that output of sincosd(+/-45) was inconsistent because of
+      // directed rounding by Math.round.  Fix by porting special treatment of
+      // angles +/-45 and +/-30 from C++ library.
       var geod = g.WGS84,
           inv = geod.Inverse(45, 0, -45, 179.572719);
-//        inv = geod.Inverse(45, 0, -45, 179);
       assert.approx(inv.azi1, 90.00000028, 1e-8  );
       assert.approx(inv.azi2, 90.00000028, 1e-8  );
       assert.approx(inv.s12, 19987083.007, 0.5e-3);
-//    assert.approx(inv.azi1, 90.20248882, 1e-8  );
-//    assert.approx(inv.azi2, 90.20248882, 1e-8  );
-//    assert.approx(inv.s12, 19941926.020, 0.5e-3);
     });
 
   });
