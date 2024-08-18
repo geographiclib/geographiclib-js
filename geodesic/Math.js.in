@@ -309,7 +309,7 @@ geodesic.Accumulator = {};
       s = m.copysign(c, r);
     } else if (Math.abs(d) === 30) {
       c = Math.sqrt(0.75);
-      s = m.copysign(0.5, r)
+      s = m.copysign(0.5, r);
     }
     switch (q & 3) {
     case 0:  sinx =  s; cosx =  c; break;
@@ -345,7 +345,7 @@ geodesic.Accumulator = {};
       s = m.copysign(c, r);
     } else if (Math.abs(d) === 30) {
       c = Math.sqrt(0.75);
-      s = m.copysign(0.5, r)
+      s = m.copysign(0.5, r);
     }
     switch (q & 3) {
     case 0:  sinx =  s; cosx =  c; break;

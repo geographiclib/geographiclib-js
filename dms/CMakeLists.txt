@@ -26,8 +26,7 @@ add_custom_command (OUTPUT ${PACKAGEDDMSJS}
 
 add_custom_command (OUTPUT ${PACKAGEDDMSMINJS}
   # unicode character in minified file needs to be replaced
-  COMMAND ${MINIFY} ${PACKAGEDDMSJS} |
-  sed 's/°/\\\\u00b0/g' > ${PACKAGEDDMSMINJS}
+  COMMAND ${MINIFY} ${PACKAGEDDMSJS} > ${PACKAGEDDMSMINJS}
   DEPENDS ${PACKAGEDDMSJS}
   COMMENT "Making minified JS bundle for dms")
 

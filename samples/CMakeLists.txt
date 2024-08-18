@@ -8,12 +8,10 @@ if (RSYNC)
   add_custom_target (stage-scripts
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
       ${SAMPLES} ${DOCROOT}/scripts
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-      ${PACKAGEDGEODJS} ${PACKAGEDDMSJS}
-      ${PACKAGEDGEODMINJS} ${PACKAGEDDMSMINJS}
-      ${DOCROOT}/scripts
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-  add_dependencies (stage-scripts bundlegeod bundledms)
+  # Remove this dependency so checksums can be updated without
+  # triggering an accidental rebuilt of the JS packages.
+  # add_dependencies (stage-scripts bundlegeod bundledms)
   add_custom_target (deploy-scripts
     COMMAND ${RSYNC} --delete -av -e ssh
       ${DOCROOT}/scripts/ ${WEBDEPLOY}/scripts/)

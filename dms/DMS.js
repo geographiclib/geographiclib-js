@@ -54,8 +54,7 @@ var DMS = {};
     return s.indexOf(c.toUpperCase());
   };
   zerofill = function(s, n) {
-    return String("0000").substr(0, Math.max(0, Math.min(4, n-s.length))) +
-      s;
+    return "0000".substr(0, Math.max(0, Math.min(4, n-s.length))) + s;
   };
   d.NONE = 0;
   d.LATITUDE = 1;
@@ -515,8 +514,8 @@ var DMS = {};
     if (!dmssep) dmssep = '\0';
     usesep = dmssep !== '\0';
     if (!isFinite(angle))
-      return angle < 0 ? String("-inf") :
-      (angle > 0 ? String("inf") : String("nan"));
+      return angle < 0 ? "-inf" :
+      (angle > 0 ? "inf" : "nan");
     if (Math.abs(angle) >= 1e21)
       // toFixed only works for numbers less that 1e21.
       return angle.toString().replace(/e\+/, 'e'); // remove "+" from exponent

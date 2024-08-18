@@ -1,8 +1,15 @@
+js packages needed (npm -i -g ... to install in ~/.local)
+  jshint
+  mocha
+  minify
+  jsdoc
+
 Build with
 
   cmake -D BUILD_DOCUMENTATION=ON -D CMAKE_INSTALL_PREFIX=/tmp/js -B BUILD -S .
   cd BUILD
   make all # packages up node packages
+  make lint
   make test
   make install
 
@@ -22,9 +29,8 @@ Options for make
   BUILD_DOCUMENTATION build documentation (default OFF)
 
 Other cmake targets
-  lint (check JavaScript)
   sanitize (hygiene on source files)
-  stage-doc, deply-doc (move documentation to staging, sourceforge)
+  stage-doc, deploy-doc (move documentation to staging, sourceforge)
   stage-dist, deploy-dist (move distribution to staging, sourceforge)
   stage-scripts, deploy-scripts (move sample scripts to staging, sourceforge)
 
@@ -45,38 +51,23 @@ To set path for node
 To retrieve a tarball from npm use, e.g.,
   wget `npm view geographiclib dist.tarball`
 
-Version update checks
-
-# JavaScript
-#   js/src/Math.js
-#   js/package.json
-#   js/README.md
-#   js/GeographicLib.md (date + update change log)
-# use: cd js; jshint src
-
 Delete alpha/beta tgz files from distrib-JavaScript
 
 TODO: add version number + links to files in scripts
 
-Better still use
-https://www.jsdelivr.com/
+Download scripts from
+https://cdn.jsdelivr.com/
 
-<script src="https://cdn.jsdelivr.net/npm/geographiclib@1.52.2/geographiclib.min.js" integrity="sha256-kwUlNDM32di6zDDKkrUneWURd1H3b3tQjtlB/9otK7o=" crossorigin="anonymous"></script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/geographiclib-geodesic@2.0.0/geographiclib-geodesic.min.js"
+  integrity="sha256-Bl9cW7iYkSCZMBuqP8LpqdY4evFbANIiA1TVuPoQbZ0="
+  crossorigin="anonymous"
+  ></script>
 
-From stackoverflow...
-// Using WGS84 ellipsoid model for computation
-var geod84 = geodesic.Geodesic.WGS84;
-// Input data
-lat1 = 52.2296756;
-lon1 = 21.0122287;
-lat2 = 52.406374;
-lon2 = 16.9251681;
-// Do the classic `geodetic inversion` computatioin
-geod84inv = geod84.Inverse(lat1, lon1, lat2, lon2);
-// Present the solution (only the geodetic distance)
-console.log("The distance is " + (geod84inv.s12/1000).toFixed(5) + " km.");
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/geographiclib-geodesic@2.0.0/geographiclib-geodesic.min.js">
-</script>
-https://unpkg.com/geographiclib-geodesic/
-www.jsdelivr.com
+Get sha256 checksums with
+for f in node_modules/geographiclib-*/geographiclib-*.min.js; do
+  echo $f
+  openssl dgst -sha256 -binary $f | openssl base64 -A
+  echo
+done
