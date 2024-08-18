@@ -99,6 +99,10 @@ Two examples of this library in use are
 
 ### Change log
 
+* Version 2.1.1 (released 2024-08-18)
+
+  * Use jsmin to minize JS code (minify is broken).
+
 * Version 2.1.0 (released 2024-08-18)
 
   * Fixed a problem with the inverse geodesic calculation when points

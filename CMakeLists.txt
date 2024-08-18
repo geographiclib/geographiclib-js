@@ -6,7 +6,7 @@ set (DMS_PROJECT geographiclib-dms)
 # Version information
 set (PROJECT_VERSION_MAJOR 2)
 set (PROJECT_VERSION_MINOR 1)
-set (PROJECT_VERSION_PATCH 0)
+set (PROJECT_VERSION_PATCH 1)
 # Always include patch number in version
 set (PROJECT_VERSION
   "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
@@ -25,7 +25,7 @@ set (MODDIR "lib/node_modules"
   CACHE STRING "Installation directory for GeographicLib-JavaScript module")
 option (BUILD_DOCUMENTATION "Use doxygen to create the documentation" OFF)
 
-find_program (MINIFY minify REQUIRED)
+find_program (MINIFY jsmin REQUIRED)
 find_program (LINT jshint)
 find_program (MOCHA mocha)
 find_program (RSYNC rsync)
