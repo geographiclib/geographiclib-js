@@ -10,10 +10,10 @@ set (PROJECT_VERSION_PATCH 0)
 # Always include patch number in version
 set (PROJECT_VERSION
   "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-set (PROJECT_VERSION_SUFFIX "-dev1")
+set (PROJECT_VERSION_SUFFIX "")
 set (PROJECT_FULLVERSION "${PROJECT_VERSION}${PROJECT_VERSION_SUFFIX}")
 
-set (RELEASE_DATE "2024-08-dd")
+set (RELEASE_DATE "2024-08-18")
 
 # Set a default build type for single-configuration cmake generators if
 # no build type is set.

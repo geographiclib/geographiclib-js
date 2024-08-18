@@ -4,6 +4,8 @@ js packages needed (npm -i -g ... to install in ~/.local)
   minify
   jsdoc
 
+Update change log in doc/GeographicLib.md.
+
 Build with
 
   cmake -D BUILD_DOCUMENTATION=ON -D CMAKE_INSTALL_PREFIX=/tmp/js -B BUILD -S .
@@ -36,7 +38,7 @@ Other cmake targets
 
 Deployment to npmjs.org
   npm login
-  npm publish BUILD/geographiclib-${PROJECT_FULLVERSION}.tgz
+  npm publish BUILD/geographiclib-geodesic-${PROJECT_FULLVERSION}.tgz
   npm publish BUILD/geographiclib-dms-${PROJECT_FULLVERSION}.tgz
 
 N.B. node doesn't look in /usr/local/lib/node_modules by default, so
@@ -52,6 +54,7 @@ To retrieve a tarball from npm use, e.g.,
   wget `npm view geographiclib dist.tarball`
 
 Delete alpha/beta tgz files from distrib-JavaScript
+Reset doc link for documentation.
 
 TODO: add version number + links to files in scripts
 

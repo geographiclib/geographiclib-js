@@ -24,7 +24,7 @@ the geodesic and DMS components of this package were independent and
 because most users will primarily be interested in the geodesic
 calculations, it made sense to separate them into two packages;
 removal of the DMS routines from geographiclib-geodesic reduced it
-size by about 20%. The geographiclib package will be deprecated on
+size by about 20%. The geographiclib package was be deprecated on
 2023-05-01.
 
 ### Installation
@@ -98,6 +98,12 @@ Two examples of this library in use are
     J. Geodesy **87**(1), 43–55 (2013); [addenda](../../geod-addenda.html).
 
 ### Change log
+
+* Version 2.1.0 (released 2024-08-18)
+
+  * Fixed a problem with the inverse geodesic calculation when points
+    are on opposite latitude &plusmn;45&deg;.
+  * Fixes for new version of minify.
 
 * Version 2.0.0 (released 2022-04-29)
 
