@@ -6,14 +6,14 @@ set (DMS_PROJECT geographiclib-dms)
 # Version information
 set (PROJECT_VERSION_MAJOR 2)
 set (PROJECT_VERSION_MINOR 1)
-set (PROJECT_VERSION_PATCH 1)
+set (PROJECT_VERSION_PATCH 2)
 # Always include patch number in version
 set (PROJECT_VERSION
   "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-set (PROJECT_VERSION_SUFFIX "")
+set (PROJECT_VERSION_SUFFIX "dev1")
 set (PROJECT_FULLVERSION "${PROJECT_VERSION}${PROJECT_VERSION_SUFFIX}")
 
-set (RELEASE_DATE "2024-08-18")
+set (RELEASE_DATE "20yy-mm-dd")
 
 # Set a default build type for single-configuration cmake generators if
 # no build type is set.
