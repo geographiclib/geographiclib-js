@@ -212,7 +212,7 @@ var DMS = {};
   };
 
   internalDecode = function(dmsa) {
-    var vals = {}, errormsg = "",
+    var vals = {}, errormsg = "", maxcomponents = 3,
         sign, beg, end, ind1, k,
         ipieces, fpieces, npiece,
         icurrent, fcurrent, ncurrent, p,
@@ -288,7 +288,7 @@ var DMS = {};
           pointseen = true;
           digcount = 1;
         } else if ((k = lookup(dmsindicators_, x)) >= 0) {
-          if (k >= 3) {
+          if (k >= maxcomponents) {
             if (p === end) {
               errormsg = "Illegal for colon to appear at the end of " +
                 dmsa.substr(beg, end - beg);
@@ -320,6 +320,11 @@ var DMS = {};
           fpieces[k] = icurrent + fcurrent;
           if (p < end) {
             npiece = k + 1;
+            if (npiece >= maxcomponents) {
+              errormsg = "More than 3 DMS components in "
+                + dmsa.substr(beg, end - beg);
+              break;
+            }
             icurrent = fcurrent = 0;
             ncurrent = digcount = intcount = 0;
           }
@@ -336,7 +341,7 @@ var DMS = {};
       if (errormsg.length)
         break;
       if (lookup(dmsindicators_, dmsa.charAt(p - 1)) < 0) {
-        if (npiece >= 3) {
+        if (npiece >= maxcomponents) {
           errormsg = "Extra text following seconds in DMS string " +
             dmsa.substr(beg, end - beg);
           break;
