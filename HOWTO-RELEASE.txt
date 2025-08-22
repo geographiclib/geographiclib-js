@@ -35,6 +35,7 @@ Other cmake targets
   stage-doc, deploy-doc (move documentation to staging, sourceforge)
   stage-dist, deploy-dist (move distribution to staging, sourceforge)
   stage-scripts, deploy-scripts (move sample scripts to staging, sourceforge)
+  fix link doc
 
 Deployment to npmjs.org
   npm login
