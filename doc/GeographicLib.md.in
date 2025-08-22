@@ -99,6 +99,20 @@ Two examples of this library in use are
 
 ### Change log
 
+* Version 2.2.0 (released 2025-08-22)
+
+  * Fix potential buffer overflow in geographiclib-dms.  Upgrading
+    from earlier versions is **strongly** recommended.  If upgrading is
+    not possible, avoid processing untrusted or malformed inputs and
+    run programs linked to the library with restricted privileges.
+    Thanks to Rosario Matteo Grammatico for finding this
+    vulnerability.
+  * Fix bug in geodesic inverse calculations with very prolate
+    ellipsoids.
+  * Flesh out TypeScripts types in geographiclib-geodesic (courtesy of
+    Mike Castleman).
+  * Fix harmless instance of an unitialized variable.
+
 * Version 2.1.1 (released 2024-08-18)
 
   * Use jsmin to minize JS code (minify is broken).
@@ -114,8 +128,7 @@ Two examples of this library in use are
   * The `geographiclib` package is now split into two packages
     [geographiclib-geodesic](
     https://www.npmjs.com/package/geographiclib-geodesic) and
-    [geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms)
-    geographiclib-geodesic and geographiclib-dms.
+    [geographiclib-dms](https://www.npmjs.com/package/geographiclib-dms).
   * The JavaScript package now has its own [git
     repository](https://github.com/geographiclib/geographiclib-js).
   * Fix bug where the solution of the inverse geodesic problem with

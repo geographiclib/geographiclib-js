@@ -321,8 +321,8 @@ var DMS = {};
           if (p < end) {
             npiece = k + 1;
             if (npiece >= maxcomponents) {
-              errormsg = "More than 3 DMS components in "
-                + dmsa.substr(beg, end - beg);
+              errormsg = "More than 3 DMS components in " +
+                dmsa.substr(beg, end - beg);
               break;
             }
             icurrent = fcurrent = 0;

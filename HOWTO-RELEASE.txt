@@ -35,8 +35,19 @@ Other cmake targets
   stage-doc, deploy-doc (move documentation to staging, sourceforge)
   stage-dist, deploy-dist (move distribution to staging, sourceforge)
   stage-scripts, deploy-scripts (move sample scripts to staging, sourceforge)
-  fix link doc
 
+Version and date set in CMakeList.txt
+Update release notes in doc/GeographicLib.md.in
+
+Delete alpha/beta/dev tgz files from distrib-JavaScript
+make all lint test sanitize
+make stage-{doc,dist,scripts}
+Reset doc link for documentation.
+make deploy-{doc,dist,scripts}
+
+checkin and tag git source
+
+PROJECT_FULLVERSION=2.2.0
 Deployment to npmjs.org
   npm login
   npm publish BUILD/geographiclib-geodesic-${PROJECT_FULLVERSION}.tgz
@@ -53,9 +64,6 @@ To set path for node
 
 To retrieve a tarball from npm use, e.g.,
   wget `npm view geographiclib dist.tarball`
-
-Delete alpha/beta tgz files from distrib-JavaScript
-Reset doc link for documentation.
 
 TODO: add version number + links to files in scripts
 
