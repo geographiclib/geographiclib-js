@@ -545,7 +545,8 @@ geodesic.PolygonArea = {};
       // accurate cancellation in the case of coincident points.
       vals.m12b = dn2 * (csig1 * ssig2) - dn1 * (ssig1 * csig2) -
         csig1 * csig2 * J12;
-    }
+    } else
+      vals.m12b = NaN;
     if (outmask & g.GEODESICSCALE) {
       csig12 = csig1 * csig2 + ssig1 * ssig2;
       t = this._ep2 * (cbet1 - cbet2) * (cbet1 + cbet2) / (dn1 + dn2);
