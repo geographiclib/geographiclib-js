@@ -38,20 +38,23 @@ Other cmake targets
 
 Version and date set in CMakeList.txt
 Update release notes in doc/GeographicLib.md.in
+Update version in geod-calc and geod-google
 
 Delete alpha/beta/dev tgz files from distrib-JavaScript
 make all lint test sanitize
 make stage-{doc,dist,scripts}
 Reset doc link for documentation.
+Reset scripts links and update SHA256 checksums (see below)
 make deploy-{doc,dist,scripts}
 
 checkin and tag git source
 
 PROJECT_FULLVERSION=2.2.0
 Deployment to npmjs.org
-  npm login
-  npm publish BUILD/geographiclib-geodesic-${PROJECT_FULLVERSION}.tgz
-  npm publish BUILD/geographiclib-dms-${PROJECT_FULLVERSION}.tgz
+  # npm login
+  npm publish geographiclib-geodesic-${PROJECT_FULLVERSION}.tgz
+  npm publish geographiclib-dms-${PROJECT_FULLVERSION}.tgz
+  These prompt for authentication on the web
 
 N.B. node doesn't look in /usr/local/lib/node_modules by default, so
 if using globally installed package, invoke node with
