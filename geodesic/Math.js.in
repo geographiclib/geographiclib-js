@@ -354,7 +354,7 @@ geodesic.Accumulator = {};
     default: sinx = -c; cosx =  s; break; // case 3
     }
     cosx += 0;
-    if (sinx === 0) sinx = m.copysign(sinx, x+t);
+    if (sinx === 0) sinx = m.copysign(sinx, x);
     return {s: sinx, c: cosx};
   };
 
