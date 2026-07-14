@@ -111,11 +111,11 @@ Two examples of this library in use are
     ellipsoids.
   * Flesh out TypeScripts types in geographiclib-geodesic (courtesy of
     Mike Castleman).
-  * Fix harmless instance of an unitialized variable.
+  * Fix harmless instance of an uninitialized variable.
 
 * Version 2.1.1 (released 2024-08-18)
 
-  * Use jsmin to minize JS code (minify is broken).
+  * Use jsmin to minimize JS code (minify is broken).
 
 * Version 2.1.0 (released 2024-08-18)
 

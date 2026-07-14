@@ -101,12 +101,12 @@ Once {@link geodesic} has been brought into scope, the ellipsoid is
 defined via the {@link module:geodesic/Geodesic.Geodesic Geodesic}
 constructor using the equatorial radius *a* in meters and the flattening
 *f*, for example
-```javascipt
+```javascript
 var geod = new geodesic.Geodesic.Geodesic(6378137, 1/298.257223563);
 ```
 These are the parameters for the WGS84 ellipsoid and this comes predefined
 by the package as
-```javascipt
+```javascript
 var geod = geodesic.Geodesic.WGS84;
 ```
 Note that you can set *f* = 0 to give a sphere (on which geodesics are

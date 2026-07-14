@@ -47,7 +47,7 @@ Reset doc link for documentation.
 Reset scripts links and update SHA256 checksums (see below)
 make deploy-{doc,dist,scripts}
 
-checkin and tag git source
+check in and tag git source
 
 PROJECT_FULLVERSION=2.2.0
 Deployment to npmjs.org
